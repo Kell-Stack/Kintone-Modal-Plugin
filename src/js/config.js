@@ -1,78 +1,437 @@
-jQuery.noConflict();
+// jQuery.noConflict();
 
-(function($, PLUGIN_ID) {
-  'use strict';
+// (function($, PLUGIN_ID) {
+//   'use strict';
 
-  var $form = $('.js-submit-settings');
-  var $cancelButton = $('.js-cancel-button');
-  var $message = $('.js-text-message');
-  var config = kintone.plugin.app.getConfig(PLUGIN_ID);
-  console.log(config)
-  
-//can change buttons using UI component
+//   var $form = $('.js-submit-settings');
+//   var $cancelButton = $('.js-cancel-button');
+//   var $message = $('.js-text-message');
+//   var config = kintone.plugin.app.getConfig(PLUGIN_ID);
+//   console.log(config)
 
-//1. getConfig
-//2. take that informtion and populate tables
-//      create a table config plug in settings (think conditional formatting)
-//      save the input that the user changes and store into an object
-//      then pass that object to 
-//      in desktop.js you are going to hide/display/etc in the place of a modal       
-//
-//
+//   if (config.message) {
+//     $message.val(config.message);
+//   }
+//   $form.on('submit', function(e) {
+//     e.preventDefault();
+//     console.log("😎😎😎",{message: $message.val()})
+//     kintone.plugin.app.setConfig({message: $message.val()}, function() {
+//       alert('The plug-in settings have been saved. Please update the app!');
+//       window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId();
+//     });
+//   });
+//   $cancelButton.on('click', function() {
+//     window.location.href = '/k/admin/app/' + kintone.app.getId() + '/plugin/';
+//   });
+// })(jQuery, kintone.$PLUGIN_ID);
 
-  //CREATE YOUR LAYOUT FOR CONFIG SECTION
-  //1. format table
-        //look into the example code for table in the UI component
-        //https://kintone.github.io/kintone-ui-component/latest/Reference/Table/
-        //create at least two columns -> field that you want to add the modal to & the message
-        //you will need to call a function so that you can add new rows (new conditions/new message/new modal)
-              //  iterate through so the default information thats in the row above will show up again if the user duplicates(built into the lib)
-        //getElementById of settings and append the render table to it 
-  //2. create save and cancel button
-        //use UI component to create save and cancel button
-        //use the builtin event listeners from UI compnonent to listen for the click trigger
-            //for cancel button: onClick/onChange should return back to the settings page (history.back())
-            //for save button: take the object that contains the config settings (information from table) and make an API call to set the config then return to the klist of all plugins page (where conditional formatting and tooltip are)
-//KEEP IN MIND
-// alert messages on the save button if one column is filled but not the other -> alert for incomplete data
+(function(){
+  // custom cell containing 2 text fields
+  var customCell = function() {
+    return {
+      init: function({rowData, updateRowData}) {
+        var span = document.createElement('span');
+        var textfield1 = new kintoneUIComponent.Text({value: rowData.text1.value});
+        var textfield2 = new kintoneUIComponent.Text({value: rowData.text2.value});
+        span.appendChild(textfield1.render());
+        span.appendChild(textfield2.render());
+        textfield1.on('change', function(newValue){
+          updateRowData({text1: {value: newValue}}, false);
+        });
+        textfield2.on('change', function(newValue){
+          updateRowData({text2: {value: newValue}}, false);
+        });
+        this.textfield1 = textfield1;
+        this.textfield2 = textfield2;
+        return span;
+      },
+      update: function({ rowData }) {
+        var text1val = rowData.text1;
+        var text2val = rowData.text2;
+        if (text1val && this.textfield1._reactObject) {
+          this.textfield1.setValue(text1val.value);
+        }
+        if (text2val && this.textfield2._reactObject) {
+          this.textfield2.setValue(text2val.value);
+        }
+      }
+    }
+  };
 
-//make an API call to get the form fields, populate and convert into the folowing format:
-// items: [
-//           {
-//               label: 'Orange',
-//               value: 'Orange',
-//               isDisabled: false
-//           },
-//           {
-//               label: 'Banana',
-//               value: 'Appetizer',
-//               isDisabled: true
-//           },
-//           {
-//               label: 'Lemon',
-//               value: 'Lemon',
-//               isDisabled: true
-//           },
-//         ],
-//         value: 'Banana'
-//       },
+  // initial data of a table
+  var initialData = [
+    {
+      text: { value: 'text field' },
+      text1: { value: 'text field 1' },
+      text2: { value: 'text field 2' },
+      // initial data of radio buttons
+      fruit: {
+        name: 'fruit',
+        items: [
+             {
+                 label: 'Orange',
+                 value: 'Orange',
+                 isDisabled: false
+             },
+             {
+                 label: 'Banana',
+                 value: 'Banana',
+                 isDisabled: true
+             },
+             {
+                 label: 'Lemon',
+                 value: 'Lemon',
+                 isDisabled: true
+             },
+         ],
+        value: 'Banana'
+      },
+      // initial data of multiple choices
+      colors: {
+        items: [
+             {
+                 label: 'Red',
+                 value: 'red',
+                 isDisabled: false
+             },
+             {
+                 label: 'Green',
+                 value: 'green',
+                 isDisabled: true
+             },
+             {
+                 label: 'Blue',
+                 value: 'blue',
+                 isDisabled: true
+             },
+         ],
+        value: ['red']
+      },
+      // initial data of checkbox
+      vegetables: {
+        items: [
+             {
+                 label: 'Potato',
+                 value: 'potato',
+                 isDisabled: false
+             },
+             {
+                 label: 'Celery',
+                 value: 'celery',
+                 isDisabled: false
+             },
+             {
+                 label: 'Carrot',
+                 value: 'carrot',
+                 isDisabled: true
+             },
+         ],
+        value: ['potato', 'celery']
+      },
+      // initial data of dropdown
+      toys: {
+        items: [
+             {
+                 label: 'Cars',
+                 value: 'cars',
+                 isDisabled: false
+             },
+             {
+                 label: 'Robots',
+                 value: 'robots',
+                 isDisabled: false
+             },
+             {
+                 label: 'Animals',
+                 value: 'animals',
+                 isDisabled: true
+             },
+         ],
+        value: 'cars'
+      },
+      label: {
+        text: 'Name',
+        textColor: '#e74c3c',
+        backgroundColor: 'yellow',
+        isRequired: true
+      },
+      iconBtn: {
+        type: 'insert',
+        color:'blue',
+        size: 'small'
+      },
+      alert: {
+        text: 'Network error',
+        type: 'error'
+      }
+    },
+  ];
 
+  // default row data of a table, this data will be used to create new row
+  var defaultRowData = {
+    text: { value: 'text field' },
+    text1: { value: 'text field 1' },
+    text2: { value: 'text field 2' },
+    // default data of radio buttons
+    fruit: {
+      name: 'fruit',
+      items: [
+           {
+               label: 'Orange',
+               value: 'Orange',
+               isDisabled: false
+           },
+           {
+               label: 'Banana',
+               value: 'Banana',
+               isDisabled: true
+           },
+           {
+               label: 'Lemon',
+               value: 'Lemon',
+               isDisabled: true
+           },
+       ],
+      value: 'Banana'
+    },
+    // default data of multiple choices
+    colors: {
+      items: [
+           {
+               label: 'Red',
+               value: 'red',
+               isDisabled: false
+           },
+           {
+               label: 'Green',
+               value: 'green',
+               isDisabled: true
+           },
+           {
+               label: 'Blue',
+               value: 'blue',
+               isDisabled: true
+           },
+       ],
+      value: ['red']
+    },
+    // default data of checkbox
+    vegetables: {
+      items: [
+           {
+               label: 'Potato',
+               value: 'potato',
+               isDisabled: false
+           },
+           {
+               label: 'Celery',
+               value: 'celery',
+               isDisabled: true
+           },
+           {
+               label: 'Carrot',
+               value: 'carrot',
+               isDisabled: true
+           },
+       ],
+      value: ['potato', 'celery']
+    },
+    // default data of dropdown
+    toys: {
+      items: [
+           {
+               label: 'Cars',
+               value: 'cars',
+               isDisabled: false
+           },
+           {
+               label: 'Robots',
+               value: 'robots',
+               isDisabled: false
+           },
+           {
+               label: 'Animals',
+               value: 'animals',
+               isDisabled: true
+           },
+       ],
+      value: 'cars'
+    },
+    label: {
+      text: 'Name',
+      textColor: '#e74c3c',
+      backgroundColor: 'yellow',
+      isRequired: true
+    },
+    iconBtn: {
+      type: 'insert',
+      color:'blue',
+      size: 'small'
+    },
+    alert: {
+      text: 'Network error',
+      type: 'error'
+    }
+  };
 
-//create var with this format and set it for the "items"
-//the value will be the FIELD CODE (will get and error if you put a value that is not an option)
+  // return this data to override default row data onRowAdd
+  var overriddenRowData = {
+    text: {value: 'overwritten field value'},
+    text1: { value: 'overwritten field1 value' },
+    text2: { value: 'overwritten field2 value' },
+    // overriden data of radio buttons
+    fruit: {
+      name: 'fruit',
+      items: [
+           {
+               label: 'Orange',
+               value: 'Orange',
+               isDisabled: true
+           },
+           {
+               label: 'Banana',
+               value: 'Banana',
+               isDisabled: false
+           },
+           {
+               label: 'Lemon',
+               value: 'Lemon',
+               isDisabled: false
+           },
+       ],
+      value: 'Banana'
+    },
+    // overriden data of multiple choices
+    colors: {
+      items: [
+           {
+               label: 'Red',
+               value: 'red',
+               isDisabled: false
+           },
+           {
+               label: 'Green',
+               value: 'green',
+               isDisabled: true
+           },
+           {
+               label: 'Blue',
+               value: 'blue',
+               isDisabled: true
+           },
+       ],
+      value: ['red']
+    },
+    // overriden data of checkbox
+    vegetables: {
+      items: [
+           {
+               label: 'Potato',
+               value: 'potato',
+               isDisabled: false
+           },
+           {
+               label: 'Celery',
+               value: 'celery',
+               isDisabled: true
+           },
+           {
+               label: 'Carrot',
+               value: 'carrot',
+               isDisabled: false
+           },
+       ],
+      value: ['potato', 'celery']
+    },
+    // overriden data of dropdown
+    toys: {
+      items: [
+           {
+               label: 'Cars',
+               value: 'cars',
+               isDisabled: false
+           },
+           {
+               label: 'Robots',
+               value: 'robots',
+               isDisabled: false
+           },
+           {
+               label: 'Animals',
+               value: 'animals',
+               isDisabled: true
+           },
+       ],
+      value: 'cars'
+    },
+    label: {
+      text: 'Name',
+      textColor: '#e74c3c',
+      backgroundColor: 'yellow',
+      isRequired: true
+    },
+    iconBtn: {
+      type: 'insert',
+      color:'blue',
+      size: 'small'
+    },
+    alert: {
+      text: 'Network error',
+      type: 'error'
+    }
+  };
 
-  if (config.message) {
-    $message.val(config.message);
-  }
-  $form.on('submit', function(e) {
-    e.preventDefault();
-    console.log("😎😎😎",{message: $message.val()})
-    kintone.plugin.app.setConfig({message: $message.val()}, function() {
-      alert('The plug-in settings have been saved. Please update the app!');
-      window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId();
-    });
+  var table = new kintoneUIComponent.Table({
+    // initial table data
+    data: initialData,
+    // default row data on row add
+    defaultRowData: defaultRowData,
+    onRowAdd: function(e) {
+      console.log('table.onAdd', e);
+      // if onRowAdd does not return anything, defaultRowData will be used to create new table row
+      // if below row data is returned, it will override defaultRowData to be used to create new table row
+      return JSON.parse(JSON.stringify(overriddenRowData));
+    },
+    columns: [
+      {
+        header: 'Text',
+        cell: function() { return kintoneUIComponent.createTableCell('text', 'text') }
+      },
+      {
+        header: 'Radio',
+        cell: function() { return kintoneUIComponent.createTableCell('radio', 'fruit') }
+      },
+      {
+        header: 'Multichoice',
+        cell: function() { return kintoneUIComponent.createTableCell('multichoice', 'colors') }
+      },
+      {
+        header: 'Checkbox',
+        cell: function() { return kintoneUIComponent.createTableCell('checkbox', 'vegetables') }
+      },
+      {
+        header: 'Dropdown',
+        cell: function() { return kintoneUIComponent.createTableCell('dropdown', 'toys') }
+      },
+      {
+        header: 'Label',
+        cell: function() { return kintoneUIComponent.createTableCell('label', 'label') }
+      },
+      {
+        header: 'Icon Button',
+        cell: function() { return kintoneUIComponent.createTableCell('icon', 'iconBtn', {onClick:function(event){
+          alert('icon button clicked')
+        }}) }
+      },
+      {
+        header: 'Alert',
+        cell: function() { return kintoneUIComponent.createTableCell('alert', 'alert') }
+      },
+      {
+        header: 'Custom cell contains 2 textfields',
+        cell: function() { return customCell() }
+      },
+    ]
   });
-  $cancelButton.on('click', function() {
-    window.location.href = '/k/admin/app/' + kintone.app.getId() + '/plugin/';
-  });
-})(jQuery, kintone.$PLUGIN_ID);
+  kintone.app.getHeaderSpaceElement().appendChild(table.render());
+})();

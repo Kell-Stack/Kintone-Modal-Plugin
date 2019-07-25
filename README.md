@@ -1,4 +1,6 @@
 # Modal plugin
+Authored by Kelly Sousa - July 22, 2019
+This project aims to decrease clutter on client’s apps from unnecessary labels or text fields.
 
 ## Table of Contents
 
@@ -50,18 +52,21 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 
 **Phase 1**
 1. Create your layout for config section
-    - Format table -look into the example code for table in the UI component (https://kintone.github.io/kintone-ui-component/latest/Reference/Table/)
-        - create at least two columns -> field that you want to add the modal to & the message (think conditional format table)
-        - you will need to call a function so that you can add new rows (new conditions/new message/new modal)
-        - iterate through so the default blank info that was in the row above will show up again if the user duplicates(built into the lib)
-        - .getElementById of settings and append the render table to it 
-            *document.getElementById(‘settings’)
+    - Format table -look into the example code for table in the UI component 
+        - Refernces 
+            - UI-Component:  Table (https://kintone.github.io/kintone-ui-component/latest/Reference/Table/)
+            - Conditional Formatting config.js file
+                - create at least two columns -> field that you want to add the modal to & the message (think conditional format table)
+                - you will need to call a function so that you can add new rows (new conditions/new message/new modal)
+                - iterate through so the default blank info that was in the row above will show up again if the user duplicates(built into the lib)
+                - `.getElementById` of settings and append the render table to it 
+                    * `document.getElementById(‘settings’)`
 2. Create save and cancel button
-  - Use the built-in event listeners from UI component to listen for the click trigger
-  - For cancel button:
-    *onClick/onChange should return back to the settings page history.back()
-  - For save button: 
-    *take the object that contains the config settings (information from table) and make an API call to set the config then return to the list of all plugins page (where conditional formatting and tooltip are)
+    - Use the built-in event listeners from UI component to listen for the click trigger
+        - For cancel button:
+            * `onClick` or `onChange` should return back to the settings page `history.back()`
+        - For save button: 
+            * take the object that contains the config settings (information from table) and make an API call to set the config then return to the list of all plugins page (where conditional formatting and tooltip are)`
 3. **KEEP IN MIND**
   - alert messages on the save button if one column is filled but not the other -> alert for incomplete data
   - make an API call to get the form fields, populate and convert into the following format:
