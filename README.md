@@ -65,7 +65,6 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 3. **KEEP IN MIND**
   - alert messages on the save button if one column is filled but not the other -> alert for incomplete data
   - make an API call to get the form fields, populate and convert into the following format:
-    -   
     ~~~
     items: [
            {
