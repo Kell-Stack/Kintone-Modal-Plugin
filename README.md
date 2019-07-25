@@ -5,8 +5,7 @@
 - [Installation](#installation)
 - [Overview](#usage)
 - [Proposal](#proposal)
-- [TasksTimeline] (#timeline)
-
+- [Timeline] (#timeline)
 
 
 ## Installation
@@ -16,7 +15,7 @@
 ### **Problem**
 
 #### 
-As apps become more complex, admins are adding labels to direct users of the flow of the app. This overcomplicates the look and composition and takes us away from the ease of why clients are using Kintone in the first place.
+As the apps you create on Kintone become more complex, admins are adding labels to direct users of the flow of the app. This overcomplicates the look and composition and takes us away from the ease of why clients are using Kintone in the first place.
 
 ![Image 1 of problem]
 
@@ -83,10 +82,10 @@ As apps become more complex, admins are adding labels to direct users of the flo
     ~~~
 
   *create `var` with this format and set it for the "items"
-  *the value will be the *FIELD CODE* (will get an error if you put a value that is not a valid field code name)
+  *the value will be the **FIELD CODE** (will get an error if you put a value that is not a valid field code name)
 
 
-## Tasks & Timeline
+## Timeline
 This is a rough estimate of the timeline it will take to deploy the first iteration of this plugin.
 
 ***Phase 1 Due Dates***
