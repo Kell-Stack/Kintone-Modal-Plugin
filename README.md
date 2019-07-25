@@ -19,6 +19,7 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 
 ![Image 1 of problem](https://user-images.githubusercontent.com/45135493/61839338-08c95e80-ae42-11e9-8a42-e6bdb9a5430f.png)
 
+![Image 2 of problem](https://user-images.githubusercontent.com/45135493/61839432-5a71e900-ae42-11e9-95b3-5371f566f25d.png)
 
 ### **Goals**
 1. Create modal plugin using icons and event listeners, we will be offering seamless instructions while eliminating clunky directions.
@@ -29,6 +30,9 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 
 ## Proposal
 
+![Image of proposed model](https://user-images.githubusercontent.com/45135493/61895240-0fe68000-aec7-11e9-96cc-599ea0dba484.png)
+
+
 ### **Wireframe Workflow**
 
 **Phase 1**
@@ -38,6 +42,8 @@ As the apps you create on Kintone become more complex, admins are adding labels 
   - config tables - figuring out which fields I’ll be manipulating
   - layout process and what materials will be used
   - will be using Tippy.js as modal 
+
+![Image of phase 1 - save/cancel button & table](https://user-images.githubusercontent.com/45135493/61895425-81263300-aec7-11e9-8bf4-6751ed93c99e.png)
 
 
 ### **Processes (pseudo code with Georgina)**
@@ -91,7 +97,7 @@ This is a rough estimate of the timeline it will take to deploy the first iterat
 
 ***Phase 1 Due Dates***
   - July 24th: Diagram & spec review.
-  - July 30th: Table & Save/Cancel Buttons
+  - July 31st: Table & Save/Cancel Buttons
   - July xx: Lorem ipsum dolor
 
 ***Phase 2 Due Dates***
