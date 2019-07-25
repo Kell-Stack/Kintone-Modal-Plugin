@@ -5,7 +5,7 @@
 - [Installation](#installation)
 - [Overview](#usage)
 - [Proposal](#proposal)
-- [Timeline] (#timeline)
+- [Timeline](#timeline)
 
 
 ## Installation
@@ -17,7 +17,8 @@
 #### 
 As the apps you create on Kintone become more complex, admins are adding labels to direct users of the flow of the app. This overcomplicates the look and composition and takes us away from the ease of why clients are using Kintone in the first place.
 
-![Image 1 of problem]
+![Image 1 of problem](https://user-images.githubusercontent.com/45135493/61839338-08c95e80-ae42-11e9-8a42-e6bdb9a5430f.png)
+
 
 ### **Goals**
 1. Create modal plugin using icons and event listeners, we will be offering seamless instructions while eliminating clunky directions.
@@ -31,34 +32,34 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 ### **Wireframe Workflow**
 
 **Phase 1**
--figure out how to put icons next to any field
-  -will this include a space/label? Will it not include a space/label?
-  -pseudo coding 
-  -config tables - figuring out which fields I’ll be manipulating
-  -layout process and what materials will be used
-  -will be using Tippy.js as modal 
+- figure out how to put icons next to any field
+  - will this include a space/label? Will it not include a space/label?
+  - pseudo coding 
+  - config tables - figuring out which fields I’ll be manipulating
+  - layout process and what materials will be used
+  - will be using Tippy.js as modal 
 
 
 ### **Processes (pseudo code with Georgina)**
 
 **Phase 1**
 1. Create your layout for config section
-  -Format table -look into the example code for table in the UI component (https://kintone.github.io/kintone-ui-component/latest/Reference/Table/)
-    *create at least two columns -> field that you want to add the modal to & the message (think conditional format table)
-    *you will need to call a function so that you can add new rows (new conditions/new message/new modal)
-    *iterate through so the default blank info that was in the row above will show up again if the user duplicates(built into the lib)
-    *.getElementById of settings and append the render table to it 
-      +document.getElementById(‘settings’)
+    - Format table -look into the example code for table in the UI component (https://kintone.github.io/kintone-ui-component/latest/Reference/Table/)
+        - create at least two columns -> field that you want to add the modal to & the message (think conditional format table)
+        - you will need to call a function so that you can add new rows (new conditions/new message/new modal)
+        - iterate through so the default blank info that was in the row above will show up again if the user duplicates(built into the lib)
+        - .getElementById of settings and append the render table to it 
+            *document.getElementById(‘settings’)
 2. Create save and cancel button
-  -Use the built-in event listeners from UI component to listen for the click trigger
-  -For cancel button:
+  - Use the built-in event listeners from UI component to listen for the click trigger
+  - For cancel button:
     *onClick/onChange should return back to the settings page history.back()
-  -For save button: 
+  - For save button: 
     *take the object that contains the config settings (information from table) and make an API call to set the config then return to the list of all plugins page (where conditional formatting and tooltip are)
 3. **KEEP IN MIND**
-  -alert messages on the save button if one column is filled but not the other -> alert for incomplete data
-  -make an API call to get the form fields, populate and convert into the following format:
-    -
+  - alert messages on the save button if one column is filled but not the other -> alert for incomplete data
+  - make an API call to get the form fields, populate and convert into the following format:
+    -   
     ~~~
     items: [
            {
@@ -81,27 +82,27 @@ As the apps you create on Kintone become more complex, admins are adding labels 
        },
     ~~~
 
-  *create `var` with this format and set it for the "items"
-  *the value will be the **FIELD CODE** (will get an error if you put a value that is not a valid field code name)
+  * create `var` with this format and set it for the "items"
+  * the value will be the **FIELD CODE** (will get an error if you put a value that is not a valid field code name)
 
 
 ## Timeline
 This is a rough estimate of the timeline it will take to deploy the first iteration of this plugin.
 
 ***Phase 1 Due Dates***
-  -July 24th: Diagram & spec review.
-  -July 30th: Table & Save/Cancel Buttons
-  -July xx: Lorem ipsum dolor
+  - July 24th: Diagram & spec review.
+  - July 30th: Table & Save/Cancel Buttons
+  - July xx: Lorem ipsum dolor
 
 ***Phase 2 Due Dates***
-  -August xx: Lorem ipsum dolor
-  -August xx: Lorem ipsum dolor
-  -August xx: Lorem ipsum dolor
+  - August xx: Lorem ipsum dolor
+  - August xx: Lorem ipsum dolor
+  - August xx: Lorem ipsum dolor
 
 ***Phase 3 Due Dates***
-  -August xx: Lorem ipsum dolor
-  -August xx: Lorem ipsum dolor
-  -August xx: Lorem ipsum dolor
+  - August xx: Lorem ipsum dolor
+  - August xx: Lorem ipsum dolor
+  - August xx: Lorem ipsum dolor
 
 
 
