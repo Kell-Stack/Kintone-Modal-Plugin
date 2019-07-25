@@ -14,7 +14,7 @@ jQuery.noConflict();
     messageEl.classList.add('plugin-space-message');
     messageEl.textContent = config.message;
     headingEl.classList.add('plugin-space-heading');
-    headingEl.textContent = 'Hello kintone plugin!';
+    headingEl.textContent = 'Hello kintone plugin! - Kelly 😁';
 
     fragment.appendChild(headingEl);
     fragment.appendChild(messageEl);
