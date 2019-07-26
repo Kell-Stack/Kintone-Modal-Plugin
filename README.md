@@ -1,4 +1,4 @@
-# Kintone Modal Plug-in
+# Tooltip Label plugin
 > Authored by Kelly Sousa - July 22, 2019
 
 This project aims to decrease clutter on client’s apps from unnecessary labels or text fields. 
@@ -17,9 +17,9 @@ This project aims to decrease clutter on client’s apps from unnecessary labels
 ## Overview
 
 ### **Problem**
-
-#### 
+ 
 As the apps you create on Kintone become more complex, admins are adding labels to direct users of the flow of the app. This overcomplicates the look and composition and takes us away from the ease of why clients are using Kintone in the first place.
+
 
 ![Image 1 of problem](https://user-images.githubusercontent.com/45135493/61839338-08c95e80-ae42-11e9-8a42-e6bdb9a5430f.png)
 
@@ -30,7 +30,8 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 2. Decrease static clutter by 10-20%
 3. Provide clarification per label/text fields
 
-
+### ***Scope**
+The scope of the plugin will be limited to replacing a "blank space" field elements with an icon. So this means that you will have two columns in the Config settings page. The first column will list out all blank space fields that are on the form and the second column will be a multi-line text box for users to write in the label/message. For each selected blank space, you will replace it with the icon you chose and allow users to see the corresponding message when hovering over the icon
 
 ## Proposal
 
@@ -66,7 +67,7 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 2. Create save and cancel button
     - Use the built-in event listeners from UI component to listen for the click trigger
         - For cancel button:
-            * `.click()` or `.change()` should return back to the settings page `history.back()`
+            * `.hover()` should return back to the settings page `history.back()`
         - For save button: 
             * take the object that contains the config settings (information from table) and make an API call to set the config then return to the list of all plugins page (where conditional formatting and tooltip are)`
 3. **KEEP IN MIND**
