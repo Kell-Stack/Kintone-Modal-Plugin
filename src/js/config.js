@@ -26,8 +26,7 @@ jQuery.noConflict();
 
   //config table 
 
-  let textRow
-
+  let textRow;
 
   if (!config.hasOwnProperty('text_row_number')){
     textRow = Number(config['text_row_field']) //field code
@@ -41,7 +40,17 @@ jQuery.noConflict();
     textRow = 10
   }
 
-
+  $(document).ready(function() {
+    let columnKeyVals = {
+      'cf_table_title': 'Modal Generator',
+      'cf_column1': 'Field Code',
+      'cf_column2': 'Text',
+      'cf_plugin_submit': 'SAVE✅',
+      'cf_plugin_cancel': 'CANCEL❌',
+      'cf_required_field': 'Required field is empty✏️'
+      // 'cf_column3': 'Modal Position' for next iteration
+    }
+  })
 
 
   // //instantiating KEYS for Object "customCell"
