@@ -5,3 +5,7 @@
 .kintoneplugin-input-text {
   width: 20em;
 }
+
+#cf-plugin-text-tbody tr:first-child {
+   display: none;
+}

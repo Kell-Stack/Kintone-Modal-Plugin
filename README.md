@@ -1,7 +1,7 @@
-# Modal plugin
+# Kintone Modal Plug-in
 > Authored by Kelly Sousa - July 22, 2019
 
-This project aims to decrease clutter on client’s apps from unnecessary labels or text fields.
+This project aims to decrease clutter on client’s apps from unnecessary labels or text fields. 
 
 ## Table of Contents
 
@@ -12,6 +12,7 @@ This project aims to decrease clutter on client’s apps from unnecessary labels
 
 
 ## Installation
+> ***Coming Soon***
 
 ## Overview
 
@@ -54,7 +55,7 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 **Phase 1**
 1. Create your layout for config section
     - Format table -look into the example code for table in the UI component 
-        - Refernces 
+        - References 
             - UI-Component:  Table (https://kintone.github.io/kintone-ui-component/latest/Reference/Table/)
             - Conditional Formatting config.js file
                 - create at least two columns -> field that you want to add the modal to & the message (think conditional format table)
