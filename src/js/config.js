@@ -48,7 +48,7 @@ jQuery.noConflict();
       'cf_plugin_submit': 'SAVE✅',
       'cf_plugin_cancel': 'CANCEL❌',
       'cf_required_field': 'Required field is empty✏️'
-      // 'cf_column3': 'Modal Position' for next iteration
+      // 'cf_column3': 'Modal Position' for next iteration-> top right
     }
   })
 
@@ -56,10 +56,20 @@ jQuery.noConflict();
   let template = $.templates(configHTML)
   $('#cf-plugin').html(template).render()
 
-
+// this is to check how many rules will be taking place inside the table
   function checkRowNumber() {
-    if ($('#')){
+    if ($('#cf-plugin-text-tbody > tr').length === 2) {
+        $('cf-plugin-text-tbody > tr .removeList').eq(1).hide()
+      } else {
+        $('#cf-plugin-text-tbody > tr .removeList').eq(1).show()
+      }
 
+      if ($('#cf-plugin-date-tbody > tr').length === 2 ) {
+        $('#cf-plugin-date-tbody > tr .removeList').eq(1).hide()
+        $('#cf-plugin-date-tbody > tr .removeList').eq(1).show()
+
+      }
+      // }){
     }
   }
 

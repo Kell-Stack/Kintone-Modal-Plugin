@@ -30,7 +30,7 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 2. Decrease static clutter by 10-20%
 3. Provide clarification per label/text fields
 
-### ***Scope**
+### **Scope**
 The scope of the plugin will be limited to replacing a "blank space" field elements with an icon. So this means that you will have two columns in the Config settings page. The first column will list out all blank space fields that are on the form and the second column will be a multi-line text box for users to write in the label/message. For each selected blank space, you will replace it with the icon you chose and allow users to see the corresponding message when hovering over the icon
 
 ## Proposal
