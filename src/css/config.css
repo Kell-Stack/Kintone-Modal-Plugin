@@ -9,3 +9,8 @@
 #cf-plugin-text-tbody tr:first-child {
    display: none;
 }
+
+.title {
+  color: blue;
+  size: 50px;
+}
