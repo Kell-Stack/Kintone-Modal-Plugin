@@ -4,8 +4,8 @@
   "type": "APP",
   "desktop": {
     "js": [
-      "https://js.cybozu.com/jquery/3.3.1/jquery.min.js",
-      "js/desktop.js"
+      "js/desktop.js", 
+      "js/config.js"
     ],
     "css": [
       "css/51-modern-default.css",
@@ -16,7 +16,6 @@
   "config": {
     "html": "html/config.html",
     "js": [
-      "https://js.cybozu.com/jquery/3.3.1/jquery.min.js",
       "js/config.js"
     ],
     "css": [
@@ -28,9 +27,9 @@
     ]
   },
   "name": {
-    "en": "popModal-tutorial"
+    "en": "Tooltip-Label-plugin-project"
   },
   "description": {
-    "en": "popModal create plugin tutorial assigned by Georgina - july 2019"
+    "en": "Tooltip label plugin project assigned by Georgina - july 2019"
   }
 }
