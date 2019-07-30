@@ -4,8 +4,8 @@
   "type": "APP",
   "desktop": {
     "js": [
-      "js/desktop.js", 
-      "js/config.js"
+      "https://js.cybozu.com/jquery/3.3.1/jquery.min.js",
+      "bundle/desktop_bundle.js"
     ],
     "css": [
       "css/51-modern-default.css",
@@ -16,20 +16,27 @@
   "config": {
     "html": "html/config.html",
     "js": [
-      "js/config.js"
+      "https://js.cybozu.com/jquery/3.3.1/jquery.min.js",
+      "bundle/config_bundle.js"
     ],
     "css": [
       "css/51-modern-default.css",
       "css/config.css"
-    ],
-    "required_params": [
-      "message"
     ]
   },
   "name": {
-    "en": "Tooltip-Label-plugin-project"
+    "en": "tooltip"
   },
   "description": {
-    "en": "Tooltip label plugin project assigned by Georgina - july 2019"
+    "en": "tooltip test"
+  },
+  "mobile": {
+    "js": [
+      "https://js.cybozu.com/jquery/3.3.1/jquery.min.js",
+      "bundle/mobile_bundle.js"
+    ],
+    "css": [
+      "css/mobile.css"
+    ]
   }
 }

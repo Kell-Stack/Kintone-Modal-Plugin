@@ -8,13 +8,13 @@ jQuery.noConflict();
 
     var spaceElement = kintone.app.getHeaderSpaceElement();
     var fragment = document.createDocumentFragment();
-    var headingElement = document.createElement('h3');
-    var messageElement = document.createElement('p');
+    var headingEl = document.createElement('h3');
+    var messageEl = document.createElement('p');
 
-    messageElement.classList.add('plugin-space-message');
-    messageElement.textContent = config.message;
-    headingElement.classList.add('plugin-space-heading');
-    headingElement.textContent = '🥑🍕🥗🥟Kell Stack Employee Lunch Order Form🥭🍣🥙🥬';
+    messageEl.classList.add('plugin-space-message');
+    messageEl.textContent = config.message;
+    headingEl.classList.add('plugin-space-heading');
+    headingEl.textContent = 'Hello kintone plugin!';
 
     fragment.appendChild(headingEl);
     fragment.appendChild(messageEl);

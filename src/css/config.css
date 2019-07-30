@@ -5,12 +5,3 @@
 .kintoneplugin-input-text {
   width: 20em;
 }
-
-#cf-plugin-text-tbody tr:first-child {
-   display: none;
-}
-
-.title {
-  color: whitesmoke;
-  font-size: 14px;
-}
