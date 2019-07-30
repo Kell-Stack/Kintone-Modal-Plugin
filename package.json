@@ -13,7 +13,8 @@
     "@kintone/plugin-packer": "^1.1.0-alpha.0",
     "@kintone/plugin-uploader": "^2.4.8",
     "eslint": "^5.16.0",
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "webpack": "^4.38.0"
   },
   "dependencies": {
     "@kintone/kintone-ui-component": "^0.3.3"
