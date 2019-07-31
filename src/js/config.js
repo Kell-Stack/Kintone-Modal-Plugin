@@ -11,12 +11,17 @@ jQuery.noConflict();
 
 
 // NEED TO MAKE SAVE AND CANCEL BUTTON WITH ALERTS
-// what is ._reactObject ?
+// what is ._reactObject ? => checking if value exists inside object
 // do i need an overridden section
+// form field will it provide the blank spaces? can we just use the elemen t id
+// input config is going to be the prev config settings objects and putting that in a save object
+
 
 //TO DO
 // request data from app => once client adds plugin to their app it should already be fetching data only from the blank fields
-// 
+// replace text field with textarea FROM UI-C
+// make save and cancel buttons w/o function
+
 
 
 var customCell = function() {
@@ -46,6 +51,7 @@ var customCell = function() {
       if (text2val && this.textfield2._reactObject) {
         this.textfield2.setValue(text2val.value);
       }
+      console.log(this.textfield1)
     }
   }
 };
@@ -94,86 +100,88 @@ var initialData = [
 ];
 
 // default row data of a table, this data will be used to create new row
-var defaultRowData = {
-  text: { value: '😍text😍' },
-  // default data of dropdown
-  toys: {
-    items: [
-         {
-             label: 'App Field 1',
-             value: 'one',
-             isDisabled: false
-         },
-         {
-             label: 'App Field 2',
-             value: 'two',
-             isDisabled: false
-         },
-         {
-             label: 'App Field 3',
-             value: 'three',
-             isDisabled: true
-         },
-     ],
-    value: 'one'
-  },
-  label: {
-    text: 'Name',
-    textColor: '#e74c3c',
-    backgroundColor: 'yellow',
-    isRequired: true
-  },
-  iconBtn: {
-    type: 'insert',
-    color:'blue',
-    size: 'small'
-  },
-  alert: {
-    text: 'Network error',
-    type: 'error'
-  }
-};
+var defaultRowData = initialData
+// {
+//   text: { value: '😍text😍' },
+//   // default data of dropdown
+//   toys: {
+//     items: [
+//          {
+//              label: 'App Field 1',
+//              value: 'one',
+//              isDisabled: false
+//          },
+//          {
+//              label: 'App Field 2',
+//              value: 'two',
+//              isDisabled: false
+//          },
+//          {
+//              label: 'App Field 3',
+//              value: 'three',
+//              isDisabled: true
+//          },
+//      ],
+//     value: 'one'
+//   },
+//   label: {
+//     text: 'Name',
+//     textColor: '#e74c3c',
+//     backgroundColor: 'yellow',
+//     isRequired: true
+//   },
+//   iconBtn: {
+//     type: 'insert',
+//     color:'blue',
+//     size: 'small'
+//   },
+//   alert: {
+//     text: 'Network error',
+//     type: 'error'
+//   }
+// };
 
 // return this data to override default row data onRowAdd
-var overriddenRowData = {
-  text: {value: 'overwritten❌'},
-  // overriden data of dropdown
-  toys: {
-    items: [
-         {
-             label: 'This will',
-             value: 'one',
-             isDisabled: false
-         },
-         {
-             label: 'be what is mapped over',
-             value: 'two',
-             isDisabled: false
-         },
-         {
-             label: 'in all the apps that use this plugin',
-             value: 'three',
-             isDisabled: true
-         },
-     ],
-    value: 'two'
-  },
-  label: {
-    text: 'Name',
-    textColor: '#e74c3c',
-    backgroundColor: 'yellow',
-    isRequired: true
-  },
-  iconBtn: {
-    type: 'insert',
-    color:'blue',
-    size: 'small'
-  },
-  alert: {
-    text: 'Network error',
-    type: 'error'
-  }
-};
+var overriddenRowData = initialData
+// {
+//   text: {value: 'overwritten❌'},
+//   // overriden data of dropdown
+//   toys: {
+//     items: [
+//          {
+//              label: 'This will',
+//              value: 'one',
+//              isDisabled: false
+//          },
+//          {
+//              label: 'be what is mapped over',
+//              value: 'two',
+//              isDisabled: false
+//          },
+//          {
+//              label: 'in all the apps that use this plugin',
+//              value: 'three',
+//              isDisabled: true
+//          },
+//      ],
+//     value: 'two'
+//   },
+//   label: {
+//     text: 'Name',
+//     textColor: '#e74c3c',
+//     backgroundColor: 'yellow',
+//     isRequired: true
+//   },
+//   iconBtn: {
+//     type: 'insert',
+//     color:'blue',
+//     size: 'small'
+//   },
+//   alert: {
+//     text: 'Network error',
+//     type: 'error'
+//   }
+// };
 
 var table = new kintoneUIComponent.Table({
   // initial table data
@@ -191,11 +199,15 @@ var table = new kintoneUIComponent.Table({
       header: 'Blank Space Element ID💜',
       cell: function() { return kintoneUIComponent.createTableCell('dropdown', 'toys') }
     },
+
+    // use custom cell for textarea
     {
-      header: '💜Modal Text',
-      cell: function() { return kintoneUIComponent.createTableCell('text', 'text') }
+      header: '💜Modal Text-Custom cell contain 1 textarea',
+      cell: function() { return customCell() }
     },
   ]
 });
     $('.settings').append(table.render());
+
+    
 })(jQuery, kintone.$PLUGIN_ID);
