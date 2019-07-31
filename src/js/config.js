@@ -6,7 +6,18 @@ jQuery.noConflict();
   var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
   require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
 
+
+
+
+
 // NEED TO MAKE SAVE AND CANCEL BUTTON WITH ALERTS
+// what is ._reactObject ?
+// do i need an overridden section
+
+//TO DO
+// request data from app => once client adds plugin to their app it should already be fetching data only from the blank fields
+// 
+
 
 var customCell = function() {
   return {
@@ -43,23 +54,21 @@ var customCell = function() {
 var initialData = [
   {
     text: { value: 'text field' },
-    text1: { value: 'text field 1' },
-    text2: { value: 'text field 2' },
     // initial data of dropdown
     toys: {
       items: [
            {
-               label: 'Cars',
+               label: 'Data from app 1',
                value: 'cars',
                isDisabled: false
            },
            {
-               label: 'Robots',
+               label: 'Data from app 2',
                value: 'robots',
                isDisabled: false
            },
            {
-               label: 'Animals',
+               label: 'Data from app 3',
                value: 'animals',
                isDisabled: true
            },
@@ -86,29 +95,27 @@ var initialData = [
 
 // default row data of a table, this data will be used to create new row
 var defaultRowData = {
-  text: { value: 'text field' },
-  text1: { value: 'text field 1' },
-  text2: { value: 'text field 2' },
+  text: { value: '😍text😍' },
   // default data of dropdown
   toys: {
     items: [
          {
-             label: 'Cars',
-             value: 'cars',
+             label: 'App Field 1',
+             value: 'one',
              isDisabled: false
          },
          {
-             label: 'Robots',
-             value: 'robots',
+             label: 'App Field 2',
+             value: 'two',
              isDisabled: false
          },
          {
-             label: 'Animals',
-             value: 'animals',
+             label: 'App Field 3',
+             value: 'three',
              isDisabled: true
          },
      ],
-    value: 'cars'
+    value: 'one'
   },
   label: {
     text: 'Name',
@@ -129,29 +136,27 @@ var defaultRowData = {
 
 // return this data to override default row data onRowAdd
 var overriddenRowData = {
-  text: {value: 'overwritten field value'},
-  text1: { value: 'overwritten field1 value' },
-  text2: { value: 'overwritten field2 value' },
+  text: {value: 'overwritten❌'},
   // overriden data of dropdown
   toys: {
     items: [
          {
-             label: 'Cars',
-             value: 'cars',
+             label: 'This will',
+             value: 'one',
              isDisabled: false
          },
          {
-             label: 'Robots',
-             value: 'robots',
+             label: 'be what is mapped over',
+             value: 'two',
              isDisabled: false
          },
          {
-             label: 'Animals',
-             value: 'animals',
+             label: 'in all the apps that use this plugin',
+             value: 'three',
              isDisabled: true
          },
      ],
-    value: 'cars'
+    value: 'two'
   },
   label: {
     text: 'Name',
