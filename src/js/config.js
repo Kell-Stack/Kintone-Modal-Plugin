@@ -6,12 +6,8 @@ jQuery.noConflict();
   var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
   require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
 
-
-
-
-
 // NEED TO MAKE SAVE AND CANCEL BUTTON WITH ALERTS
-// what is ._reactObject ? => checking if value exists inside object
+// what is ._reactObject ? => checking if value exists inside object 
 // do i need an overridden section
 // form field will it provide the blank spaces? can we just use the elemen t id
 // input config is going to be the prev config settings objects and putting that in a save object
@@ -23,35 +19,26 @@ jQuery.noConflict();
 // make save and cancel buttons w/o function
 
 
-
 var customCell = function() {
   return {
     init: function({rowData, updateRowData}) {
       var span = document.createElement('span');
-      var textfield1 = new kintoneUIComponent.Text({value: rowData.text1.value});
-      var textfield2 = new kintoneUIComponent.Text({value: rowData.text2.value});
-      span.appendChild(textfield1.render());
-      span.appendChild(textfield2.render());
-      textfield1.on('change', function(newValue){
-        updateRowData({text1: {value: newValue}}, false);
+        console.log(span,"💀")
+      var textAreaField = new kintoneUIComponent.TextArea({value: rowData.textarea.value});
+      console.log(textAreaField,"👽")
+      span.appendChild(textAreaField.render());
+      textAreaField.on('change', function(newValue){
+        updateRowData({textarea: {value: newValue}}, false);
       });
-      textfield2.on('change', function(newValue){
-        updateRowData({text2: {value: newValue}}, false);
-      });
-      this.textfield1 = textfield1;
-      this.textfield2 = textfield2;
+      this.textarea = textarea;
       return span;
     },
     update: function({ rowData }) {
-      var text1val = rowData.text1;
-      var text2val = rowData.text2;
-      if (text1val && this.textfield1._reactObject) {
-        this.textfield1.setValue(text1val.value);
+      var textAreaVal = rowData.text1;
+      if (textAreaVal && this.textarea._reactObject) {
+        this.textarea.setValue(text1val.value);
       }
-      if (text2val && this.textfield2._reactObject) {
-        this.textfield2.setValue(text2val.value);
-      }
-      console.log(this.textfield1)
+      console.log(this.textarea)
     }
   }
 };
@@ -61,25 +48,25 @@ var initialData = [
   {
     text: { value: 'text field' },
     // initial data of dropdown
-    toys: {
+    dropDown: {
       items: [
            {
                label: 'Data from app 1',
-               value: 'cars',
+               value: 'd1',
                isDisabled: false
            },
            {
                label: 'Data from app 2',
-               value: 'robots',
+               value: 'd2',
                isDisabled: false
            },
            {
                label: 'Data from app 3',
-               value: 'animals',
+               value: 'd3',
                isDisabled: true
            },
        ],
-      value: 'cars'
+      value: 'd2'
     },
     label: {
       text: 'Name',
@@ -197,9 +184,8 @@ var table = new kintoneUIComponent.Table({
   columns: [
     {
       header: 'Blank Space Element ID💜',
-      cell: function() { return kintoneUIComponent.createTableCell('dropdown', 'toys') }
+      cell: function() { return kintoneUIComponent.createTableCell('dropdown', 'dropDown') }
     },
-
     // use custom cell for textarea
     {
       header: '💜Modal Text-Custom cell contain 1 textarea',
