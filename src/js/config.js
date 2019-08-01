@@ -34,25 +34,24 @@ var customCell = function() {
   return {
     init: function({rowData, updateRowData}) {
       var span = document.createElement('span');
-        
-      
-        var textAreaField = new kintoneUIComponent.TextArea({value: 'textarea'}); 
+      var textAreaField = new kintoneUIComponent.TextArea({value: 'textarea'}); 
         console.log(textAreaField,"👽")
       
       span.appendChild(textAreaField.render());
 
       textAreaField.on('change', function(newValue){
-        updateRowData({textarea: {value: newValue}}, false);
+        console.log(newValue,"😓")
+        updateRowData( {textarea: {value: newValue}} , false);
       });
       this.textAreaField = textAreaField;
       return span;
     },
     update: function({ rowData }) {
-      var textAreaVal = rowData.textarea; // or ({value: rowData.textarea.value}) ??
-      if (textAreaVal && this.textarea._reactObject) {
-        this.textarea.getValue(textAreaVal.value);
+      var textAreaVal = rowData.textAreaField; // or ({value: rowData.textarea.value}) ??
+      if (textAreaVal && this.textAreaField._reactObject) {
+        this.textAreaField.getValue(textAreaVal.value);
       }
-      console.log(this.textarea, "😐")
+      console.log(this.textAreaField, "😐")
     }
   }
 };
@@ -184,6 +183,30 @@ var overriddenRowData = initialData
 //   }
 // };
 
+// var table = new kintoneUIComponent.Table({
+//   // initial table data
+//   data: initialData,
+//   //default row data on row add
+//   defaultRowData: initialData,
+//   onRowAdd: function(e) {
+//     //console.log('table.onAdd', e);
+//     // if onRowAdd does not return anything defaultRowData will be used to create new table row
+//     // if below row data is returned it will override defaultRowData to be used to create new table row
+//     return JSON.parse(JSON.stringify(initialData));
+//   },
+//   columns: [
+//     {
+//       header: 'Blank Space Element ID💜',
+//       cell: function() { return kintoneUIComponent.createTableCell('dropdown', 'dropDown') }
+//     },
+//     // use custom cell for textarea
+//     {
+//       header: '💜Modal Text-Custom cell contain 1 textarea',
+//       cell: function() { return customCell() }
+//     },
+//   ]
+// });
+
 var table = new kintoneUIComponent.Table({
   // initial table data
   data: initialData,
@@ -191,24 +214,23 @@ var table = new kintoneUIComponent.Table({
   defaultRowData: defaultRowData,
   onRowAdd: function(e) {
     console.log('table.onAdd', e);
-    // if onRowAdd does not return anything defaultRowData will be used to create new table row
-    // if below row data is returned it will override defaultRowData to be used to create new table row
+    // if onRowAdd does not return anything, defaultRowData will be used to create new table row
+    // if below row data is returned, it will override defaultRowData to be used to create new table row
     return JSON.parse(JSON.stringify(overriddenRowData));
   },
   columns: [
     {
-      header: 'Blank Space Element ID💜',
+      header: 'Dropdown',
       cell: function() { return kintoneUIComponent.createTableCell('dropdown', 'dropDown') }
     },
-    // use custom cell for textarea
     {
-      header: '💜Modal Text-Custom cell contain 1 textarea',
+      header: 'Custom cell contains 2 textfields',
       cell: function() { return customCell() }
-    },
+    }
   ]
 });
     $('.kintone-si-conditions').append(table.render());
 
-    $('.kintone-si-buttons').append(table.render())
+    // $('.kintone-si-buttons').append(table.render())
     
 })(jQuery, kintone.$PLUGIN_ID);
