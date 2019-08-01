@@ -34,17 +34,27 @@ jQuery.noConflict();
     //      i. if error display error
     //      ii. if success, navigate to old page (using HTML5 History API=> window.history.back()) -> alert user to update app to see changes 
 
+    var config = kintone.plugin.app.getConfig(PLUGIN_ID);
+
 
     function getBlankFields() {
       let param = {'app': kintone.app.getId()}
       kintone.api(kintone.api.url('/k/v1/app/form/fields', true), 'GET', param, function (resp) {
-        
-        
-        
-        
-        
-        
-        
+        let statusCode;
+        for (let key in resp.properties){
+          if (!resp.properties.hasOwnProperty(key)) {
+            continue
+          }
+
+          let prop = resp.properties[key]
+          if (prop.type === 'status') {
+            statusCode = prop.code
+            break;
+          }
+        }
+
+        let newConf = {}
+
         console.log(param, "🏀")
         // success
         console.log(resp);
@@ -54,6 +64,8 @@ jQuery.noConflict();
       });
     }
 
+    getBlankFields()
+
       var customCell = function () {
         return {
           init: function ({
@@ -62,7 +74,7 @@ jQuery.noConflict();
           }) {
             var span = document.createElement('span');
             var textAreaField = new kintoneUIComponent.TextArea({
-              value: 'textarea'
+              value: "⛩⛩⛩⛩⛩"
             });
             console.log(textAreaField, "👽")
 
@@ -135,111 +147,9 @@ jQuery.noConflict();
 
       // default row data of a table, this data will be used to create new row
       var defaultRowData = initialData[0]
-      // {
-      //   text: { value: '😍text😍' },
-      //   // default data of dropdown
-      //   toys: {
-      //     items: [
-      //          {
-      //              label: 'App Field 1',
-      //              value: 'one',
-      //              isDisabled: false
-      //          },
-      //          {
-      //              label: 'App Field 2',
-      //              value: 'two',
-      //              isDisabled: false
-      //          },
-      //          {
-      //              label: 'App Field 3',
-      //              value: 'three',
-      //              isDisabled: true
-      //          },
-      //      ],
-      //     value: 'one'
-      //   },
-      //   label: {
-      //     text: 'Name',
-      //     textColor: '#e74c3c',
-      //     backgroundColor: 'yellow',
-      //     isRequired: true
-      //   },
-      //   iconBtn: {
-      //     type: 'insert',
-      //     color:'blue',
-      //     size: 'small'
-      //   },
-      //   alert: {
-      //     text: 'Network error',
-      //     type: 'error'
-      //   }
-      // };
 
       // return this data to override default row data onRowAdd
       var overriddenRowData = initialData[0]
-      // {
-      //   text: {value: 'overwritten❌'},
-      //   // overriden data of dropdown
-      //   toys: {
-      //     items: [
-      //          {
-      //              label: 'This will',
-      //              value: 'one',
-      //              isDisabled: false
-      //          },
-      //          {
-      //              label: 'be what is mapped over',
-      //              value: 'two',
-      //              isDisabled: false
-      //          },
-      //          {
-      //              label: 'in all the apps that use this plugin',
-      //              value: 'three',
-      //              isDisabled: true
-      //          },
-      //      ],
-      //     value: 'two'
-      //   },
-      //   label: {
-      //     text: 'Name',
-      //     textColor: '#e74c3c',
-      //     backgroundColor: 'yellow',
-      //     isRequired: true
-      //   },
-      //   iconBtn: {
-      //     type: 'insert',
-      //     color:'blue',
-      //     size: 'small'
-      //   },
-      //   alert: {
-      //     text: 'Network error',
-      //     type: 'error'
-      //   }
-      // };
-
-      // var table = new kintoneUIComponent.Table({
-      //   // initial table data
-      //   data: initialData,
-      //   //default row data on row add
-      //   defaultRowData: initialData,
-      //   onRowAdd: function(e) {
-      //     //console.log('table.onAdd', e);
-      //     // if onRowAdd does not return anything defaultRowData will be used to create new table row
-      //     // if below row data is returned it will override defaultRowData to be used to create new table row
-      //     return JSON.parse(JSON.stringify(initialData));
-      //   },
-      //   columns: [
-      //     {
-      //       header: 'Blank Space Element ID💜',
-      //       cell: function() { return kintoneUIComponent.createTableCell('dropdown', 'dropDown') }
-      //     },
-      //     // use custom cell for textarea
-      //     {
-      //       header: '💜Modal Text-Custom cell contain 1 textarea',
-      //       cell: function() { return customCell() }
-      //     },
-      //   ]
-      // });
 
       var table = new kintoneUIComponent.Table({
         // initial table data
@@ -253,13 +163,13 @@ jQuery.noConflict();
           return JSON.parse(JSON.stringify(overriddenRowData));
         },
         columns: [{
-            header: 'Dropdown',
+            header: 'Blank Space Element ID💜',
             cell: function () {
               return kintoneUIComponent.createTableCell('dropdown', 'dropDown')
             }
           },
           {
-            header: 'Custom cell contains 2 textfields',
+            header: '💜Modal Text-Custom cell contain 1 textarea',
             cell: function () {
               return customCell()
             }
@@ -267,6 +177,6 @@ jQuery.noConflict();
         ]
       }); $('.kintone-si-conditions').append(table.render());
 
-      // $('.kintone-si-buttons').append(table.render())
+      // $('.kintone-si-buttons').append(button.render())
 
     })(jQuery, kintone.$PLUGIN_ID);
