@@ -44,7 +44,7 @@ var customCell = function() {
       textAreaField.on('change', function(newValue){
         updateRowData({textarea: {value: newValue}}, false);
       });
-      this.textarea = textarea;
+      this.textAreaField = textAreaField;
       return span;
     },
     update: function({ rowData }) {
