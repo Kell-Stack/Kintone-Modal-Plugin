@@ -100,7 +100,7 @@ var initialData = [
 ];
 
 // default row data of a table, this data will be used to create new row
-var defaultRowData = initialData
+var defaultRowData = initialData[0]
 // {
 //   text: { value: '😍text😍' },
 //   // default data of dropdown
@@ -142,7 +142,7 @@ var defaultRowData = initialData
 // };
 
 // return this data to override default row data onRowAdd
-var overriddenRowData = initialData
+var overriddenRowData = initialData[0]
 // {
 //   text: {value: 'overwritten❌'},
 //   // overriden data of dropdown
