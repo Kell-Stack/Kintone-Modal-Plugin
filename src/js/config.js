@@ -15,18 +15,32 @@ jQuery.noConflict();
 
 //TO DO
 // request data from app => once client adds plugin to their app it should already be fetching data only from the blank fields
-// replace text field with textarea FROM UI-C
 // make save and cancel buttons w/o function
 
+
+let body = {
+  "app": 47
+}
+
+kintone.api(kintone.api.url('/k/v1/app/form/fields', true), 'GET', body, function(resp) {
+  // success
+  console.log(resp);
+}, function(error) {
+  // error
+  console.log(error);
+});
 
 var customCell = function() {
   return {
     init: function({rowData, updateRowData}) {
       var span = document.createElement('span');
-        console.log(span,"💀")
-      var textAreaField = new kintoneUIComponent.TextArea({value: rowData.textarea.value});
-      console.log(textAreaField,"👽")
+        
+      
+        var textAreaField = new kintoneUIComponent.TextArea({value: 'textarea'}); 
+        console.log(textAreaField,"👽")
+      
       span.appendChild(textAreaField.render());
+
       textAreaField.on('change', function(newValue){
         updateRowData({textarea: {value: newValue}}, false);
       });
@@ -34,11 +48,11 @@ var customCell = function() {
       return span;
     },
     update: function({ rowData }) {
-      var textAreaVal = rowData.text1;
+      var textAreaVal = rowData.textarea; // or ({value: rowData.textarea.value}) ??
       if (textAreaVal && this.textarea._reactObject) {
-        this.textarea.setValue(text1val.value);
+        this.textarea.getValue(textAreaVal.value);
       }
-      console.log(this.textarea)
+      console.log(this.textarea, "😐")
     }
   }
 };
@@ -177,8 +191,8 @@ var table = new kintoneUIComponent.Table({
   defaultRowData: defaultRowData,
   onRowAdd: function(e) {
     console.log('table.onAdd', e);
-    // if onRowAdd does not return anything, defaultRowData will be used to create new table row
-    // if below row data is returned, it will override defaultRowData to be used to create new table row
+    // if onRowAdd does not return anything defaultRowData will be used to create new table row
+    // if below row data is returned it will override defaultRowData to be used to create new table row
     return JSON.parse(JSON.stringify(overriddenRowData));
   },
   columns: [
@@ -193,7 +207,8 @@ var table = new kintoneUIComponent.Table({
     },
   ]
 });
-    $('.settings').append(table.render());
+    $('.kintone-si-conditions').append(table.render());
 
+    $('.kintone-si-buttons').append(table.render())
     
 })(jQuery, kintone.$PLUGIN_ID);
