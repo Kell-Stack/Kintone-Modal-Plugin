@@ -17,10 +17,27 @@ jQuery.noConflict();
 // request data from app => once client adds plugin to their app it should already be fetching data only from the blank fields
 // make save and cancel buttons w/o function
 
+//PSEUDO CODE
+
+// A. App initialisation:
+//  1. Get data from the API
+
+// B. Saving data:
+
+//  1. Attempt to get data from each column
+//     a. Construct result data structure
+//  2. Validate data: 
+//    a. if valid, proceed
+//    b. if invalid, display error message
+//  3. Send data to API
+//    a. Success/error callbacks, 
+//      i. if error display error
+//      ii. if success, navigate to old page (using HTML5 History API=> window.history.back()) -> alert user to update app to see changes 
 
 let body = {
   "app": 47
 }
+
 
 kintone.api(kintone.api.url('/k/v1/app/form/fields', true), 'GET', body, function(resp) {
   // success
