@@ -6,15 +6,12 @@ jQuery.noConflict();
   var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
   require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
 
-  // NEED TO MAKE SAVE AND CANCEL BUTTON WITH ALERTS
-  // what is ._reactObject ? => checking if value exists inside object 
-  // do i need an overridden section
-  // form field will it provide the blank spaces? can we just use the elemen t id
   // input config is going to be the prev config settings objects and putting that in a save object
 
   //TO DO
   // request data from app => once client adds plugin to their app it should already be fetching data only from the blank fields
-  // make save and cancel buttons w/o function
+  // make save and cancel buttons w/o function ✅
+  // make api call request to layout api
 
   //PSEUDO CODE
 
@@ -35,42 +32,41 @@ jQuery.noConflict();
 
   var config = kintone.plugin.app.getConfig(PLUGIN_ID);
 
-
   function getBlankFields() {
     let param = {
       'app': kintone.app.getId()
     }
-    kintone.api(kintone.api.url('/k/v1/app/form/fields', true), 'GET', param, function (resp) {
-      for (let key in resp.properties) {
-        if (!resp.properties.hasOwnProperty(key)) {
-          continue
-        }
-        var statusCode;
-        var prop = resp.properties[key]
-        if (prop.type === 'status') {
-          statusCode = prop.code
-          break;
-        }
-      console.log(statusCode,"🙀")
-      }
+    kintone.api(kintone.api.url('/k/v1/app/form/layout', true), 'GET', param, function (resp) {
       console.log(param, "🏀app id")
       // success
-      console.log(resp,"skrrrrrrt🚨skrrrrrrt");
+      console.log(resp, "skrrrrrrt🚨🚨🚨🚨skrrrrrrt");
     }, function (error) {
       // error
       console.log(error);
     });
+    //from the resp you want the blank field element id (this type is SPACER)
+                  // layout: Array(7)
+                  // 0:
+                  // fields: Array(2)
+                  // 0: {type: "LABEL", label: "<div><div style="text-align:left"><b><font size="6">Daily Lunch Orders</font></b></div></div>", size: {…}}
+                  // 1:
+                  // elementId: "titleModal"
+                  // size: {width: "117", height: "66"}
+                  // type: "SPACER"
+                  // __proto__: Object
+                  // length: 2
+                  // __proto__: Array(0)
+                  // type: "ROW"
+                  // __proto__: Object
 
-    //from the resp you want the blank field element id
+    // create function that wil filter through resp obj and return only blank space fields
 
-    kintone.events.on('app.record.detail.show', function(event) {
-
-    }
+    //user sign in getConfig
   }
 
-
-
   getBlankFields()
+
+
 
   var customCell = function () {
     return {
@@ -106,6 +102,8 @@ jQuery.noConflict();
         }
         console.log(this.textAreaField, "😐update text area object")
       }
+
+      //once user saves you will setConfig
     }
   };
 
@@ -186,62 +184,21 @@ jQuery.noConflict();
   var savebutton = new kintoneUIComponent.Button({
     text: 'will be a save button😳'
   });
-  var body = document.getElementsByTagName("BODY")[0];
-  body.appendChild(savebutton.render());
+  var bodySB = document.getElementsByTagName("BODY")[0];
+  bodySB.appendChild(savebutton.render());
   savebutton.on('click', function (event) {
-    console.log('on click');
+    console.log('on save click');
   });
 
   var cancelbutton = new kintoneUIComponent.Button({
     text: 'will be a cancel button😳'
   });
-  var body = document.getElementsByTagName("BODY")[0];
-  body.appendChild(cancelbutton.render());
+  var bodyCB = document.getElementsByTagName("BODY")[0];
+  bodyCB.appendChild(cancelbutton.render());
   cancelbutton.on('click', function (event) {
-    console.log('on click');
+    console.log('on cancel click');
   });
 
   $('.kintone-si-conditions').append(table.render());
-
-  // function button () {
-  //   let cancelButton = new kintoneUIComponent.Button({
-  //     text: 'Cancel🚦'
-  //   });
-  //   let bodyCancel = document.getElementsByTagName("BODY")[0];
-  //   bodyCancel.appendChild(cancelButton.render());
-  //   button.on("click", function(event(){
-  //     console.log('on click')
-  //   });
-
-  //   let saveButton = new kintoneUIComponent.Button({
-  //     text: '🚥SAVE'
-  //   });
-  //   let bodySave = document.getElementsByTagName("BODY")[0];
-  //   bodySave.appendChild(saveButton.render());
-  // }
-
-  // $('.kintone-si-buttons').body.appendChild(saveButton.render());
-
-  // function buttons() {
-  //   var cancelButton = new kintoneUIComponent.Button({
-  //     text: 'Cancel button😳'
-  //   });
-  //   var body = document.getElementsByTagName("BODY")[0];
-  //   body.appendChild(cancelButton.render());
-  //   cancelButton.on('click', function (event) {
-  //     console.log('cancel button on click');
-  //   });
-
-  //   var submitButton = new kintoneUIComponent.Button({
-  //     text: '😳Submit button'
-  //   });
-  //   var body = document.getElementsByTagName("BODY")[0];
-  //   body.appendChild(submitButton.render());
-  //   submitButton.on('click', function (event) {
-  //     console.log('submit button on click');
-  //   });
-
-  //     $('.kintone-si-buttons').body.appendChild(buttons.render());
-  // }
 
 })(jQuery, kintone.$PLUGIN_ID);
