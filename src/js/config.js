@@ -12,7 +12,6 @@ jQuery.noConflict();
   // form field will it provide the blank spaces? can we just use the elemen t id
   // input config is going to be the prev config settings objects and putting that in a save object
 
-
   //TO DO
   // request data from app => once client adds plugin to their app it should already be fetching data only from the blank fields
   // make save and cancel buttons w/o function
@@ -42,29 +41,34 @@ jQuery.noConflict();
       'app': kintone.app.getId()
     }
     kintone.api(kintone.api.url('/k/v1/app/form/fields', true), 'GET', param, function (resp) {
-      let statusCode;
       for (let key in resp.properties) {
         if (!resp.properties.hasOwnProperty(key)) {
           continue
         }
-
-        let prop = resp.properties[key]
+        var statusCode;
+        var prop = resp.properties[key]
         if (prop.type === 'status') {
           statusCode = prop.code
           break;
         }
+      console.log(statusCode,"🙀")
       }
-
-
-
-      console.log(param, "🏀")
+      console.log(param, "🏀app id")
       // success
-      console.log(resp);
+      console.log(resp,"skrrrrrrt🚨skrrrrrrt");
     }, function (error) {
       // error
       console.log(error);
     });
+
+    //from the resp you want the blank field element id
+
+    kintone.events.on('app.record.detail.show', function(event) {
+
+    }
   }
+
+
 
   getBlankFields()
 
@@ -78,12 +82,12 @@ jQuery.noConflict();
         var textAreaField = new kintoneUIComponent.TextArea({
           value: "⛩⛩⛩⛩⛩"
         });
-        console.log(textAreaField, "👽")
+        console.log(textAreaField, "👽text area object")
 
         span.appendChild(textAreaField.render());
 
         textAreaField.on('change', function (newValue) {
-          console.log(newValue, "😓")
+          console.log(newValue, "😓new value object")
           updateRowData({
             textarea: {
               value: newValue
@@ -100,7 +104,7 @@ jQuery.noConflict();
         if (textAreaVal && this.textAreaField._reactObject) {
           this.textAreaField.getValue(textAreaVal.value);
         }
-        console.log(this.textAreaField, "😐")
+        console.log(this.textAreaField, "😐update text area object")
       }
     }
   };
@@ -179,6 +183,26 @@ jQuery.noConflict();
     ]
   });
 
+  var savebutton = new kintoneUIComponent.Button({
+    text: 'will be a save button😳'
+  });
+  var body = document.getElementsByTagName("BODY")[0];
+  body.appendChild(savebutton.render());
+  savebutton.on('click', function (event) {
+    console.log('on click');
+  });
+
+  var cancelbutton = new kintoneUIComponent.Button({
+    text: 'will be a cancel button😳'
+  });
+  var body = document.getElementsByTagName("BODY")[0];
+  body.appendChild(cancelbutton.render());
+  cancelbutton.on('click', function (event) {
+    console.log('on click');
+  });
+
+  $('.kintone-si-conditions').append(table.render());
+
   // function button () {
   //   let cancelButton = new kintoneUIComponent.Button({
   //     text: 'Cancel🚦'
@@ -196,52 +220,28 @@ jQuery.noConflict();
   //   bodySave.appendChild(saveButton.render());
   // }
 
-  $('.kintone-si-conditions').append(table.render());
-  // $('.kintone-si-buttons').bodySave.appendChild(saveButton.render());
+  // $('.kintone-si-buttons').body.appendChild(saveButton.render());
 
-  var button = new kintoneUIComponent.Button({text: 'button😄'});
-var body = document.getElementsByTagName("BODY")[0];
-body.appendChild(button.render());
-button.enable();
+  // function buttons() {
+  //   var cancelButton = new kintoneUIComponent.Button({
+  //     text: 'Cancel button😳'
+  //   });
+  //   var body = document.getElementsByTagName("BODY")[0];
+  //   body.appendChild(cancelButton.render());
+  //   cancelButton.on('click', function (event) {
+  //     console.log('cancel button on click');
+  //   });
 
-var button = new kintoneUIComponent.Button({text: 'button😊'});
-var body = document.getElementsByTagName("BODY")[0];
-body.appendChild(button.render());
-button.disable();
+  //   var submitButton = new kintoneUIComponent.Button({
+  //     text: '😳Submit button'
+  //   });
+  //   var body = document.getElementsByTagName("BODY")[0];
+  //   body.appendChild(submitButton.render());
+  //   submitButton.on('click', function (event) {
+  //     console.log('submit button on click');
+  //   });
 
-var button = new kintoneUIComponent.Button({text: 'button😡'});
-var body = document.getElementsByTagName("BODY")[0];
-body.appendChild(button.render());
-button.hide();
-
-var button = new kintoneUIComponent.Button({text: 'button 😋'});
-var body = document.getElementsByTagName("BODY")[0];
-body.appendChild(button.render());
-
-var button = new kintoneUIComponent.Button({text: 'button😳'});
-var body = document.getElementsByTagName("BODY")[0];
-body.appendChild(button.render());
-button.on('click', function(event) {
-    console.log('on click');
-});
-
-var button = new kintoneUIComponent.Button({text: 'button😟'});
-var body = document.getElementsByTagName("BODY")[0];
-body.appendChild(button.render());
-button.setType('normal');
-
-var button = new kintoneUIComponent.Button({text: 'button😡'});
-var body = document.getElementsByTagName("BODY")[0];
-body.appendChild(button.render());
-button.setText('submit');
-
-var button = new kintoneUIComponent.Button({text: 'button🥺'});
-var body = document.getElementsByTagName("BODY")[0];
-body.appendChild(button.render());
-
-var button = new kintoneUIComponent.Button({
-  text: 'Submit😫',
-  type: 'submit'
-});
+  //     $('.kintone-si-buttons').body.appendChild(buttons.render());
+  // }
 
 })(jQuery, kintone.$PLUGIN_ID);
