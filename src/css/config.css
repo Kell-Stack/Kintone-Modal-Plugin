@@ -5,3 +5,8 @@
 .kintoneplugin-input-text {
   width: 20em;
 }
+
+h3.kintone-titlee {
+  font-size: 100px;
+  color: magenta;
+}
