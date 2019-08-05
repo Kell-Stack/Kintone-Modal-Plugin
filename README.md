@@ -51,7 +51,7 @@ The scope of the plugin will be limited to replacing a "blank space" field eleme
 ![Image of phase 1 - save/cancel button & table](https://user-images.githubusercontent.com/45135493/61895425-81263300-aec7-11e9-8bf4-6751ed93c99e.png)
 
 
-### **Processes (pseudo code with Georgina)**
+### **Processes**
 
 **Phase 1**
 1. Create your layout for config section
@@ -72,31 +72,19 @@ The scope of the plugin will be limited to replacing a "blank space" field eleme
             * take the object that contains the config settings (information from table) and make an API call to set the config then return to the list of all plugins page (where conditional formatting and tooltip are)`
 3. **KEEP IN MIND**
   - alert messages on the save button if one column is filled but not the other -> alert for incomplete data
-  - make an API call to get the form fields, populate and convert into the following format:
-    ~~~
-    items: [
-           {
-               label: 'Orange',
-               value: 'Orange',
-               isDisabled: false
-           },
-           {
-               label: 'Banana',
-               value: 'Appetizer',
-               isDisabled: true
-           },
-           {
-               label: 'Lemon',
-               value: 'Lemon',
-               isDisabled: true
-           },
-         ],
-         value: 'Banana'
-       },
-    ~~~
 
-  * create `var` with this format and set it for the "items"
-  * the value will be the **FIELD CODE** (will get an error if you put a value that is not a valid field code name)
+**Psuedo**
+  Saving data:
+
+  1. Attempt to get data from each column
+  - Construct result data structure
+  2. Validate data: 
+  - if valid, proceed
+  - if invalid, display error message
+  3. Send data to API
+  - Success/error callbacks, 
+    - if error display error
+    - if success, navigate to old page (using window.history.back()) -> alert user to update app to see changes 
 
 
 ## Timeline
@@ -104,8 +92,7 @@ This is a rough estimate of the timeline it will take to deploy the first iterat
 
 ***Phase 1 Due Dates***
   - July 24th: Diagram & spec review.
-  - July 31st: Table & Save/Cancel Buttons
-  - July xx: Lorem ipsum dolor
+  - August 2nd: UI-Component Table & Save/Cancel Buttons
 
 ***Phase 2 Due Dates***
   - August xx: Lorem ipsum dolor

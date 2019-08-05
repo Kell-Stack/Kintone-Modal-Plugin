@@ -30,7 +30,7 @@ jQuery.noConflict();
   //      i. if error display error
   //      ii. if success, navigate to old page (using HTML5 History API=> window.history.back()) -> alert user to update app to see changes 
 
-
+  
 
   function getBlankFields() {
     let param = {
@@ -43,23 +43,26 @@ jQuery.noConflict();
     }, function (error) {
       // error
       console.log(error);
+
+    var config = kintone.plugin.app.getConfig(resp.layout);
+      console.log(config, "🦁")
     });
 
-
+    
     //from the resp you want the blank field element id (this type is SPACER)
-    // layout: Array(7)
-    // 0:
-    // fields: Array(2)
-    // 0: {type: "LABEL", label: "<div><div style="text-align:left"><b><font size="6">Daily Lunch Orders</font></b></div></div>", size: {…}}
-    // 1:
-    // elementId: "titleModal"
-    // size: {width: "117", height: "66"}
-    // type: "SPACER"
-    // __proto__: Object
-    // length: 2
-    // __proto__: Array(0)
-    // type: "ROW"
-    // __proto__: Object
+                  // layout: Array(7)
+                  // 0:
+                  // fields: Array(2)
+                  // 0: {type: "LABEL", label: "<div><div style="text-align:left"><b><font size="6">Daily Lunch Orders</font></b></div></div>", size: {…}}
+                  // 1:
+                  // elementId: "titleModal"
+                  // size: {width: "117", height: "66"}
+                  // type: "SPACER"
+                  // __proto__: Object
+                  // length: 2
+                  // __proto__: Array(0)
+                  // type: "ROW"
+                  // __proto__: Object
 
     // create function that wil filter through resp obj and return only blank space fields
 
@@ -183,17 +186,9 @@ jQuery.noConflict();
     ]
   });
 
-  var elId = modal;
-
-  var config = {
-    layout: [{
-      type: "SPACER",
-      elementId: elId,
-      
-    }]
-  }
-  console.log(config, "yerrrrrrr boyyyy")
-  kintone.plugin.app.setConfig(config)
+  // var config = kintone.plugin.app.getConfig();
+  //       console.log(config, "🦁")
+        // kintone.plugin.app.setConfig(config)
 
   var savebutton = new kintoneUIComponent.Button({
     text: 'will be a save button😳'
@@ -213,7 +208,7 @@ jQuery.noConflict();
     console.log('on cancel click');
   });
 
-  $('.kintone-titlee').text('SUWOOO')
+  // $('.kintone-titlee').text('SUWOOO')
   $('.kintone-si-conditions').append(table.render());
 
 })(jQuery, kintone.$PLUGIN_ID);
