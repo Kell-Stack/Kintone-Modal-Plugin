@@ -30,6 +30,12 @@ jQuery.noConflict();
 
   //use jssdk get form layout and create a promise 
   //once problem is resolved, populate fields that i need SPACER
+  
+
+
+  // ######################################################################################-----> Get Blank Space
+ 
+
   function getBlankFields() {
     var param = {
       'app': kintone.app.getId()
@@ -38,27 +44,22 @@ jQuery.noConflict();
     kintone.api(kintone.api.url('/k/v1/app/form/layout', true), 'GET', param, function (resp) {
       console.log(param, "🏀app id")
       // success
-      console.log(resp, "🚨 layout field to grab spacer types🚨");
+      console.log(resp.layout, "🚨🚨🚨layout field to grab spacer types🚨");
+
+      // for (const i in resp){
+        
+      // }
 
       var configGET = kintone.plugin.app.getConfig(PLUGIN_ID);
         console.log(configGET, "🦁🦁🦁🦁🦁🦁🦁🦁🦁")
-
-      var config = defaultRowData.dropDown
-      console.log(config,"🐶🐶🐶supposedly config")
-
-      kintone.plugin.app.setConfig(config)
-
     }, function (error) {
       // error
       console.log(error);
     });
+
     // create function that will filter through resp obj and return only blank space fields
 
-    //user sign in getConfig
     // input config is going to be the prev config settings objects and putting that in a save object
-
-    // var config = kintone.plugin.app.getConfig(resp.layout);
-    // console.log(config, "🦁")
 
     //does the config exist?
     //if yes, populate table with the config
@@ -67,6 +68,9 @@ jQuery.noConflict();
 
   }
   getBlankFields()
+
+
+// ####################################################################################-----> Custom Cell
 
   var customCell = function () {
     return {
@@ -100,11 +104,16 @@ jQuery.noConflict();
         if (textAreaVal && this.textAreaField._reactObject) {
           this.textAreaField.getValue(textAreaVal.value);
         }
-        console.log(this.textAreaField, "😐update text area object")
+        console.log(this.textAreaField, "😐😐update text area object😐😐")
       }
       //once user saves you will setConfig
     }
   };
+
+
+// #####################################################################################------>Data
+
+
   // initial data of a table
   var initialData = [{
     text: {
@@ -138,9 +147,10 @@ jQuery.noConflict();
 
   // default row data of a table, this data will be used to create new row
   var defaultRowData = initialData[0]
-
   // return this data to override default row data onRowAdd
   var overriddenRowData = initialData[0]
+
+// #################################################################################----->Table
 
   var table = new kintoneUIComponent.Table({
     // initial table data
@@ -168,8 +178,28 @@ jQuery.noConflict();
     ]
   });
 
+// ###########################################################################----->Set Value
+
+
+
+var config = defaultRowData.dropDown
+console.log(config,"🐶🐶🐶supposedly config")
+
+
+
+// var test = config.label
+// console.log(test, "👅")
+// var configExist1 = table.defaultRowData.setValue(test)
+// console.log(configExist1, "text💜test")
+// var configExist2 = table.setValue(config)
+// console.log(configExist2, "💜test💜")
+
+
+// ###########################################################################----->Buttons
+
+
   var savebutton = new kintoneUIComponent.Button({
-    text: 'will be a save button😳'
+    text: 'will be a save button✅'
   });
   var bodySB = document.getElementsByTagName("BODY")[0];
   bodySB.appendChild(savebutton.render());
@@ -178,7 +208,7 @@ jQuery.noConflict();
   });
 
   var cancelbutton = new kintoneUIComponent.Button({
-    text: 'will be a cancel button😳'
+    text: 'will be a cancel button❌'
   });
   var bodyCB = document.getElementsByTagName("BODY")[0];
   bodyCB.appendChild(cancelbutton.render());
@@ -186,7 +216,11 @@ jQuery.noConflict();
     console.log('on cancel click');
   });
 
-  // $('.kintone-titlee').text('SUWOOO')
+
+  // #######################################################################################-----> Render
+
+
+  $('.kintone-titlee').text('Tooltip Label Plugin')
   $('.kintone-si-conditions').append(table.render());
 
 })(jQuery, kintone.$PLUGIN_ID);
