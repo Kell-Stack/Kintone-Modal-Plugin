@@ -2,11 +2,9 @@ jQuery.noConflict();
 
 (function ($, PLUGIN_ID) {
   'use strict';
-  // var kintoneJSSDK = require('@kintone/kintone-js-sdk/dist/kintone-js-sdk.min');
+  var kintoneJSSDK = require('@kintone/kintone-js-sdk/dist/kintone-js-sdk.min');
   var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
   require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
-
-  // input config is going to be the prev config settings objects and putting that in a save object
 
   //TO DO
   // request data from app => once client adds plugin to their app it should already be fetching data only from the blank fields
@@ -33,50 +31,40 @@ jQuery.noConflict();
   //use jssdk get form layout and create a promise 
   //once problem is resolved, populate fields that i need SPACER
   function getBlankFields() {
-    let param = {
+    var param = {
       'app': kintone.app.getId()
     }
+
     kintone.api(kintone.api.url('/k/v1/app/form/layout', true), 'GET', param, function (resp) {
       console.log(param, "🏀app id")
       // success
-      console.log(resp, "skrrrrrrt🚨🚨🚨🚨skrrrrrrt");
+      console.log(resp, "🚨 layout field to grab spacer types🚨");
+
+
+      var config = kintone.plugin.app.getConfig(PLUGIN_ID);
+        console.log(config, "🦁🦁🦁🦁🦁🦁🦁🦁🦁")
+
+
+
     }, function (error) {
       // error
       console.log(error);
-
-    var config = kintone.plugin.app.getConfig(resp.layout);
-      console.log(config, "🦁")
-
-      //does the config exist?
-      //if yes, populate table with the config
-      //if no , populate table w form field
-      //able.setvalue
     });
-
-    
-    //from the resp you want the blank field element id (this type is SPACER)
-                  // layout: Array(7)
-                  // 0:
-                  // fields: Array(2)
-                  // 0: {type: "LABEL", label: "<div><div style="text-align:left"><b><font size="6">Daily Lunch Orders</font></b></div></div>", size: {…}}
-                  // 1:
-                  // elementId: "titleModal"
-                  // size: {width: "117", height: "66"}
-                  // type: "SPACER"
-                  // __proto__: Object
-                  // length: 2
-                  // __proto__: Array(0)
-                  // type: "ROW"
-                  // __proto__: Object
-
-    // create function that wil filter through resp obj and return only blank space fields
+    // create function that will filter through resp obj and return only blank space fields
 
     //user sign in getConfig
+    // input config is going to be the prev config settings objects and putting that in a save object
+
+    // var config = kintone.plugin.app.getConfig(resp.layout);
+    // console.log(config, "🦁")
+
+    //does the config exist?
+    //if yes, populate table with the config
+    //if no , populate table w form field
+    //able.setvalue
+
   }
-
   getBlankFields()
-
-
 
   var customCell = function () {
     return {
@@ -86,7 +74,7 @@ jQuery.noConflict();
       }) {
         var span = document.createElement('span');
         var textAreaField = new kintoneUIComponent.TextArea({
-          value: "⛩⛩⛩⛩⛩"
+          value: "⛩Modal Text⛩"
         });
         console.log(textAreaField, "👽text area object")
 
@@ -112,14 +100,9 @@ jQuery.noConflict();
         }
         console.log(this.textAreaField, "😐update text area object")
       }
-
       //once user saves you will setConfig
     }
   };
-// START WITH ONE ITEM THAT IS AN EMPTY VALUE 
-// label: ------ 
-// value: "empty string"
-// isDabled: false
   // initial data of a table
   var initialData = [{
     text: {
@@ -128,19 +111,18 @@ jQuery.noConflict();
     // initial data of dropdown
     dropDown: {
       items: [{
-          label: '--------',
-          value: 'blank',
-          isDisabled: false
-        },
-      ],
+        label: '--------',
+        value: 'blank',
+        isDisabled: false
+      }, ],
       value: 'blank'
     },
-    label: {
-      text: 'Name',
-      textColor: '#e74c3c',
-      backgroundColor: 'yellow',
-      isRequired: true
-    },
+    // label: {
+    //   text: 'Name',
+    //   textColor: '#e74c3c',
+    //   backgroundColor: 'yellow',
+    //   isRequired: true
+    // },
     iconBtn: {
       type: 'insert',
       color: 'blue',
@@ -176,17 +158,13 @@ jQuery.noConflict();
         }
       },
       {
-        header: '💜Modal Text-Custom cell contain 1 textarea',
+        header: '💜Modal Text-Custom',
         cell: function () {
           return customCell()
         }
       }
     ]
   });
-
-  // var config = kintone.plugin.app.getConfig();
-  //       console.log(config, "🦁")
-        // kintone.plugin.app.setConfig(config)
 
   var savebutton = new kintoneUIComponent.Button({
     text: 'will be a save button😳'
