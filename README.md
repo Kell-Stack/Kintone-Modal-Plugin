@@ -75,6 +75,7 @@ The scope of the plugin will be limited to replacing a "blank space" field eleme
   - alert messages on the save button if one column is filled but not the other -> alert for incomplete data
 
 **Pseudo**
+
   Saving data:
 
   1. Attempt to get data from each column

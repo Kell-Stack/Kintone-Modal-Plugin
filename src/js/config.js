@@ -129,11 +129,11 @@ jQuery.noConflict();
     dropDown: {
       items: [{
           label: '--------',
-          value: '',
+          value: 'blank',
           isDisabled: false
         },
       ],
-      value: 'd2'
+      value: 'blank'
     },
     label: {
       text: 'Name',
@@ -153,10 +153,10 @@ jQuery.noConflict();
   }, ];
 
   // default row data of a table, this data will be used to create new row
-  var defaultRowData = JSON.parse.stringify(initialData[0])
+  var defaultRowData = initialData[0]
 
   // return this data to override default row data onRowAdd
-  var overriddenRowData = JSON.parse.stringify(initialData[0])
+  var overriddenRowData = initialData[0]
 
   var table = new kintoneUIComponent.Table({
     // initial table data
