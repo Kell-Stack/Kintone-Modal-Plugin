@@ -40,11 +40,13 @@ jQuery.noConflict();
       // success
       console.log(resp, "🚨 layout field to grab spacer types🚨");
 
+      var configGET = kintone.plugin.app.getConfig(PLUGIN_ID);
+        console.log(configGET, "🦁🦁🦁🦁🦁🦁🦁🦁🦁")
 
-      var config = kintone.plugin.app.getConfig(PLUGIN_ID);
-        console.log(config, "🦁🦁🦁🦁🦁🦁🦁🦁🦁")
+      var config = defaultRowData.dropDown
+      console.log(config,"🐶🐶🐶supposedly config")
 
-
+      kintone.plugin.app.setConfig(config)
 
     }, function (error) {
       // error
