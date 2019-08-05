@@ -46,9 +46,13 @@ jQuery.noConflict();
       // success
       console.log(resp.layout, "🚨🚨🚨layout field to grab spacer types🚨");
 
-      // for (const i in resp){
-        
-      // }
+      for (let i = 0; i < resp.layout.length; i++) {
+        // for (let j = 0; j < resp.layout[i].length; j++) {
+          // var test3 = resp.layout[i][j]
+          console.log(resp.layout[i], "💋")
+
+        // }
+      }
 
       var configGET = kintone.plugin.app.getConfig(PLUGIN_ID);
         console.log(configGET, "🦁🦁🦁🦁🦁🦁🦁🦁🦁")
