@@ -30,8 +30,8 @@ jQuery.noConflict();
   //      i. if error display error
   //      ii. if success, navigate to old page (using HTML5 History API=> window.history.back()) -> alert user to update app to see changes 
 
-  
-
+  //use jssdk get form layout and create a promise 
+  //once problem is resolved, populate fields that i need SPACER
   function getBlankFields() {
     let param = {
       'app': kintone.app.getId()
@@ -46,6 +46,11 @@ jQuery.noConflict();
 
     var config = kintone.plugin.app.getConfig(resp.layout);
       console.log(config, "🦁")
+
+      //does the config exist?
+      //if yes, populate table with the config
+      //if no , populate table w form field
+      //able.setvalue
     });
 
     
@@ -111,7 +116,10 @@ jQuery.noConflict();
       //once user saves you will setConfig
     }
   };
-
+// START WITH ONE ITEM THAT IS AN EMPTY VALUE 
+// label: ------ 
+// value: "empty string"
+// isDabled: false
   // initial data of a table
   var initialData = [{
     text: {
@@ -120,19 +128,9 @@ jQuery.noConflict();
     // initial data of dropdown
     dropDown: {
       items: [{
-          label: 'Data from app 1',
-          value: 'd1',
+          label: '--------',
+          value: '',
           isDisabled: false
-        },
-        {
-          label: 'Data from app 2',
-          value: 'd2',
-          isDisabled: false
-        },
-        {
-          label: 'Data from app 3',
-          value: 'd3',
-          isDisabled: true
         },
       ],
       value: 'd2'
@@ -155,10 +153,10 @@ jQuery.noConflict();
   }, ];
 
   // default row data of a table, this data will be used to create new row
-  var defaultRowData = initialData[0]
+  var defaultRowData = JSON.parse.stringify(initialData[0])
 
   // return this data to override default row data onRowAdd
-  var overriddenRowData = initialData[0]
+  var overriddenRowData = JSON.parse.stringify(initialData[0])
 
   var table = new kintoneUIComponent.Table({
     // initial table data

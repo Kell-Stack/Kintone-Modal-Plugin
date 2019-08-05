@@ -67,13 +67,14 @@ The scope of the plugin will be limited to replacing a "blank space" field eleme
 2. Create save and cancel button
     - Use the built-in event listeners from UI component to listen for the click trigger
         - For cancel button:
-            * `.hover()` should return back to the settings page `history.back()`
+            * should return back to the app's plugin page 
         - For save button: 
-            * take the object that contains the config settings (information from table) and make an API call to set the config then return to the list of all plugins page (where conditional formatting and tooltip are)`
+          -`setConfig()`
+            * take the object that contains the config settings(information from table) and make an API call to set the config then return to app's plugin page
 3. **KEEP IN MIND**
   - alert messages on the save button if one column is filled but not the other -> alert for incomplete data
 
-**Psuedo**
+**Pseudo**
   Saving data:
 
   1. Attempt to get data from each column
@@ -84,7 +85,7 @@ The scope of the plugin will be limited to replacing a "blank space" field eleme
   3. Send data to API
   - Success/error callbacks, 
     - if error display error
-    - if success, navigate to old page (using window.history.back()) -> alert user to update app to see changes 
+    - if success, navigate to old page (`using window.history.back()`) -> alert user to update app to see changes 
 
 
 ## Timeline
@@ -92,15 +93,15 @@ This is a rough estimate of the timeline it will take to deploy the first iterat
 
 ***Phase 1 Due Dates***
   - July 24th: Diagram & spec review.
-  - August 2nd: UI-Component Table & Save/Cancel Buttons
+  - August 2nd: UI-Component Table & Save/Cancel Buttons w/o functionality
 
 ***Phase 2 Due Dates***
-  - August xx: Lorem ipsum dolor
+  - August 9th: Functionality for to get and set config.js file
   - August xx: Lorem ipsum dolor
   - August xx: Lorem ipsum dolor
 
 ***Phase 3 Due Dates***
-  - August xx: Lorem ipsum dolor
+  - August xx: Create spec for desktop.js file
   - August xx: Lorem ipsum dolor
   - August xx: Lorem ipsum dolor
 
