@@ -45,13 +45,19 @@ jQuery.noConflict();
       console.log(param, "🏀app id")
       // success
       console.log(resp.layout, "🚨🚨🚨layout field to grab spacer types🚨");
+      var getSpacer = resp.layout
+      var kelly = getSpacer.fields
+      console.log(kelly, "kelly sousa☎️")
+      for (let i = 0; i < getSpacer.length; i++) {
+      //   for (let j = 0; j < getSpacer[i].length; j++) {
+      //     if (resp.layout.fields.type === "SPACER" ){
+      //       console.log("yeeeeet🎈")
+      //     }
+          Object.keys(getSpacer)
+          console.log(Object.keys(getSpacer)[i], "💋")
+      //     // console.log(getSpacer[i].type, "👄")
 
-      for (let i = 0; i < resp.layout.length; i++) {
-        // for (let j = 0; j < resp.layout[i].length; j++) {
-          // var test3 = resp.layout[i][j]
-          console.log(resp.layout[i], "💋")
-
-        // }
+      //   }
       }
 
       var configGET = kintone.plugin.app.getConfig(PLUGIN_ID);
