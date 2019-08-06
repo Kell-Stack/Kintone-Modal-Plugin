@@ -35,6 +35,21 @@ jQuery.noConflict();
 
   // ######################################################################################-----> Get Blank Space
  
+  var findSpacers = (objLayout) => {
+      var layout = objLayout.layout
+      var results = []
+      layout.forEach(row => {
+        // console.log(row)
+        var fields = row.fields
+        fields.forEach(field => {
+          if (field.type === 'SPACER') {
+            results.push(field)
+          }
+        })
+      });
+
+    return results
+  }
 
   function getBlankFields() {
     var param = {
@@ -44,21 +59,9 @@ jQuery.noConflict();
     kintone.api(kintone.api.url('/k/v1/app/form/layout', true), 'GET', param, function (resp) {
       console.log(param, "🏀app id")
       // success
-      console.log(resp.layout, "🚨🚨🚨layout field to grab spacer types🚨");
-      var getSpacer = resp.layout
-      var kelly = getSpacer.fields
-      console.log(kelly, "kelly sousa☎️")
-      for (let i = 0; i < getSpacer.length; i++) {
-      //   for (let j = 0; j < getSpacer[i].length; j++) {
-      //     if (resp.layout.fields.type === "SPACER" ){
-      //       console.log("yeeeeet🎈")
-      //     }
-          Object.keys(getSpacer)
-          console.log(Object.keys(getSpacer)[i], "💋")
-      //     // console.log(getSpacer[i].type, "👄")
-
-      //   }
-      }
+      console.log(resp, "🚨layout field to grab spacer types🚨");
+      var spacers = findSpacers(resp)
+      console.log(spacers, "💪")
 
       var configGET = kintone.plugin.app.getConfig(PLUGIN_ID);
         console.log(configGET, "🦁🦁🦁🦁🦁🦁🦁🦁🦁")
@@ -92,7 +95,7 @@ jQuery.noConflict();
         var textAreaField = new kintoneUIComponent.TextArea({
           value: "⛩Modal Text⛩"
         });
-        console.log(textAreaField, "👽text area object")
+        // console.log(textAreaField, "👽text area object")
 
         span.appendChild(textAreaField.render());
 
@@ -114,7 +117,7 @@ jQuery.noConflict();
         if (textAreaVal && this.textAreaField._reactObject) {
           this.textAreaField.getValue(textAreaVal.value);
         }
-        console.log(this.textAreaField, "😐😐update text area object😐😐")
+        // console.log(this.textAreaField, "😐😐update text area object😐😐")
       }
       //once user saves you will setConfig
     }
@@ -195,14 +198,6 @@ jQuery.noConflict();
 var config = defaultRowData.dropDown
 console.log(config,"🐶🐶🐶supposedly config")
 
-
-
-// var test = config.label
-// console.log(test, "👅")
-// var configExist1 = table.defaultRowData.setValue(test)
-// console.log(configExist1, "text💜test")
-// var configExist2 = table.setValue(config)
-// console.log(configExist2, "💜test💜")
 
 
 // ###########################################################################----->Buttons
