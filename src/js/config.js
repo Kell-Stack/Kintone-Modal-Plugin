@@ -49,16 +49,22 @@ jQuery.noConflict();
         }
       })
     })
-    console.log(fieldResults, "🦶🦶nfw")
+    console.log(fieldResults, "🦶🦶nsfw")
     
-    
+  
     fieldResults.forEach(index => {
       var elIdKey = index.elementId
-        // if () {}
-      console.log(elIdKey, "kellysogood")
-      // elIdKey.forEach(fieldResultsIndex => {
-      //   console.log(Object.values(fieldResultsIndex, "🐳whale🐳")
-      // )})
+      console.log(elIdKey, "🦋🦋")
+    }
+  
+  //     elIdKey.forEach(elID => {
+  //       for (key in elID) {
+  //         return elID.value
+  //       }
+  //     })
+  //     // elIdKey.forEach(fieldResultsIndex => {
+  //     //   console.log(Object.values(fieldResultsIndex, "🐳whale🐳")
+  //     // )})
       
       
       
@@ -66,9 +72,9 @@ jQuery.noConflict();
       
       
       
-      // console.log(Object.values.elementId, "🐶")
-    });
-  }
+  //     console.log(Object.values.elID, "🐶")
+  //   });
+  // }
 
 
 
