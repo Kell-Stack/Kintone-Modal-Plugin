@@ -38,7 +38,7 @@ jQuery.noConflict();
   var findSpacers = (objLayout) => {
     var layout = objLayout.layout
     var fieldResults = []
-    var elIdResults = []
+    // var elIdResults = []
    
    
     layout.forEach(row => {
@@ -185,18 +185,20 @@ jQuery.noConflict();
     }
   }, ];
 
+  // JSON stringify then parse before we set it 
   // default row data of a table, this data will be used to create new row
-  var defaultRowData = initialData[0]
+  var defaultRowData = JSON.parse(JSON.stringify(initialData[0]))
+  // JSON stringify then parse before we set it 
   // return this data to override default row data onRowAdd
-  var overriddenRowData = initialData[0]
+  var overriddenRowData = JSON.parse(JSON.stringify(initialData[0]))
 
 // #################################################################################----->Table
 
   var table = new kintoneUIComponent.Table({
     // initial table data
     data: initialData,
-    // default row data on row add
-    defaultRowData: spacers,
+    // default row data on row addx
+    defaultRowData: defa,
     onRowAdd: function (e) {
       console.log('table.onAdd', e);
       // if onRowAdd does not return anything, defaultRowData will be used to create new table row
