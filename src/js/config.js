@@ -7,17 +7,16 @@ jQuery.noConflict();
   require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
 
   //TO DO
-  // request data from app => once client adds plugin to their app it should already be fetching data only from the blank fields
+  // request data from app => once client adds plugin to their app it should already be fetching data only from the blank fieldsv ✅
   // make save and cancel buttons w/o function ✅
-  // make api call request to layout api
+  // make api call request to layout api ✅
 
   //PSEUDO CODE
 
   // A. App initialization: 
-  //  1. Get data from the API 
+  //  1. Get data from the API ✅
 
   // B. Saving data:
-
   //  1. Attempt to get data from each column
   //     a. Construct result data structure
   //  2. Validate data: 
@@ -29,6 +28,7 @@ jQuery.noConflict();
   //      ii. if success, navigate to old page (using HTML5 History API=> window.history.back()) -> alert user to update app to see changes 
 
   //use jssdk get form layout and create a promise 
+        //haven't used jssdk yet
   //once problem is resolved, populate fields that i need SPACER
   
 
@@ -36,22 +36,43 @@ jQuery.noConflict();
   // ######################################################################################-----> Get Blank Space
  
   var findSpacers = (objLayout) => {
-      var layout = objLayout.layout
-      var results = []
-      layout.forEach(row => {
-        // console.log(row)
-        var fields = row.fields
-        fields.forEach(field => {
-          if (field.type === 'SPACER') {
-            results.push(field)
-          }
-        })
-      });
-
-    return results
+    var layout = objLayout.layout
+    var fieldResults = []
+    var elIdResults = []
+   
+   
+    layout.forEach(row => {
+      var fields = row.fields
+      fields.forEach(field => {
+        if (field.type === 'SPACER') {
+          fieldResults.push(field)
+        }
+      })
+    })
+    console.log(fieldResults, "🦶🦶nfw")
+    
+    
+    fieldResults.forEach(index => {
+      var elIdKey = index.elementId
+        // if () {}
+      console.log(elIdKey, "kellysogood")
+      // elIdKey.forEach(fieldResultsIndex => {
+      //   console.log(Object.values(fieldResultsIndex, "🐳whale🐳")
+      // )})
+      
+      
+      
+      
+      
+      
+      
+      // console.log(Object.values.elementId, "🐶")
+    });
   }
 
-  function getBlankFields() {
+
+
+  function callAPI () {
     var param = {
       'app': kintone.app.getId()
     }
@@ -61,31 +82,31 @@ jQuery.noConflict();
       // success
       console.log(resp, "🚨layout field to grab spacer types🚨");
       var spacers = findSpacers(resp)
-      console.log(spacers, "💪")
+      console.log(spacers, "💪💪💪")
 
       var configGET = kintone.plugin.app.getConfig(PLUGIN_ID);
-        console.log(configGET, "🦁🦁🦁🦁🦁🦁🦁🦁🦁")
+        console.log(configGET, "🦁")
     }, function (error) {
       // error
       console.log(error);
     });
-
-    // create function that will filter through resp obj and return only blank space fields
+    // create function that will filter through resp obj and return only blank space fields ✅
 
     // input config is going to be the prev config settings objects and putting that in a save object
 
     //does the config exist?
     //if yes, populate table with the config
     //if no , populate table w form field
-    //able.setvalue
+    //table.setvalue
 
   }
-  getBlankFields()
+  callAPI()
 
 
 // ####################################################################################-----> Custom Cell
 
   var customCell = function () {
+    var textAreaInput;
     return {
       init: function ({
         rowData,
@@ -93,7 +114,7 @@ jQuery.noConflict();
       }) {
         var span = document.createElement('span');
         var textAreaField = new kintoneUIComponent.TextArea({
-          value: "⛩Modal Text⛩"
+          value: {textAreaInput}
         });
         // console.log(textAreaField, "👽text area object")
 
@@ -124,7 +145,7 @@ jQuery.noConflict();
   };
 
 
-// #####################################################################################------>Data
+// #####################################################################################---->Data
 
 
   // initial data of a table
@@ -135,7 +156,7 @@ jQuery.noConflict();
     // initial data of dropdown
     dropDown: {
       items: [{
-        label: '--------',
+        label: '---------',
         value: 'blank',
         isDisabled: false
       }, ],
@@ -169,7 +190,7 @@ jQuery.noConflict();
     // initial table data
     data: initialData,
     // default row data on row add
-    defaultRowData: defaultRowData,
+    defaultRowData: spacers,
     onRowAdd: function (e) {
       console.log('table.onAdd', e);
       // if onRowAdd does not return anything, defaultRowData will be used to create new table row
@@ -194,10 +215,8 @@ jQuery.noConflict();
 // ###########################################################################----->Set Value
 
 
-
 var config = defaultRowData.dropDown
 console.log(config,"🐶🐶🐶supposedly config")
-
 
 
 // ###########################################################################----->Buttons
@@ -211,7 +230,6 @@ console.log(config,"🐶🐶🐶supposedly config")
   savebutton.on('click', function (event) {
     console.log('on save click');
   });
-
   var cancelbutton = new kintoneUIComponent.Button({
     text: 'will be a cancel button❌'
   });
