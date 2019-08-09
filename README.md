@@ -57,7 +57,7 @@ The scope of the plugin will be limited to replacing a "blank space" field eleme
 1. Create your layout for config section
     - Format table -look into the example code for table in the UI component 
         - References 
-            - UI-Component:  Table (https://kintone.github.io/kintone-ui-component/latest/Reference/Table/)
+            - UI-Component: Table (https://kintone.github.io/kintone-ui-component/latest/Reference/Table/)
             - Conditional Formatting config.js file
                 - create at least two columns -> field that you want to add the modal to & the message (think conditional format table)
                 - you will need to call a function so that you can add new rows (new conditions/new message/new modal)

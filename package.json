@@ -15,7 +15,6 @@
     "@babel/preset-env": "^7.5.5",
     "@cybozu/eslint-config": "^4.0.1",
     "@kintone/plugin-packer": "^1.1.0-alpha.0",
-    "@kintone/plugin-uploader": "^2.4.8",
     "@kintone/webpack-plugin-kintone-plugin": "^3.0.0",
     "babel-loader": "^8.0.6",
     "eslint": "^5.16.0",
@@ -27,8 +26,10 @@
     "@babel/polyfill": "^7.4.4",
     "@kintone/kintone-js-sdk": "^0.4.0",
     "@kintone/kintone-ui-component": "^0.3.3",
+    "@kintone/plugin-uploader": "^3.0.2",
     "css-loader": "^3.1.0",
     "jquery": "^3.4.1",
+    "puppeteer": "^1.19.0",
     "style-loader": "^0.23.1",
     "url-loader": "^2.1.0"
   }
