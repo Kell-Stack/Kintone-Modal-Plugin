@@ -35,6 +35,7 @@ jQuery.noConflict();
   // ######################################################################################-----> Get Blank Space
 
   // create function that will filter through resp obj and return only blank space fields
+  // when refactoring try to use for loop or map as oppsed to nested forEach
   var findSpacers = (objLayout) => {
     let layout = objLayout.layout
     console.log(layout, "👻rows girl")
@@ -42,7 +43,7 @@ jQuery.noConflict();
 
     layout.forEach(row => {
       var fields = row.fields;
-      // console.log(fields, "🤯")
+      console.log(fields, "🤯fields")
       fields.forEach(field => {
         if (field.type === 'SPACER') {
           fieldResults.push(field);
@@ -54,7 +55,6 @@ jQuery.noConflict();
       })
       console.log(elIdArray, "😡")
     })
-    console.log(elIdArray, "👹")
   }
   // ############################################----->Call Layout API
 
@@ -128,11 +128,18 @@ jQuery.noConflict();
     },
     // initial data of dropdown
     dropDown: {
-      items: [{
+      items: [
+      {
         label: '--------',
         value: 'blank',
         isDisabled: false
-      }, ],
+      },
+      {
+        label: 'dadefsfcesfd👾',
+        value: spacers,
+        isDisabled: false
+    },
+     ],
       value: 'blank'
     },
     // label: {
@@ -154,6 +161,7 @@ jQuery.noConflict();
 
   // default row data of a table, this data will be used to create new row
   var defaultRowData = initialData[0]
+  
   // return this data to override default row data onRowAdd
   var overriddenRowData = initialData[0]
 
