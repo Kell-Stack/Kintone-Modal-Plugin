@@ -49,6 +49,12 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   //kintone.promise here 
   //call .then
   var findSpacers = (objLayout) => {
+    var items =  [{
+      label: '--------',
+      value: '',
+      isDisabled: false
+    }]
+
     let layout = objLayout.layout
     console.log(layout, "👻rows girl")
     var fieldResults = []
@@ -59,57 +65,30 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       fields.forEach(field => {
         if (field.type === 'SPACER') {
           fieldResults.push(field);
-          // console.log(fieldResults, "🤧🤧")
+          console.log(fieldResults, "🤧🤧")
         }
+      //[{}]
+      // fieldResults.forEach(space => {
+      //   var obj = {}
+      //   obj.label = space.elementId,
+      //   obj.value = space.elementId,
+      //   obj.isDisabled = false
+      //   items.push(obj)
+        
       })
-      var elIdArray = fieldResults.map(elID => {
-        return elID.elementId
-      })
-      console.log(elIdArray, "😡")
-      // console.log(elIdArray, "😡")
+    //   console.log(elIdArray, "😡")
+    //   // console.log(elIdArray, "😡")
     })
-
+    fieldResults.forEach(space => {
+      var obj = {}
+      obj.label = space.elementId,
+      obj.value = space.elementId,
+      obj.isDisabled = false
+      items.push(obj)
+    })
+    console.log(items, "👁👁👁")
+    return items
   }
-  // ############################################----->Call Layout API
-
-  function getSpacer() {
-    var connection = new kintoneJSSDK.Connection()
-    var kintoneApp = new kintoneJSSDK.App(connection)
-
-    kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
-      var spacers = rsp
-      findSpacers(spacers)
-    }).catch((err) => {
-      // This SDK return err with KintoneAPIExeption
-      console.log(err.get());
-    });
-  }
-
-  getSpacer()
-
-  //.then(rsp => {
-  //   console.log(rsp)
-  // })
-  //   function (resp) {
-  //     console.log(param, "🏀app id")
-  //     // success
-  //     console.log(resp, "🚨layout field to grab spacer types🚨");
-  //     return findSpacers
-  //     // console.log(findSpacers, "💪💪💪💪💪💪💪💪💪💪")
-
-
-  //   }, function (error) {
-  //     return error
-  //     // error
-  //     // console.log(error);
-  //   });
-  // }
-
-  // getSpacer().then( function (results){
-  //   console.log(results,"😩😩😩")
-  // })
-
-
 
   // ####################################################################################-----> Custom Cell
 
@@ -153,7 +132,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
 
   // #####################################################################################------>Data
-
+  var setTable = (spacers) => {
   // initial data of a table
   var initialData = [{
     text: {
@@ -161,18 +140,8 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     },
     // initial data of dropdown
     dropDown: {
-      items: [{
-          label: '--------',
-          value: 'blank',
-          isDisabled: false
-        },
-        // {
-        //   label: '',
-        //   value: 'spacers',
-        //   isDisabled: false
-        // },
-      ],
-      value: 'blank'
+      items: spacers,
+      value: ''
     },
     // label: {
     //   text: 'Name',
@@ -231,33 +200,33 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   // #################################################################################----->Table
 
 
-    var table = new kintoneUIComponent.Table({
-      // initial table data
-      data: initialData,
-      // default row data on row add
-      defaultRowData: defaultRowData,
-      onRowAdd: function (e) {
-        console.log('table.onAdd', e);
-        // if onRowAdd does not return anything, defaultRowData will be used to create new table row
-        // if below row data is returned, it will override defaultRowData to be used to create new table row
-        return JSON.parse(JSON.stringify(overriddenRowData));
-      },
-      columns: [{
-          header: 'Blank Space Element ID💜',
-          cell: function () {
-            return kintoneUIComponent.createTableCell('dropdown', 'dropDown')
-          }
-        },
-        {
-          header: '💜Modal Text-Custom',
-          cell: function () {
-            return customCell()
-          }
+  var table = new kintoneUIComponent.Table({
+    // initial table data
+    data: initialData,
+    // default row data on row add
+    defaultRowData: defaultRowData,
+    onRowAdd: function (e) {
+      console.log('table.onAdd', e);
+      // if onRowAdd does not return anything, defaultRowData will be used to create new table row
+      // if below row data is returned, it will override defaultRowData to be used to create new table row
+      return JSON.parse(JSON.stringify(overriddenRowData));
+    },
+    columns: [{
+        header: 'Blank Space Element ID💜',
+        cell: function () {
+          return kintoneUIComponent.createTableCell('dropdown', 'dropDown')
         }
-      ]
-    });
-  
-
+      },
+      {
+        header: '💜Modal Text-Custom',
+        cell: function () {
+          return customCell()
+        }
+      }
+    ]
+  });
+  return table
+}
   // ###########################################################################----->Set Value
 
   // input config is going to be the prev config settings objects and putting that in a save object
@@ -266,8 +235,8 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   //if yes, populate table with the config
   //if no , populate table w form field
   //table.setvalue
-  var config = defaultRowData.dropDown
-  console.log(config, "🐶🐶🐶supposedly config")
+  // var config = defaultRowData.dropDown
+  // console.log(config, "🐶🐶🐶supposedly config")
 
 
 
@@ -295,8 +264,25 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
   // #######################################################################################-----> Render
 
+  // ############################################----->Call Layout API
 
-  $('.kintone-titlee').text('Tooltip Label Plugin')
-  $('.kintone-si-conditions').append(table.render());
+  function getSpacer() {
+    var connection = new kintoneJSSDK.Connection()
+    var kintoneApp = new kintoneJSSDK.App(connection)
+
+    kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
+      var spacers = findSpacers(rsp)
+      console.log(spacers)
+      var table = setTable(spacers)
+      $('.kintone-titlee').text('Tooltip Label Plugin')
+      $('.kintone-si-conditions').append(table.render());
+    }).catch((err) => {
+      // This SDK return err with KintoneAPIExeption
+      console.log(err.get());
+    });
+  }
+
+  getSpacer()
+
 
 })(jQuery, kintone.$PLUGIN_ID);
