@@ -1,10 +1,12 @@
 jQuery.noConflict();
 
+import * as kintoneJSSDK from '@kintone/kintone-js-sdk'
+var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
+require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
+
 (function ($, PLUGIN_ID) {
   'use strict';
-  var kintoneJSSDK = require('@kintone/kintone-js-sdk/dist/kintone-js-sdk.min');
-  var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
-  require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
+
 
   //TO DO
   // request data from app => once client adds plugin to their app it should already be fetching data only from the blank fields✅
@@ -32,10 +34,20 @@ jQuery.noConflict();
   //once problem is resolved, populate fields that i need SPACER ✅
   // need to figure out field group with a blank space inside ✅
 
+
+  // #################################################################
+
+  // var spacers = findSpacers(resp)
+
+
+
   // ######################################################################################-----> Get Blank Space
 
   // create function that will filter through resp obj and return only blank space fields
   // when refactoring try to use for loop or map as oppsed to nested forEach
+
+  //kintone.promise here 
+  //call .then
   var findSpacers = (objLayout) => {
     let layout = objLayout.layout
     console.log(layout, "👻rows girl")
@@ -54,27 +66,49 @@ jQuery.noConflict();
         return elID.elementId
       })
       console.log(elIdArray, "😡")
+      // console.log(elIdArray, "😡")
     })
+
   }
   // ############################################----->Call Layout API
 
-  function callLayoutAPI() {
-    var param = {
-      'app': kintone.app.getId()
-    }
+  function getSpacer() {
+    var connection = new kintoneJSSDK.Connection()
+    var kintoneApp = new kintoneJSSDK.App(connection)
 
-    kintone.api(kintone.api.url('/k/v1/app/form/layout', true), 'GET', param, function (resp) {
-      console.log(param, "🏀app id")
-      // success
-      console.log(resp, "🚨layout field to grab spacer types🚨");
-      var spacers = findSpacers(resp)
-      console.log(spacers, "💪💪💪💪💪💪💪💪💪💪")
-    }, function (error) {
-      // error
-      console.log(error);
+    kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
+      var spacers = rsp
+      findSpacers(spacers)
+    }).catch((err) => {
+      // This SDK return err with KintoneAPIExeption
+      console.log(err.get());
     });
   }
-  callLayoutAPI()
+
+  getSpacer()
+
+  //.then(rsp => {
+  //   console.log(rsp)
+  // })
+  //   function (resp) {
+  //     console.log(param, "🏀app id")
+  //     // success
+  //     console.log(resp, "🚨layout field to grab spacer types🚨");
+  //     return findSpacers
+  //     // console.log(findSpacers, "💪💪💪💪💪💪💪💪💪💪")
+
+
+  //   }, function (error) {
+  //     return error
+  //     // error
+  //     // console.log(error);
+  //   });
+  // }
+
+  // getSpacer().then( function (results){
+  //   console.log(results,"😩😩😩")
+  // })
+
 
 
   // ####################################################################################-----> Custom Cell
@@ -120,7 +154,6 @@ jQuery.noConflict();
 
   // #####################################################################################------>Data
 
-
   // initial data of a table
   var initialData = [{
     text: {
@@ -128,18 +161,17 @@ jQuery.noConflict();
     },
     // initial data of dropdown
     dropDown: {
-      items: [
-      {
-        label: '--------',
-        value: 'blank',
-        isDisabled: false
-      },
-      {
-        label: 'dadefsfcesfd👾',
-        value: spacers,
-        isDisabled: false
-    },
-     ],
+      items: [{
+          label: '--------',
+          value: 'blank',
+          isDisabled: false
+        },
+        // {
+        //   label: '',
+        //   value: 'spacers',
+        //   isDisabled: false
+        // },
+      ],
       value: 'blank'
     },
     // label: {
@@ -160,47 +192,80 @@ jQuery.noConflict();
   }, ];
 
   // default row data of a table, this data will be used to create new row
-  var defaultRowData = initialData[0]
-  
+  // var defaultRowData = {
+  //   text: {
+  //     value: 'text field'
+  //   },
+  //   // initial data of dropdown
+  //   dropDown: {
+  //     items: [
+  //       {
+  //         label: '--------',
+  //         value: 'blank',
+  //         isDisabled: false
+  //       },
+  //    ],
+  //     value: 'blank'
+  //   },
+  //   // label: {
+  //   //   text: 'Name',
+  //   //   textColor: '#e74c3c',
+  //   //   backgroundColor: 'yellow',
+  //   //   isRequired: true
+  //   // },
+  //   iconBtn: {
+  //     type: 'insert',
+  //     color: 'blue',
+  //     size: 'small'
+  //   },
+  //   alert: {
+  //     text: 'Network error',
+  //     type: 'error'
+  //   }
+  // }
+  var defaultRowData = JSON.parse(JSON.stringify(initialData[0]))
+  // var defaultRowData = initialData[0].dropDown.items[0].label('tEST').value
   // return this data to override default row data onRowAdd
-  var overriddenRowData = initialData[0]
+  var overriddenRowData = JSON.parse(JSON.stringify(initialData[0]))
 
   // #################################################################################----->Table
 
-  var table = new kintoneUIComponent.Table({
-    // initial table data
-    data: initialData,
-    // default row data on row add
-    defaultRowData: defaultRowData,
-    onRowAdd: function (e) {
-      console.log('table.onAdd', e);
-      // if onRowAdd does not return anything, defaultRowData will be used to create new table row
-      // if below row data is returned, it will override defaultRowData to be used to create new table row
-      return JSON.parse(JSON.stringify(overriddenRowData));
-    },
-    columns: [{
-        header: 'Blank Space Element ID💜',
-        cell: function () {
-          return kintoneUIComponent.createTableCell('dropdown', 'dropDown')
-        }
+
+    var table = new kintoneUIComponent.Table({
+      // initial table data
+      data: initialData,
+      // default row data on row add
+      defaultRowData: defaultRowData,
+      onRowAdd: function (e) {
+        console.log('table.onAdd', e);
+        // if onRowAdd does not return anything, defaultRowData will be used to create new table row
+        // if below row data is returned, it will override defaultRowData to be used to create new table row
+        return JSON.parse(JSON.stringify(overriddenRowData));
       },
-      {
-        header: '💜Modal Text-Custom',
-        cell: function () {
-          return customCell()
+      columns: [{
+          header: 'Blank Space Element ID💜',
+          cell: function () {
+            return kintoneUIComponent.createTableCell('dropdown', 'dropDown')
+          }
+        },
+        {
+          header: '💜Modal Text-Custom',
+          cell: function () {
+            return customCell()
+          }
         }
-      }
-    ]
-  });
+      ]
+    });
+  
 
   // ###########################################################################----->Set Value
-    
+
   // input config is going to be the prev config settings objects and putting that in a save object
 
-    //does the config exist?
-    //if yes, populate table with the config
-    //if no , populate table w form field
-    //table.setvalue
+  //does the config exist?
+  //if yes, populate table with the config
+  //if no , populate table w form field
+  //table.setvalue
   var config = defaultRowData.dropDown
   console.log(config, "🐶🐶🐶supposedly config")
 
