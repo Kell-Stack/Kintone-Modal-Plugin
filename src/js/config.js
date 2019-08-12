@@ -20,7 +20,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
   // B. Saving data:
 
-  //  1. Attempt to get data from each column
+  //  1. Get data from each column
   //     a. Construct result data structure
   //  2. Validate data: 
   //    a. if valid, proceed
@@ -33,12 +33,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   //use jssdk get form layout and create a promise 
   //once problem is resolved, populate fields that i need SPACER ✅
   // need to figure out field group with a blank space inside ✅
-
-
-  // #################################################################
-
-  // var spacers = findSpacers(resp)
-
 
 
   // ######################################################################################-----> Get Blank Space
@@ -124,7 +118,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         if (textAreaVal && this.textAreaField._reactObject) {
           this.textAreaField.getValue(textAreaVal.value);
         }
-        // console.log(this.textAreaField, "😐😐update text area object😐😐")
+        console.log(this.textAreaField, "😐😐update text area object😐😐")
       }
       //once user saves you will setConfig
     }
@@ -160,38 +154,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     }
   }, ];
 
-  // default row data of a table, this data will be used to create new row
-  // var defaultRowData = {
-  //   text: {
-  //     value: 'text field'
-  //   },
-  //   // initial data of dropdown
-  //   dropDown: {
-  //     items: [
-  //       {
-  //         label: '--------',
-  //         value: 'blank',
-  //         isDisabled: false
-  //       },
-  //    ],
-  //     value: 'blank'
-  //   },
-  //   // label: {
-  //   //   text: 'Name',
-  //   //   textColor: '#e74c3c',
-  //   //   backgroundColor: 'yellow',
-  //   //   isRequired: true
-  //   // },
-  //   iconBtn: {
-  //     type: 'insert',
-  //     color: 'blue',
-  //     size: 'small'
-  //   },
-  //   alert: {
-  //     text: 'Network error',
-  //     type: 'error'
-  //   }
-  // }
   var defaultRowData = JSON.parse(JSON.stringify(initialData[0]))
   // var defaultRowData = initialData[0].dropDown.items[0].label('tEST').value
   // return this data to override default row data onRowAdd
@@ -239,6 +201,10 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   // console.log(config, "🐶🐶🐶supposedly config")
 
 
+//1. save new value object with save button functionality
+//2. if user chooses initial value "------" and adds modal text and saves, alert message will pop up
+//    - can only 
+
 
   // ###########################################################################----->Buttons
 
@@ -262,9 +228,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   });
 
 
-  // #######################################################################################-----> Render
-
-  // ############################################----->Call Layout API
+ 
 
   function getSpacer() {
     var connection = new kintoneJSSDK.Connection()
