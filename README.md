@@ -15,18 +15,18 @@ This plugin aims to decrease clutter on client’s apps, from unnecessary labels
 > ***Under Construction***
 
 1. In your App's 'Form' settings, drag a 'Blank space' field onto your app
-  - click the settings gear on the blank field to add name to elementId
-  - Click 'Save Form'
-1. In your Subdomain's settings on the top right, navigate to Kintone Administration -> Plugins
-  - See Installing Plugin Documentation for additional details(https://get.kintone.help/hc/en-us/articles/115001519707-Installing-Viewing-Plug-ins)
-  - Import Tooltip Label Plug-in
+    - click the settings gear on the blank field to add name to elementId
+    - Click 'Save Form'
+2. In your Subdomain's settings on the top right, navigate to Kintone Administration -> Plugins
+    - See Installing Plugin Documentation for additional details(https://get.kintone.help/hc/en-us/articles/115001519707-Installing-Viewing-Plug-ins)
+    - Import Tooltip Label Plug-in
 3. Navigate to 'App Settings' -> 'Customization and Integration' -> Plug-ins
-  - Click on 'New'
-  - Tick off Tooltip Label Plugin and click 'Add'
-  - Click the gear wheel that corresponds with Tooltip Label under 'Change Settings'
-  - Choose the elementId's name that you want to add a modal to and type in the message you want displayed when user hovers over icon
-  - Click 'Save'
-  - Update app
+    - Click on 'New'
+    - Tick off Tooltip Label Plugin and click 'Add'
+    - Click the gear wheel that corresponds with Tooltip Label under 'Change Settings'
+    - Choose the elementId's name that you want to add a modal to and type in the message you want displayed when user hovers over icon
+    - Click 'Save'
+    - Update app
 
 
 ## Overview
@@ -78,10 +78,10 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 
 ## Proposal
 
-![Image of phase 1 - tooltip label plugin config settings 8/12](https://user-images.githubusercontent.com/45135493/62907111-8dfbb100-bd26-11e9-9c34-4f9159da2809.png)
-
-
 ![Proposed wireframe of MVP 8/13](https://user-images.githubusercontent.com/45135493/62977746-7c70e280-bdd4-11e9-8555-77c5f5459da4.png)
+
+![tooltip label plugin config table settings 8/12](https://user-images.githubusercontent.com/45135493/62907111-8dfbb100-bd26-11e9-9c34-4f9159da2809.png)
+
 
 
 ### **Wireframe Workflow**
@@ -128,20 +128,19 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 Get Blank spaces
   1. Make a call to the API that will return app's object details
   2. Iterate through to grab the elementId object for the blank space form field
-  3.
-
+  3. Send that object to the drop down in the configuration settings table
 
 Saving data:
 
   1. Get data from each column
   - Construct result data structure
   2. Validate data: 
-  - if valid, proceed
+  - if valid, proceed/ populate table
   - if invalid, display error message
   3. Send data to API
   - Success/error callbacks, 
     - if error display error
-    - if success, navigate to old page (`using window.history.back()`) -> alert user to update app to see changes 
+    - if success, navigate to old page (`using window.history.back()`) -> alert user to update app to seechanges 
 
 
 ## Timeline
@@ -158,7 +157,7 @@ This is a rough estimate of the timeline it will take to deploy the first iterat
 
 ***Phase 3 Due Dates***
   - August xx: Create spec for desktop.js file
-  - August xx: Lorem ipsum dolor
+  - August xx: Add Tippy.js for modal config
   - August xx: Lorem ipsum dolor
 
 
