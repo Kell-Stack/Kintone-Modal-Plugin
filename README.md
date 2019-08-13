@@ -1,5 +1,5 @@
 # Tooltip Label plugin
-> Authored by Kelly Sousa - July 22, 2019
+> Authored by Kelly Sousa
 
 This project aims to decrease clutter on client’s apps from unnecessary labels or text fields. 
 

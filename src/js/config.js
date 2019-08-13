@@ -197,7 +197,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   // ###########################################################################----->Set Value
 
   // input config is going to be the prev config settings objects and putting that in a save object
-
   //does the config exist?
   //if yes, populate table with the config
   //if no , populate table w form field
@@ -211,11 +210,11 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   //    - can only 
 
 
-  // ###########################################################################----->Buttons
-
   var handleSaveClick = (event) => {
     console.log(table);
     var data = table.getValue();
+    
+    console.log('data:', data)
     var spacers = data.map(record => {
       return {
         label: record.dropDown.value,
@@ -223,11 +222,23 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         isDisabled: false // TODO: Pull this value from the table
       }
     })
-    var config = { table: spacers }
+    var dataJSON = JSON.stringify(data)
+    var config = { table: dataJSON}
     kintone.plugin.app.setConfig(config, function() {
       // Callback - do we do something here?
     });
   }
+
+//MAKE THE CALL kintone.plugin.app.getConfig
+//returns the stringify table obj
+//grab data
+//resp.data.parse json
+//console log the resp to see what it looks like
+//does config file contains the array of object EACH OBJEECT IS A ROW
+//populate the data in table
+//table.setValue(data)
+
+  // ###########################################################################----->Buttons
 
   var savebutton = new kintoneUIComponent.Button({
     text: 'Save'
