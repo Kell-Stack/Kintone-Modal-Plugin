@@ -1,12 +1,12 @@
 # Tooltip Label plugin
 > Authored by Kelly Sousa
 
-This project aims to decrease clutter on client’s apps from unnecessary labels or text fields. 
+This plugin aims to decrease clutter on client’s apps, from unnecessary labels or text fields. 
 
 ## Table of Contents
 
 - [Installation](#installation)
-- [Overview](#usage)
+- [Overview](#overview)
 - [Proposal](#proposal)
 - [Timeline](#timeline)
 
@@ -51,9 +51,32 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 - The first column will list out all blank space fields from your form settings and the second column will be a multi-line text box area for users to write in a message to be displayed on the modal upon hovering. 
 - For each selected blank space, you will replace it with an icon and allow users to see the corresponding message when hovering over the icon
 
+- User Perspective	
+  - Create blank space fields that will be replaced by an information icon
+- Access that blank space field from a dropdown on the configuration table settings for the plugin
+- Type the text you want displayed on the modal in the text area
+- Save settings and update app
+- When user hovers over icon, modal appears
+
+- Technical Perspective
+  - User will access ‘Blank Space’ fields by element Id previously set in form settings
+  - In configuration table, they will type a message that will be displayed once the hover event is triggered
+  - Save button: when user clicks on save button, table values will be saved and page will be redirected to the apps settings page
+ - Cancel button: when user clicks on cancel button, page will redirect to the apps settings page
+  - If table input is updated, the deletion or addition of space will be reflected in the dropdown column of the table;
+  - If a space is selected in one row of the dropdown column, then it will disable option to choose this space in the following row. 
+  - If table is incomplete, an error will appear once user attempts to click save button
+    -text wasn’t inputted
+    -elementId wasn’t chosen
+  - If form fields are updated and the spaces used in the plugin settings page have been deleted, provide an alert message in the details page view and list view notifying users that they need to contact the app administrator to update the plugin. 
+
+
 ## Proposal
 
-![Image of proposed model](https://user-images.githubusercontent.com/45135493/61895240-0fe68000-aec7-11e9-96cc-599ea0dba484.png)
+![Image of phase 1 - tooltip label plugin config settings 8/12](https://user-images.githubusercontent.com/45135493/62907111-8dfbb100-bd26-11e9-9c34-4f9159da2809.png)
+
+
+![Proposed wireframe of MVP 8/13](https://user-images.githubusercontent.com/45135493/62977746-7c70e280-bdd4-11e9-8555-77c5f5459da4.png)
 
 
 ### **Wireframe Workflow**
@@ -66,10 +89,7 @@ As the apps you create on Kintone become more complex, admins are adding labels 
   - layout process and what materials will be used
   - will be using Tippy.js as modal 
 
-![Image of phase 1 - save/cancel button & table](https://user-images.githubusercontent.com/45135493/61895425-81263300-aec7-11e9-8bf4-6751ed93c99e.png)
-
-
-![Image of phase 1 - tooltip label plugin config settings 8/12](https://user-images.githubusercontent.com/45135493/62907111-8dfbb100-bd26-11e9-9c34-4f9159da2809.png)
+![save/cancel button & table](https://user-images.githubusercontent.com/45135493/61895425-81263300-aec7-11e9-8bf4-6751ed93c99e.png)
 
 
 ### **Processes**
