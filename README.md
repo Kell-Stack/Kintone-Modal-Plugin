@@ -1,7 +1,7 @@
 # Tooltip Label plugin
-> Authored by Kelly Sousa
+> Authored by Kelly Sousa, Kintern2019
 
-This plugin aims to decrease clutter on client’s apps, from unnecessary labels or text fields. 
+This plugin aims to decrease clutter from unnecessary labels or text fields on client’s Kintone apps, . 
 
 ## Table of Contents
 
@@ -12,7 +12,8 @@ This plugin aims to decrease clutter on client’s apps, from unnecessary labels
 
 
 ## Installation
-> ***Under Construction***
+> ***Under Construction*** 
+_add gif demo of plugin_
 
 1. In your App's 'Form' settings, drag a 'Blank space' field onto your app
     - click the settings gear on the blank field to add name to elementId
@@ -33,7 +34,7 @@ This plugin aims to decrease clutter on client’s apps, from unnecessary labels
 
 ### **Problem**
  
-As the apps you create on Kintone become more complex, admins are adding labels to direct users of the flow of the app. This overcomplicates the look and composition and takes us away from the ease of why clients are using Kintone in the first place.
+As the apps you create on Kintone become more complex, admins are adding labels to direct users of the flow of the app. This overcomplicates the look and composition which takes away from the ease and purpose of using Kintone.
 
 
 ![Image 1 of problem](https://user-images.githubusercontent.com/45135493/61839338-08c95e80-ae42-11e9-8a42-e6bdb9a5430f.png)
@@ -41,7 +42,7 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 ![Image 2 of problem](https://user-images.githubusercontent.com/45135493/61839432-5a71e900-ae42-11e9-95b3-5371f566f25d.png)
 
 ### **Goals**
-1. Create modal plugin using icons and event listeners, we will be offering seamless instructions while eliminating clunky instructions.
+1. Create modal plugin using icons and event listeners **_we will be offering seamless instructions while eliminating clunky instructions._**
 2. Decrease static clutter by 10-20%
 3. Provide clarification per field
 
@@ -90,11 +91,9 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 - figure out how to put icons next to any field
   - will this include a space/label? Will it not include a space/label?
   - pseudo coding 
-  - config tables - figuring out which fields I’ll be manipulating
+  - config tables -- figuring out which fields I’ll be manipulating
   - layout process and what materials will be used
   - will be using Tippy.js as modal 
-
-![save/cancel button & table](https://user-images.githubusercontent.com/45135493/61895425-81263300-aec7-11e9-8bf4-6751ed93c99e.png)
 
 
 ### **Processes**
@@ -107,13 +106,13 @@ As the apps you create on Kintone become more complex, admins are adding labels 
         - create two columns -> field's elementId that you want to add the modal to & the message to be displayed on hover
         - Call a function that can add new rows that will duplicate the initalData allowing users to create a new modal
 2. Create save and cancel button
-    - Use the built-in button from UI component for save and cancel call to set the config then return to app's plugin page
+    - Use the built-in button from UI component for save and cancel w/o functionality 
 
 
 **Phase 2**
 1. `setConfig` to save user input
 2. Add functionality to your save and cancel button
-    - Use the built-in event listeners from UI component to listen for the click trigger
+    - Use the built-in event listeners from UI component to listen for the click trigger to set the config then return to app's plugin page
         - For cancel button:
             * should return back to the app's plugin page 
         - For save button: 
@@ -121,7 +120,8 @@ As the apps you create on Kintone become more complex, admins are adding labels 
             * take the object that contains the config settings(information from table) and make an API call to set the config then return to app's plugin page
 
 **Phase 3**
-1. In desktop.js, add icon that will be used in the modal app          
+1. In desktop.js, add icon that will be used in the modal app
+2. Implement Tippy.js modals        
 
 **Pseudo**
 
@@ -140,7 +140,7 @@ Saving data:
   3. Send data to API
   - Success/error callbacks, 
     - if error display error
-    - if success, navigate to old page (`using window.history.back()`) -> alert user to update app to seechanges 
+    - if success, navigate to old page (`using window.history.back()`) -> alert user to update app to see changes 
 
 
 ## Timeline
@@ -159,6 +159,3 @@ This is a rough estimate of the timeline it will take to deploy the first iterat
   - August xx: Create spec for desktop.js file
   - August xx: Add Tippy.js for modal config
   - August xx: Lorem ipsum dolor
-
-
-

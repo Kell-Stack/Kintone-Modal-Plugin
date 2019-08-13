@@ -229,14 +229,14 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     });
   }
 
-//MAKE THE CALL kintone.plugin.app.getConfig
-//returns the stringify table obj
-//grab data
-//resp.data.parse json
-//console log the resp to see what it looks like
-//does config file contains the array of object EACH OBJEECT IS A ROW
-//populate the data in table
-//table.setValue(data)
+                                //MAKE THE CALL kintone.plugin.app.getConfig
+                                //returns the stringify table obj
+                                //grab data
+                                //resp.data.parse json
+                                //console log the resp to see what it looks like
+                                //does config file contains the array of object EACH OBJEECT IS A ROW
+                                //populate the data in table
+                                //table.setValue(data)
 
   // ###########################################################################----->Buttons
 
