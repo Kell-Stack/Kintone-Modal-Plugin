@@ -51,24 +51,29 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 - The first column will list out all blank space fields from your form settings and the second column will be a multi-line text box area for users to write in a message to be displayed on the modal upon hovering. 
 - For each selected blank space, you will replace it with an icon and allow users to see the corresponding message when hovering over the icon
 
-- User Perspective	
-  - Create blank space fields that will be replaced by an information icon
-- Access that blank space field from a dropdown on the configuration table settings for the plugin
-- Type the text you want displayed on the modal in the text area
-- Save settings and update app
-- When user hovers over icon, modal appears
+    - User Perspective (config settings)
+      - When a user goes into the settings page of the Tooltip plugin, they will see a table with two columns. 
+      - The first column is called “Spaces”. It is a drop-down that lists out all of the space element ID’s from the app form.  
+      - The second column is called “Message”. It is a text area where users can type a message.
+      - For each row in the table, the user can select the space that they would like to  replace with a tooltip icon. On each row, they can also specify the message that they would like to display when a user hovers over the tooltip icon in the record details page. 
+      - Access that blank space field from a dropdown on the configuration table settings for the plugin
+      - Type the text you want displayed on the modal in the text area
+      - Save settings and update app
+      - When user hovers over icon, modal appears
 
-- Technical Perspective
-  - User will access ‘Blank Space’ fields by element Id previously set in form settings
-  - In configuration table, they will type a message that will be displayed once the hover event is triggered
-  - Save button: when user clicks on save button, table values will be saved and page will be redirected to the apps settings page
- - Cancel button: when user clicks on cancel button, page will redirect to the apps settings page
-  - If table input is updated, the deletion or addition of space will be reflected in the dropdown column of the table;
-  - If a space is selected in one row of the dropdown column, then it will disable option to choose this space in the following row. 
-  - If table is incomplete, an error will appear once user attempts to click save button
-    -text wasn’t inputted
-    -elementId wasn’t chosen
-  - If form fields are updated and the spaces used in the plugin settings page have been deleted, provide an alert message in the details page view and list view notifying users that they need to contact the app administrator to update the plugin. 
+    - Technical Perspective
+      - User will access ‘Blank Space’ fields by element Id previously set in form settings
+      - In configuration table, they will type a message that will be displayed once the hover event is triggered
+      - Save button: when user clicks on save button, table values will be saved and page will be redirected to the apps settings page
+      - Cancel button: when user clicks on cancel button, page will redirect to the apps settings page
+      - If table input is updated, the deletion or addition of space will be reflected in the dropdown column of the table;
+      - If a space is selected in one row of the dropdown column, then it will disable 
+    option to choose this space in the following row. 
+      -If table is incomplete, an error will appear once user attempts to click save button
+        - text wasn’t inputted
+        - elementId wasn’t chosen
+      - If form fields are updated and the spaces used in the plugin settings page have been deleted, provide an alert message in the details page view and list view notifying users that they need to contact the app administrator to update the plugin. 
+
 
 
 ## Proposal
