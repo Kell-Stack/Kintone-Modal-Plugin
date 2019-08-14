@@ -42,7 +42,7 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 ![Image 2 of problem](https://user-images.githubusercontent.com/45135493/61839432-5a71e900-ae42-11e9-95b3-5371f566f25d.png)
 
 ### **Goals**
-1. Create modal plugin using icons and event listeners **_we will be offering seamless instructions while eliminating clunky instructions._**
+1. Create modal plugin using icons and event listeners
 2. Decrease static clutter by 10-20%
 3. Provide clarification per field
 

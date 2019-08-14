@@ -72,6 +72,11 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         var textAreaField = new kintoneUIComponent.TextArea({
           value: "Enter Modal Text Here"
         });
+
+    //  Var body = document.getElementsByTagName("BODY")[0];
+    // body.appendChild(textAreaField.render());
+
+    // textAreaField.setValue();
         // console.log(textAreaField, "👽text area object")
 
         span.appendChild(textAreaField.render());
@@ -90,21 +95,19 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
       //set config only if it exists write conditional here
       //trying to setVal for cust cell here
-
-
-
+     
+    
       update: function ({
         rowData
       }) {
-        textAreaVal = rowData.textAreaField
-        if (textAreaVal && this.textAreaField._reactObject) {
-          this.textAreaField.getValue(textAreaVal.value);
-          // var textArea = new kintoneUIComponent.TextArea({
-          //   value: 'rowData.textAreaField'
-          // }); // or ({value: rowData.textarea.value}) ??
-          // var body = document.getElementsByTagName("BODY")[0];
-          // body.appendChild(textArea.render())
-          // textArea.setValue('set val to text area')
+        var _self = this;
+        console.log('rowData:', rowData)
+        var textAreaVal = rowData.text; // or ({value: rowData.textarea.value}) ??
+        console.log('📸textAreaVal', textAreaVal)
+        console.log("react obj", _self.textAreaField._reactObject)
+        if (textAreaVal ) {
+  
+          _self.textAreaField.setValue(textAreaVal.value);
         }
         console.log(this.textAreaField, "😐😐update text area object😐😐")
       }
@@ -126,7 +129,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         value: ''
       }
     }, ];
-
+                  //redefine dRD and oRD point/refernce
     var defaultRowData = JSON.parse(JSON.stringify(initialData[0]))
     // return this data to override default row data onRowAdd
     var overriddenRowData = JSON.parse(JSON.stringify(initialData[0]))
@@ -182,7 +185,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       return {
         label: record.dropDown.value,
         value: record.text.value,
-        isDisabled: false // TODO: Pull this value from the table
+        isDisabled: true // TODO: Pull this value from the table
       }
     })
     var dataJSON = JSON.stringify(data)
@@ -231,34 +234,27 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
     kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
       var spacers = findSpacers(rsp)
-      console.log(spacers)
       table = setTable(spacers)
 
       $('.kintone-titlee').text('Tooltip Label Plugin')
       $('.kintone-si-conditions').append(table.render());
-
+              //add event listener table.rowAdd rowRemove cellchange
+              // see if its making any updates to the table
 
       //if it doesn't exist pass initialData
-      var textArea = new kintoneUIComponent.TextArea({
-        value: 'textarea'
-      });
-      var body = document.getElementsByTagName("BODY")[0];
-      body.appendChild(textArea.render());
-
-      textArea.setValue('set value into textarea');
 
 
       //get config before you setTable ✅
-      var config = kintone.plugin.app.getConfig(PLUGIN_ID )
-      console.log(JSON.parse(config.table, "💀"))
+      var config = kintone.plugin.app.getConfig(PLUGIN_ID, )
+      console.log(JSON.parse(config.table),"💀saved row value")
 
       //if config exiists then setval() (textarea ui comp)
       if (JSON.parse(config.table)) {
-        console.log(true)
+        console.log(true, "🦑")
         table.setValue(JSON.parse(config.table)); //isn't working
         console.log(table, "table🍽")
       }
-
+      console.log(config.customCellTextArea,"🐙")
 
     }).catch((err) => {
       // This SDK return err with KintoneAPIExeption
