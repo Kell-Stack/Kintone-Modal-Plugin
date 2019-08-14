@@ -7,7 +7,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 (function ($, PLUGIN_ID) {
   'use strict';
 
-
   //TO DO
   // request data from app => once client adds plugin to their app it should already be fetching data only from the blank fields✅
   // make save and cancel buttons w/o function ✅
@@ -17,11 +16,9 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
   // A. App initialization: 
   //  1. Access data from the API ✅
-  // 
-  //
 
   // B. Saving data:
-  //  1. Get data from each column
+  //  1. Get data from each column✅
   //     a. Construct result data structure
   //  2. Validate data: 
   //    a. if valid, proceed
@@ -31,16 +28,15 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   //      i. if error display error
   //      ii. if success, navigate to old page (using HTML5 History API=> window.history.back()) -> alert user to update app to see changes 
 
-  //use jssdk get form layout and create a promise 
+  //use jssdk get form layout and create a promise ✅
+  // create function that will filter through resp obj and return only blank space fields✅
   //once problem is resolved, populate fields that i need SPACER ✅
   // need to figure out field group with a blank space inside ✅
 
-  // ######################################################################################-----> Get Blank Space
+  // ######################################################################################
 
   // Keep a reference to table so we can read its data on save
   var table = null;
-
-  // create function that will filter through resp obj and return only blank space fields
   // when refactoring try to use for loop or map as oppsed to nested forEach
 
   //kintone.promise here 
@@ -90,6 +86,9 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   }
 
   // ####################################################################################-----> Custom Cell
+//message rename
+//text area -> set val
+// table were custcell is either use initial or con
 
   var customCell = function () {
     return {
@@ -99,7 +98,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       }) {
         var span = document.createElement('span');
         var textAreaField = new kintoneUIComponent.TextArea({
-          value: "Modal Text"
+          value: "Enter Modal Text Here"
         });
         // console.log(textAreaField, "👽text area object")
 
@@ -116,6 +115,8 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         this.textAreaField = textAreaField;
         return span;
       },
+
+      //set config only if it exists write conditional here
       update: function ({
         rowData
       }) {
@@ -125,7 +126,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         }
         console.log(this.textAreaField, "😐😐update text area object😐😐")
       }
-      //once user saves you will setConfig
     }
   };
 
@@ -141,21 +141,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       dropDown: {
         items: spacers,
         value: ''
-      },
-      // label: {
-      //   text: 'Name',
-      //   textColor: '#e74c3c',
-      //   backgroundColor: 'yellow',
-      //   isRequired: true
-      // },
-      iconBtn: {
-        type: 'insert',
-        color: 'blue',
-        size: 'small'
-      },
-      alert: {
-        text: 'Network error',
-        type: 'error'
       }
     }, ];
 
@@ -173,9 +158,13 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       // default row data on row add
       defaultRowData: defaultRowData,
       onRowAdd: function (e) {
-        console.log('table.onAdd', e);
+        console.log('table.onAdd🥎', e);
         // if onRowAdd does not return anything, defaultRowData will be used to create new table row
         // if below row data is returned, it will override defaultRowData to be used to create new table row
+        
+        
+        
+        
         return JSON.parse(JSON.stringify(overriddenRowData));
       },
       columns: [{
@@ -194,15 +183,18 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     });
     return table
   }
+
+ 
   // ###########################################################################----->Set Value
 
   // input config is going to be the prev config settings objects and putting that in a save object
+
+  
   //does the config exist?
   //if yes, populate table with the config
-  //if no , populate table w form field
+  //if no, populate table w form field
   //table.setvalue
   // var config = defaultRowData.dropDown
-  // console.log(config, "🐶🐶🐶supposedly config")
 
 
   //1. save new value object with save button functionality
@@ -213,9 +205,8 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   var handleSaveClick = (event) => {
     console.log(table);
     var data = table.getValue();
-    
-    console.log('data:', data)
-    var spacers = data.map(record => {
+    console.log('🍯data:', data)
+    var savedRowData = data.map(record => {
       return {
         label: record.dropDown.value,
         value: record.text.value,
@@ -223,8 +214,9 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       }
     })
     var dataJSON = JSON.stringify(data)
-    var config = { table: dataJSON}
+    var config = {table: dataJSON}
     kintone.plugin.app.setConfig(config, function() {
+      window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
       // Callback - do we do something here?
     });
   }
@@ -234,7 +226,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
                                 //grab data
                                 //resp.data.parse json
                                 //console log the resp to see what it looks like
-                                //does config file contains the array of object EACH OBJEECT IS A ROW
+                                //does config file contains the array of object EACH OBJECT IS A ROW
                                 //populate the data in table
                                 //table.setValue(data)
 
@@ -256,7 +248,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     console.log('on cancel click');
   });
 
-
+  // ######################################################################################-----> Get Blank Space
 
 
   function getSpacer() {
@@ -267,8 +259,26 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       var spacers = findSpacers(rsp)
       console.log(spacers)
       table = setTable(spacers)
+
+
+
+
       $('.kintone-titlee').text('Tooltip Label Plugin')
       $('.kintone-si-conditions').append(table.render());
+      //get config before you settable 
+      //pass config as second param after spacers
+      //if config exiists then setval() (textarea ui comp)
+      //if it doesn't exist pass initialData
+
+
+      
+      var config = kintone.plugin.app.getConfig(PLUGIN_ID)
+      console.log(JSON.parse(config.table,"💀"))
+      if(JSON.parse(config.table)){
+        console.log(true) 
+        table.setValue(JSON.parse(config.table));  //isn't working
+        console.log(table, "table🍽")
+       }
     }).catch((err) => {
       // This SDK return err with KintoneAPIExeption
       console.log(err.get());
@@ -276,6 +286,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   }
 
   getSpacer()
-
+  
 
 })(jQuery, kintone.$PLUGIN_ID);
