@@ -7,37 +7,10 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 (function ($, PLUGIN_ID) {
   'use strict';
 
-  //TO DO
-  // request data from app => once client adds plugin to their app it should already be fetching data only from the blank fields✅
-  // make save and cancel buttons w/o function ✅
-  // make api call request to layout api ✅
-
-  //PSEUDO CODE
-
-  // A. App initialization: 
-  //  1. Access data from the API ✅
-
-  // B. Saving data:
-  //  1. Get data from each column✅
-  //     a. Construct result data structure
-  //  2. Validate data: 
-  //    a. if valid, proceed
-  //    b. if invalid, display error message
-  //  3. Send data to API
-  //    a. Success/error callbacks, 
-  //      i. if error display error
-  //      ii. if success, navigate to old page (using HTML5 History API=> window.history.back()) -> alert user to update app to see changes 
-
-  //use jssdk get form layout and create a promise ✅
-  // create function that will filter through resp obj and return only blank space fields✅
-  //once problem is resolved, populate fields that i need SPACER ✅
-  // need to figure out field group with a blank space inside ✅
-
   // ######################################################################################
 
   // Keep a reference to table so we can read its data on save
   var table = null;
-  // when refactoring try to use for loop or map as oppsed to nested forEach
 
   //kintone.promise here 
   //call .then
@@ -90,7 +63,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 //text area -> set val
 // table were custcell is either use initial or con
 
-  var customCell = function () {
+  var customCellTextArea = function () {
     return {
       init: function ({
         rowData,
@@ -176,7 +149,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         {
           header: 'Modal Text-Custom',
           cell: function () {
-            return customCell()
+            return customCellTextArea()
           }
         }
       ]
@@ -289,3 +262,33 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   
 
 })(jQuery, kintone.$PLUGIN_ID);
+
+
+
+
+
+  //TO DO
+  // request data from app => once client adds plugin to their app it should already be fetching data only from the blank fields✅
+  // make save and cancel buttons w/o function ✅
+  // make api call request to layout api ✅
+
+  //PSEUDO CODE
+
+  // A. App initialization: 
+  //  1. Access data from the API ✅
+
+  // B. Saving data:
+  //  1. Get data from each column✅
+  //     a. Construct result data structure
+  //  2. Validate data: 
+  //    a. if valid, proceed
+  //    b. if invalid, display error message
+  //  3. Send data to API
+  //    a. Success/error callbacks, 
+  //      i. if error display error
+  //      ii. if success, navigate to old page (using HTML5 History API=> window.history.back()) -> alert user to update app to see changes 
+
+  //use jssdk get form layout and create a promise ✅
+  // create function that will filter through resp obj and return only blank space fields✅
+  //once problem is resolved, populate fields that i need SPACER ✅
+  // need to figure out field group with a blank space inside ✅
