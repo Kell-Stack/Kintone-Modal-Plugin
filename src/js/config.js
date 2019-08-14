@@ -59,9 +59,8 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   }
 
   // ####################################################################################-----> Custom Cell
-//message rename
-//text area -> set val
-// table were custcell is either use initial or con
+  //text area -> set val
+  // table where custcell is either use initial or config
 
   var customCellTextArea = function () {
     return {
@@ -90,12 +89,22 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       },
 
       //set config only if it exists write conditional here
+      //trying to setVal for cust cell here
+
+
+
       update: function ({
         rowData
       }) {
-        var textAreaVal = rowData.textAreaField; // or ({value: rowData.textarea.value}) ??
+        textAreaVal = rowData.textAreaField
         if (textAreaVal && this.textAreaField._reactObject) {
           this.textAreaField.getValue(textAreaVal.value);
+          // var textArea = new kintoneUIComponent.TextArea({
+          //   value: 'rowData.textAreaField'
+          // }); // or ({value: rowData.textarea.value}) ??
+          // var body = document.getElementsByTagName("BODY")[0];
+          // body.appendChild(textArea.render())
+          // textArea.setValue('set val to text area')
         }
         console.log(this.textAreaField, "😐😐update text area object😐😐")
       }
@@ -104,7 +113,8 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
 
   // #####################################################################################------>Data
-  var setTable = (spacers) => {
+  //pass config as second param after spacers ✅
+  var setTable = (spacers, config) => {
     // initial data of a table
     var initialData = [{
       text: {
@@ -118,15 +128,10 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     }, ];
 
     var defaultRowData = JSON.parse(JSON.stringify(initialData[0]))
-    // var defaultRowData = initialData[0].dropDown.items[0].label('tEST').value
     // return this data to override default row data onRowAdd
     var overriddenRowData = JSON.parse(JSON.stringify(initialData[0]))
 
-    // #################################################################################----->Table
-
-
     var table = new kintoneUIComponent.Table({
-      // initial table data
       data: initialData,
       // default row data on row add
       defaultRowData: defaultRowData,
@@ -134,10 +139,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         console.log('table.onAdd🥎', e);
         // if onRowAdd does not return anything, defaultRowData will be used to create new table row
         // if below row data is returned, it will override defaultRowData to be used to create new table row
-        
-        
-        
-        
         return JSON.parse(JSON.stringify(overriddenRowData));
       },
       columns: [{
@@ -157,12 +158,10 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     return table
   }
 
- 
+
   // ###########################################################################----->Set Value
 
   // input config is going to be the prev config settings objects and putting that in a save object
-
-  
   //does the config exist?
   //if yes, populate table with the config
   //if no, populate table w form field
@@ -170,9 +169,9 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   // var config = defaultRowData.dropDown
 
 
-  //1. save new value object with save button functionality
+  //1. save new value object with save button functionality ✅
   //2. if user chooses initial value "------" and adds modal text and saves, alert message will pop up
-  //    - can only 
+  //3. if user chooses a modal that already has a text area val, alert message will pop up
 
 
   var handleSaveClick = (event) => {
@@ -187,21 +186,23 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       }
     })
     var dataJSON = JSON.stringify(data)
-    var config = {table: dataJSON}
-    kintone.plugin.app.setConfig(config, function() {
+    var config = {
+      table: dataJSON
+    }
+    kintone.plugin.app.setConfig(config, function () {
+      //this takes yu back to settings once you hit the save button
       window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
-      // Callback - do we do something here?
     });
   }
 
-                                //MAKE THE CALL kintone.plugin.app.getConfig
-                                //returns the stringify table obj
-                                //grab data
-                                //resp.data.parse json
-                                //console log the resp to see what it looks like
-                                //does config file contains the array of object EACH OBJECT IS A ROW
-                                //populate the data in table
-                                //table.setValue(data)
+  //MAKE THE CALL kintone.plugin.app.getConfig
+  //returns the stringify table obj
+  //grab data
+  //resp.data.parse json
+  //console log the resp to see what it looks like
+  //does config file contains the array of object EACH OBJECT IS A ROW
+  //populate the data in table
+  //table.setValue(data)
 
   // ###########################################################################----->Buttons
 
@@ -233,25 +234,32 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       console.log(spacers)
       table = setTable(spacers)
 
-
-
-
       $('.kintone-titlee').text('Tooltip Label Plugin')
       $('.kintone-si-conditions').append(table.render());
-      //get config before you settable 
-      //pass config as second param after spacers
-      //if config exiists then setval() (textarea ui comp)
+
+
       //if it doesn't exist pass initialData
+      var textArea = new kintoneUIComponent.TextArea({
+        value: 'textarea'
+      });
+      var body = document.getElementsByTagName("BODY")[0];
+      body.appendChild(textArea.render());
+
+      textArea.setValue('set value into textarea');
 
 
-      
-      var config = kintone.plugin.app.getConfig(PLUGIN_ID)
-      console.log(JSON.parse(config.table,"💀"))
-      if(JSON.parse(config.table)){
-        console.log(true) 
-        table.setValue(JSON.parse(config.table));  //isn't working
+      //get config before you setTable ✅
+      var config = kintone.plugin.app.getConfig(PLUGIN_ID )
+      console.log(JSON.parse(config.table, "💀"))
+
+      //if config exiists then setval() (textarea ui comp)
+      if (JSON.parse(config.table)) {
+        console.log(true)
+        table.setValue(JSON.parse(config.table)); //isn't working
         console.log(table, "table🍽")
-       }
+      }
+
+
     }).catch((err) => {
       // This SDK return err with KintoneAPIExeption
       console.log(err.get());
@@ -259,7 +267,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   }
 
   getSpacer()
-  
+
 
 })(jQuery, kintone.$PLUGIN_ID);
 
@@ -267,28 +275,28 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
 
 
-  //TO DO
-  // request data from app => once client adds plugin to their app it should already be fetching data only from the blank fields✅
-  // make save and cancel buttons w/o function ✅
-  // make api call request to layout api ✅
+//TO DO
+// request data from app => once client adds plugin to their app it should already be fetching data only from the blank fields✅
+// make save and cancel buttons w/o function ✅
+// make api call request to layout api ✅
 
-  //PSEUDO CODE
+//PSEUDO CODE
 
-  // A. App initialization: 
-  //  1. Access data from the API ✅
+// A. App initialization: 
+//  1. Access data from the API ✅
 
-  // B. Saving data:
-  //  1. Get data from each column✅
-  //     a. Construct result data structure
-  //  2. Validate data: 
-  //    a. if valid, proceed
-  //    b. if invalid, display error message
-  //  3. Send data to API
-  //    a. Success/error callbacks, 
-  //      i. if error display error
-  //      ii. if success, navigate to old page (using HTML5 History API=> window.history.back()) -> alert user to update app to see changes 
+// B. Saving data:
+//  1. Get data from each column✅
+//     a. Construct result data structure
+//  2. Validate data: 
+//    a. if valid, proceed
+//    b. if invalid, display error message
+//  3. Send data to API
+//    a. Success/error callbacks, 
+//      i. if error display error
+//      ii. if success, navigate to old page (using HTML5 History API=> window.history.back()) -> alert user to update app to see changes 
 
-  //use jssdk get form layout and create a promise ✅
-  // create function that will filter through resp obj and return only blank space fields✅
-  //once problem is resolved, populate fields that i need SPACER ✅
-  // need to figure out field group with a blank space inside ✅
+//use jssdk get form layout and create a promise ✅
+// create function that will filter through resp obj and return only blank space fields✅
+//once problem is resolved, populate fields that i need SPACER ✅
+// need to figure out field group with a blank space inside ✅
