@@ -1,36 +1,17 @@
 # Tooltip Label plugin
-> Authored by Kelly Sousa, Kintern2019
+> Authored by Kelly Sousa, Kinternship 2019
 
-This plugin aims to decrease clutter from unnecessary labels or text fields on client’s Kintone apps, . 
+This plugin aims to decrease clutter from unnecessary labels or text fields on client’s Kintone apps. 
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Overview](#overview)
+- [Specification](#specification)
 - [Proposal](#proposal)
 - [Timeline](#timeline)
+- [Installation](#installation)
 
 
-## Installation
-> ***Under Construction*** 
-_add gif demo of plugin_
-
-1. In your App's 'Form' settings, drag a 'Blank space' field onto your app
-    - click the settings gear on the blank field to add name to elementId
-    - Click 'Save Form'
-2. In your Subdomain's settings on the top right, navigate to Kintone Administration -> Plugins
-    - See Installing Plugin Documentation for additional details(https://get.kintone.help/hc/en-us/articles/115001519707-Installing-Viewing-Plug-ins)
-    - Import Tooltip Label Plug-in
-3. Navigate to 'App Settings' -> 'Customization and Integration' -> Plug-ins
-    - Click on 'New'
-    - Tick off Tooltip Label Plugin and click 'Add'
-    - Click the gear wheel that corresponds with Tooltip Label under 'Change Settings'
-    - Choose the elementId's name that you want to add a modal to and type in the message you want displayed when user hovers over icon
-    - Click 'Save'
-    - Update app
-
-
-## Overview
+## Specification
 
 ### **Problem**
  
@@ -159,3 +140,21 @@ This is a rough estimate of the timeline it will take to deploy the first iterat
   - August xx: Create spec for desktop.js file
   - August xx: Add Tippy.js for modal config
   - August xx: Lorem ipsum dolor
+
+## Installation
+> ***Under Construction*** 
+_add gif demo of plugin_
+
+1. In your App's 'Form' settings, drag a 'Blank space' field onto your app
+    - click the settings gear on the blank field to add name to elementId
+    - Click 'Save Form'
+2. In your Subdomain's settings on the top right, navigate to Kintone Administration -> Plugins
+    - See Installing Plugin Documentation for additional details(https://get.kintone.help/hc/en-us/articles/115001519707-Installing-Viewing-Plug-ins)
+    - Import Tooltip Label Plug-in
+3. Navigate to 'App Settings' -> 'Customization and Integration' -> Plug-ins
+    - Click on 'New'
+    - Tick off Tooltip Label Plugin and click 'Add'
+    - Click the gear wheel that corresponds with Tooltip Label under 'Change Settings'
+    - Choose the elementId's name that you want to add a modal to and type in the message you want displayed when user hovers over icon
+    - Click 'Save'
+    - Update app

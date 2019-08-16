@@ -25,10 +25,10 @@
     ]
   },
   "name": {
-    "en": "tooltip"
+    "en": "Tooltip Label Plugin"
   },
   "description": {
-    "en": "tooltip test"
+    "en": "This plugin aims to decrease clutter from unnecessary labels or text fields on client’s Kintone apps."
   },
   "mobile": {
     "js": [

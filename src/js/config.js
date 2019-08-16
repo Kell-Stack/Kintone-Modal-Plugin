@@ -194,6 +194,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     }
     kintone.plugin.app.setConfig(config, function () {
       //this takes yu back to settings once you hit the save button
+      // disabled while working
       window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
     });
   }
@@ -235,11 +236,16 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
       var spacers = findSpacers(rsp)
       table = setTable(spacers)
+      table.on('cellChange', function (event){
+        console.log(event,"🐒")
+      })
 
       $('.kintone-titlee').text('Tooltip Label Plugin')
       $('.kintone-si-conditions').append(table.render());
               //add event listener table.rowAdd rowRemove cellchange
               // see if its making any updates to the table
+
+
 
       //if it doesn't exist pass initialData
 
@@ -285,12 +291,12 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 //  1. Get data from each column✅
 //     a. Construct result data structure
 //  2. Validate data: 
-//    a. if valid, proceed
+//    a. if valid, proceed✅
 //    b. if invalid, display error message
 //  3. Send data to API
 //    a. Success/error callbacks, 
 //      i. if error display error
-//      ii. if success, navigate to old page (using HTML5 History API=> window.history.back()) -> alert user to update app to see changes 
+//      ii. if success, navigate to old page (using HTML5 History API=> window.history.back()) -> alert user to update app to see changes ✅
 
 //use jssdk get form layout and create a promise ✅
 // create function that will filter through resp obj and return only blank space fields✅

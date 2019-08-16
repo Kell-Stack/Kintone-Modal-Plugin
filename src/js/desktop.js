@@ -1,5 +1,7 @@
 jQuery.noConflict();
 
+import tippy from 'tippy.js'
+
 (function($, PLUGIN_ID) {
   'use strict';
 
