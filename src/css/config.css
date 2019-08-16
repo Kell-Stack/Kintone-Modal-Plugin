@@ -10,3 +10,7 @@ h3.kintone-titlee {
   font-size: 40px;
   color: black;
 }
+
+.kintone-si-conditions{
+  content: global content
+}

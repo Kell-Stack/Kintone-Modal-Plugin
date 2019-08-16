@@ -8,6 +8,11 @@ import tippy from 'tippy.js'
   kintone.events.on('app.record.index.show', function() {
     var config = kintone.plugin.app.getConfig(PLUGIN_ID);
 
+    tippy('#myButton', {
+      content: 'Tooltip',
+      placement: 'right'
+    })
+
     var spaceElement = kintone.app.getHeaderSpaceElement();
     var fragment = document.createDocumentFragment();
     var headingEl = document.createElement('h3');

@@ -1,8 +1,12 @@
 jQuery.noConflict();
 
 import * as kintoneJSSDK from '@kintone/kintone-js-sdk'
+import Swal from 'sweetalert2'
 var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
 require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
+
+// everytime you select a space the option is no longer available for the next row
+//
 
 (function ($, PLUGIN_ID) {
   'use strict';
@@ -12,13 +16,12 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   // Keep a reference to table so we can read its data on save
   var table = null;
 
-  //kintone.promise here 
-  //call .then
+
   var findSpacers = (objLayout) => {
     var items = [{
       label: '--------',
-      value: '',
-      isDisabled: false
+      value: '--------',
+      isDisabled: true
     }]
 
     let layout = objLayout.layout
@@ -70,13 +73,13 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       }) {
         var span = document.createElement('span');
         var textAreaField = new kintoneUIComponent.TextArea({
-          value: "Enter Modal Text Here"
+          value: ''
         });
 
-    //  Var body = document.getElementsByTagName("BODY")[0];
-    // body.appendChild(textAreaField.render());
+        //  Var body = document.getElementsByTagName("BODY")[0];
+        // body.appendChild(textAreaField.render());
 
-    // textAreaField.setValue();
+        // textAreaField.setValue();
         // console.log(textAreaField, "👽text area object")
 
         span.appendChild(textAreaField.render());
@@ -95,8 +98,8 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
       //set config only if it exists write conditional here
       //trying to setVal for cust cell here
-     
-    
+
+
       update: function ({
         rowData
       }) {
@@ -105,8 +108,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         var textAreaVal = rowData.text; // or ({value: rowData.textarea.value}) ??
         console.log('📸textAreaVal', textAreaVal)
         console.log("react obj", _self.textAreaField._reactObject)
-        if (textAreaVal ) {
-  
+        if (textAreaVal) {
           _self.textAreaField.setValue(textAreaVal.value);
         }
         console.log(this.textAreaField, "😐😐update text area object😐😐")
@@ -126,10 +128,10 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       // initial data of dropdown
       dropDown: {
         items: spacers,
-        value: ''
+        value: '--------'
       }
     }, ];
-                  //redefine dRD and oRD point/refernce
+    //redefine dRD and oRD point/refernce
     var defaultRowData = JSON.parse(JSON.stringify(initialData[0]))
     // return this data to override default row data onRowAdd
     var overriddenRowData = JSON.parse(JSON.stringify(initialData[0]))
@@ -177,27 +179,41 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   //3. if user chooses a modal that already has a text area val, alert message will pop up
 
 
+  function checkMissingVal(data) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].dropDown.value === '--------' || data[i].text.value === '') {
+        return true
+      }
+    }
+    return false
+  }
+
   var handleSaveClick = (event) => {
     console.log(table);
     var data = table.getValue();
     console.log('🍯data:', data)
-    var savedRowData = data.map(record => {
-      return {
-        label: record.dropDown.value,
-        value: record.text.value,
-        isDisabled: true // TODO: Pull this value from the table
-      }
-    })
     var dataJSON = JSON.stringify(data)
     var config = {
       table: dataJSON
     }
-    kintone.plugin.app.setConfig(config, function () {
-      //this takes yu back to settings once you hit the save button
-      // disabled while working
-      window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
-    });
+    // initial data is disabled but you can still type in the box and save it with ----, error message
+    if (checkMissingVal(data)) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Incomplete values. You must choose a spacer field from the dropdown and enter text into the text area',
+        type: 'error',
+        confirmButtonText: 'Cool'
+      })
+    } else {
+      kintone.plugin.app.setConfig(config, function () {
+        //this takes yu back to settings once you hit the save button
+        // disabled while working
+        window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
+
+      });
+    }
   }
+
 
   //MAKE THE CALL kintone.plugin.app.getConfig
   //returns the stringify table obj
@@ -207,6 +223,40 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   //does config file contains the array of object EACH OBJECT IS A ROW
   //populate the data in table
   //table.setValue(data)
+
+  var table = new kintoneUIComponent.Table({
+    // inital table data
+    data: [{
+      text: {
+        value: 'this is a text field'
+      }
+    }],
+    // default row data on row add
+    defaultRowData: {
+      text: {
+        value: 'default text field value'
+      }
+    },
+    columns: [{
+      header: 'Text',
+      cell: function () {
+        return kintoneUIComponent.createTableCell('text', 'text')
+      }
+    }, ]
+  });
+  var body = document.getElementsByTagName("BODY")[0];
+  body.appendChild(table.render());
+
+  table.on('rowAdd', function (event) {
+    console.log(event);
+  });
+  table.on('rowRemove', function (event) {
+    console.log(event);
+  });
+  table.on('cellChange', function (event) {
+    console.log(event);
+  });
+
 
   // ###########################################################################----->Buttons
 
@@ -236,14 +286,14 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
       var spacers = findSpacers(rsp)
       table = setTable(spacers)
-      table.on('cellChange', function (event){
-        console.log(event,"🐒")
+      table.on('cellChange', function (event) {
+        console.log(event, "🐒")
       })
 
       $('.kintone-titlee').text('Tooltip Label Plugin')
       $('.kintone-si-conditions').append(table.render());
-              //add event listener table.rowAdd rowRemove cellchange
-              // see if its making any updates to the table
+      //add event listener table.rowAdd rowRemove cellchange
+      // see if its making any updates to the table
 
 
 
@@ -251,8 +301,8 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
 
       //get config before you setTable ✅
-      var config = kintone.plugin.app.getConfig(PLUGIN_ID, )
-      console.log(JSON.parse(config.table),"💀saved row value")
+      var config = kintone.plugin.app.getConfig(PLUGIN_ID)
+      console.log(JSON.parse(config.table), "💀saved row value")
 
       //if config exiists then setval() (textarea ui comp)
       if (JSON.parse(config.table)) {
@@ -260,7 +310,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         table.setValue(JSON.parse(config.table)); //isn't working
         console.log(table, "table🍽")
       }
-      console.log(config.customCellTextArea,"🐙")
+      console.log(config.customCellTextArea, "🐙")
 
     }).catch((err) => {
       // This SDK return err with KintoneAPIExeption
