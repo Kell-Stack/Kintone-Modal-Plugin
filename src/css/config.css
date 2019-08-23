@@ -14,3 +14,8 @@ h3.kintone-titlee {
 .kintone-si-conditions{
   content: global content
 }
+
+.CancelButton{
+  margin-left: 176px;
+  margin-top: -48px;
+}

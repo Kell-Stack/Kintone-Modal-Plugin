@@ -169,25 +169,25 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     // initial data is disabled but you can still type in the box and save it with ----, error message
     if (checkMissingVal(data)) {
       Swal.fire({
-        title: 'Error!',
-        text: 'Invalid Input. You must choose a spacer field from the dropdown and enter text into the text area',
+        title: '<strong>Invalid Input</strong>',
+        html: 'You must choose a spacer field from the dropdown <b>and</b> enter text into the text area',
         type: 'error',
         confirmButtonText: 'Cool'
       })
     } else {
       kintone.plugin.app.setConfig(config, function () {
-        //this takes yu back to settings once you hit the save button
-        // disabled while working
-        // window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
-
+        Swal.fire({
+          timer: 5000,
+          title: 'Saved',
+          html: 'Don\'t forget to <b>Update App</b> in your app settings. <br> We\'ll take you there now',
+          type: 'success',
+          showConfirmButton: false
+          }).then(function(){
+            window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
+        })
       });
     }
   }
-  // ###########################################################################----->Buttons
-
-
-
-  // ######################################################################################-----> Get Blank Space
 
 
   function getSpacer() {
@@ -217,7 +217,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       savebutton.on('click', function () {
         handleSaveClick(table)
       });
-      $("#KintoneButtons").append(savebutton.render())
+      $(".SaveButton").append(savebutton.render())
 
       var cancelbutton = new kintoneUIComponent.Button({
         text: 'Cancel'
@@ -225,7 +225,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       cancelbutton.on('click', function (event) {
         console.log('on cancel click');
       });
-      $("#KintoneButtons").append(cancelbutton.render())
+      $(".CancelButton").append(cancelbutton.render())
 
     }).catch((err) => {
       // This SDK return err with KintoneAPIExeption
