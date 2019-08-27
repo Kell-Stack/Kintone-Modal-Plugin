@@ -45,8 +45,10 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       }
     })
     return items
-  }
+  } // -> end of spacer list 
 
+
+  //################
   var customCellTextArea = function () {
     return {
       init: function ({
@@ -63,13 +65,13 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         textAreaField.on('change', function (newValue) {
           console.log(newValue, "😓new value object")
           updateRowData({
-            items: {
-              isDisabled: false
-            }, 
+            // items: {
+            //   isDisabled: false
+            // },
             text: {
               value: newValue
             }
-          }, false);
+          }, true);
         });
         this.textAreaField = textAreaField;
         return span;
@@ -80,9 +82,16 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       }) {
         var _self = this;
         console.log('rowData:', rowData)
+
+        rowData.dropDown.items.forEach(row => {
+          if (row.value === rowData.dropDown.value) {
+            rowData.dropDown.items.isDisabled = true
+          }
+        })
+
         var textAreaVal = rowData.text; // or ({value: rowData.textarea.value}) ??
         console.log('📸textAreaVal', textAreaVal)
-        console.log("react obj", _self.textAreaField._reactObject)
+        // console.log("react obj:", _self.textAreaField._reactObject)
         if (textAreaVal && this.textAreaField._reactObject) {
           _self.textAreaField.setValue(textAreaVal.value);
         }
@@ -97,7 +106,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     // initial data of a table
     var initialData = [{
       text: {
-        value: ''
+        value: 'Input text to be displayed in modal here'
       },
       // initial data of dropdown
       dropDown: {
@@ -109,17 +118,28 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     var defaultRowData = JSON.parse(JSON.stringify(initialData[0]))
     // return this data to override default row data onRowAdd
     var overriddenRowData = JSON.parse(JSON.stringify(initialData[0]))
+    console.log(defaultRowData, "💜")
+    console.log(overriddenRowData, "💜💜💜")
 
     var table = new kintoneUIComponent.Table({
       data: initialData,
       // default row data on row add
       defaultRowData: defaultRowData,
-      onRowAdd: function (e) {
-        // if (data.dropDown.value){
-          
-        // }
-        console.log('table.onAdd🥎', e);
+      onCellChange: function (event) {
+        // event.data.forEach(row => {
+        //   if ( row.dropDown.value === "--------"||row.items.isDisabled === true){
+        //     return row.items.isDisabled === false
+        //   }
+        return JSON.parse(JSON.stringify(overriddenRowData));
+      },
+      onRowAdd: function (event) {
+        console.log('table.onAdd🥎', event.data);
         // if onRowAdd does not return anything, defaultRowData will be used to create new table row
+        // event.data.forEach(row => {
+        //   if ( row.dropDown.value === "--------"||row.items.isDisabled === true){
+        //     return row.items.isDisabled === false
+        //   }
+        // })
         return JSON.parse(JSON.stringify(overriddenRowData));
       },
       columns: [{
@@ -129,7 +149,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
           }
         },
         {
-          header: 'Modal Text-Custom',
+          header: 'Text to appear in Modal',
           cell: function () {
             return customCellTextArea()
           }
@@ -150,23 +170,25 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   }
 
   let duplicateVal = (data) => {
-  //   //if the dropdown item has been chosen
-  //   //disable the same val from dropdown
+    //   //if the dropdown item has been chosen
+    //   //disable the same val from dropdown
 
-  //   if (data.includes())
+    //   if (data.includes())
 
 
     // data.filter((val, index, arr) => arr.indexOf(val) === index)
-
     for (let i = 0; i < data.length - 1; i++) {
-      console.log(data[i].dropDown.value, "🅰️", data[i+1].dropDown.value, "🅱️")
-      if (data[i].dropDown.value === data[i+1].dropDown.value){
-        return true
+      console.log(data[i].dropDown.value, "🅰️", data[i + 1].dropDown.value, "🅱️")
+      if (data[i].dropDown.value === data[i + 1].dropDown.value) {
+        data[i + 1].items.isDisabled === true
       }
     }
+    // if (duplicateVal(data) === true){
+
+    // }
   }
 
-  
+
 
   var handleSaveClick = (table) => {
     console.log(table, "HELLO");
@@ -177,17 +199,19 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     var config = {
       table: dataJSON
     }
-    
-    console.log(duplicateVal(data), "keeeeeelly👨‍👨‍👦‍👦")
-    if (duplicateVal(data) === true) {
-      Swal.fire({
-        title: '<strong>Duplicate Value</strong>',
-        html: 'You can only have one modal per blank space field. Please delete field',
-        type: 'error',
-        confirmButtonText: 'Ok'
-      })
 
-    } else 
+    // if ()
+
+    // console.log(duplicateVal(data), "keeeeeelly👨‍👨‍👦‍👦")
+    // if (duplicateVal(data) === true) {
+    //   Swal.fire({
+    //     title: '<strong>Duplicate Value</strong>',
+    //     html: 'You can only have one modal per blank space field. Please delete field',
+    //     type: 'error',
+    //     confirmButtonText: 'Ok'
+    //   })
+
+    // } else 
     if (checkMissingVal(data)) {
       Swal.fire({
         title: '<strong>Invalid Input</strong>',
@@ -213,6 +237,18 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     }
   }
 
+  var handleCancelButton = () => {
+    console.log("GOODBYE")
+    Swal.fire({
+      title: '<strong>Cancel</strong>',
+      html: 'Your changes were not saved',
+      type: 'warning',
+      confirmButtonText: 'Back to App Settings'
+    }).then(function () {
+      window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
+    })
+  }
+
 
   function getSpacer() {
     var connection = new kintoneJSSDK.Connection()
@@ -224,8 +260,13 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       var config = kintone.plugin.app.getConfig(PLUGIN_ID)
       var spacers = spacersList(rsp)
       var table = setTable(spacers)
+      console.log("table issss", table)
+      event.data.forEach()
       table.on('cellChange', function (event) {
         console.log(event, "🐒")
+        // event.data.forEach()
+
+        // }
       })
       $('.kintone-si-conditions').append(table.render());
       if (config && config.table) {
@@ -248,6 +289,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       });
       cancelbutton.on('click', function (event) {
         console.log('on cancel click');
+        handleCancelButton(table)
       });
       $(".CancelButton").append(cancelbutton.render())
 
