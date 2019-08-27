@@ -8,9 +8,10 @@ import tippy from 'tippy.js'
   kintone.events.on('app.record.index.show', function() {
     var config = kintone.plugin.app.getConfig(PLUGIN_ID);
 
-    tippy('#myButton', {
-      content: 'Tooltip',
-      placement: 'right'
+    tippy('.tippy-info-icon', {
+      followCursor: 'initial',
+      delay: 200,
+      arrow: true,
     })
 
     var spaceElement = kintone.app.getHeaderSpaceElement();

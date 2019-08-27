@@ -261,12 +261,13 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       var spacers = spacersList(rsp)
       var table = setTable(spacers)
       console.log("table issss", table)
-      event.data.forEach()
       table.on('cellChange', function (event) {
         console.log(event, "🐒")
-        // event.data.forEach()
-
-        // }
+        event.data.forEach(row =>{
+          if (row.filter((val, index, arr) => arr.indexOf(val) === index)){
+            // data.filter((val, index, arr) => arr.indexOf(val) === index)
+          }
+        })
       })
       $('.kintone-si-conditions').append(table.render());
       if (config && config.table) {
