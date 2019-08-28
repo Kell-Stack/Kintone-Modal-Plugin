@@ -1,49 +1,33 @@
 import $ from 'jquery';
 import tippy from 'tippy.js';
-import image from '../image/info.png';
+import image from '../image/question.png';
 
 (function(PLUGIN_ID) {
   'use strict';
 
   kintone.events.on('app.record.detail.show', function(event) {
     console.log(event, "event:")
-    // var config = kintone.plugin.app.getConfig(PLUGIN_ID);
 
       var icon = document.createElement('img')
-      // icon.setAttribute('src','https://image.flaticon.com/icons/png/512/23/23765.png')
       icon.setAttribute('src',image)
-      var space = kintone.app.record.getSpaceElement('newModal')
-      console.log(space,"🙃")
-      $(icon).attr('class', 'info-icon')
-      space.appendChild(icon)
-    //   tippy (icon, {content: 'tooltip'})
-    // tippy(space,{content: 'Tooltip'} )
 
+
+      var spacer = kintone.app.record.getSpaceElement('newModal')
+      console.log(space,"🙃")
+
+
+      $(icon).attr('class', 'info-icon')
+      spacer.appendChild(icon)
 
     var tippyAttr = {
-      arrow: 'true', 
-      placement: 'right', 
+      placement: 'top', 
       animation: 'fade', 
-
-      content: "Hello Georgina!!!"
+      theme: 'light-border',
+      content: "Hello Georgina!!!",
+      inertia: 'true',
+      animation: 'scale'
     }
-    tippy(space, tippyAttr)
-
-    // tippy(space, {
-    //   arrow: 'true', 
-    //   placement: 'right', 
-    //   animation: 'fade', 
-    //   content: "Hello Georgina!!!"
-    // })
-
+    tippy(spacer, tippyAttr)
   });
 
 })(kintone.$PLUGIN_ID);
-
-
-//get svg inside of desktop.js
-
-//create element div
-//set class of div (give unique id) so you can reuse it
-// set inner html
-//get space elemt (field code you gave space element)
