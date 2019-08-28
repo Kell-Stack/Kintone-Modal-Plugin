@@ -1,32 +1,49 @@
-jQuery.noConflict();
+import $ from 'jquery';
+import tippy from 'tippy.js';
+import image from '../image/info.png';
 
-import tippy from 'tippy.js'
-
-(function($, PLUGIN_ID) {
+(function(PLUGIN_ID) {
   'use strict';
 
-  kintone.events.on('app.record.index.show', function() {
-    var config = kintone.plugin.app.getConfig(PLUGIN_ID);
+  kintone.events.on('app.record.detail.show', function(event) {
+    console.log(event, "event:")
+    // var config = kintone.plugin.app.getConfig(PLUGIN_ID);
 
-    tippy('.tippy-info-icon', {
-      followCursor: 'initial',
-      delay: 200,
-      arrow: true,
-    })
+      var icon = document.createElement('img')
+      // icon.setAttribute('src','https://image.flaticon.com/icons/png/512/23/23765.png')
+      icon.setAttribute('src',image)
+      var space = kintone.app.record.getSpaceElement('newModal')
+      console.log(space,"🙃")
+      $(icon).attr('class', 'info-icon')
+      space.appendChild(icon)
+    //   tippy (icon, {content: 'tooltip'})
+    // tippy(space,{content: 'Tooltip'} )
 
-    var spaceElement = kintone.app.getHeaderSpaceElement();
-    var fragment = document.createDocumentFragment();
-    var headingEl = document.createElement('h3');
-    var messageEl = document.createElement('p');
 
-    messageEl.classList.add('plugin-space-message');
-    messageEl.textContent = config.message;
-    headingEl.classList.add('plugin-space-heading');
-    headingEl.textContent = 'Hello Kelly\'s kintone plugin!';
+    var tippyAttr = {
+      arrow: 'true', 
+      placement: 'right', 
+      animation: 'fade', 
 
-    fragment.appendChild(headingEl);
-    fragment.appendChild(messageEl);
-    spaceElement.appendChild(fragment);
+      content: "Hello Georgina!!!"
+    }
+    tippy(space, tippyAttr)
+
+    // tippy(space, {
+    //   arrow: 'true', 
+    //   placement: 'right', 
+    //   animation: 'fade', 
+    //   content: "Hello Georgina!!!"
+    // })
+
   });
 
-})(jQuery, kintone.$PLUGIN_ID);
+})(kintone.$PLUGIN_ID);
+
+
+//get svg inside of desktop.js
+
+//create element div
+//set class of div (give unique id) so you can reuse it
+// set inner html
+//get space elemt (field code you gave space element)
