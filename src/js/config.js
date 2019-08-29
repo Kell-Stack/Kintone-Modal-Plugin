@@ -249,10 +249,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     return updatedCnfgArr
   }
 
-
-
-
-
   function getSpacer() {
     var connection = new kintoneJSSDK.Connection()
     var kintoneApp = new kintoneJSSDK.App(connection)

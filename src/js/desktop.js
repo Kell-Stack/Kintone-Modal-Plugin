@@ -4,9 +4,30 @@ import image from '../image/question.png';
 
 (function (PLUGIN_ID) {
     'use strict';
-    //getConfig 
+    var config = kintone.plugin.app.getConfig(PLUGIN_ID)
+    console.log(config, "🐼")
 
-    //if (config && config.table) --> line 282
+     const retrieveTextPerElId = (config) => {
+       let items = []
+       config[0].dropDown.items.forEach(item => {
+         if (item.value !== "--------") {
+           items.push(item.value)
+         }
+       })
+       config.forEach(row => {
+         
+       })
+     }
+
+    if (config && config.table) {//--> line 282
+      var parsedConfig = JSON.parse(config.table)
+      console.log(parsedConfig, "🐵")
+      retrieveTextPerElId(parsedConfig)
+
+      // var newConfig = updateConfig(parsedCnfg)
+      // console.log(newConfig, "🐤")
+      // table.setValue(parsedConfig)
+    }
 
     var getIcon = (elementId,text) => {
       var icon = document.createElement('img')
@@ -35,7 +56,7 @@ import image from '../image/question.png';
 
     kintone.events.on('app.record.detail.show', function (event) {
         console.log(event, "event:")
-            // iterate through config then i'll parse it for each object i will call getIcon(spacers val, text val)
+            // iterate through config then i'll parse it for each object i will call getIcon(spacers, text)
         getIcon()
 
     });
