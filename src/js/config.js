@@ -230,23 +230,24 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
   var updateConfig = (config, initialData) => {
     var items = []
-    var updatedCnfgArr = []
+    var updatedConfigArr = []
     initialData[0].dropDown.items.forEach(item => {
       items.push(item.value)
     })
     config.forEach(row => {
       var newRow = JSON.parse(JSON.stringify(initialData[0]))
+      console.log(newRow, "🌂")
       var oldSpacerVal = row.dropDown.value
       var oldTextVal = row.text.value
-      console.log(items,oldSpacerVal)
+      console.log(items,oldSpacerVal, "✂️")
       if(items.includes(oldSpacerVal)) {
         newRow.dropDown.value = oldSpacerVal
         console.log(true)
       }
       newRow.text.value = oldTextVal
-      updatedCnfgArr.push(newRow)
+      updatedConfigArr.push(newRow)
     })
-    return updatedCnfgArr
+    return updatedConfigArr
   }
 
   function getSpacer() {
