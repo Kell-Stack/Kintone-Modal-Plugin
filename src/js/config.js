@@ -4,11 +4,8 @@ import Swal from 'sweetalert2'
 var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
 require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
 
-
 // everytime you select a space the option is no longer available for the next row
-// group blank space
-
-// config function
+// getspace element api call send alert if the values don't exist one for detail page and the other is for the list page
 (function (PLUGIN_ID) {
   'use strict';
 
@@ -70,7 +67,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
             text: {
               value: newValue
             }
-          }, true);
+          }, false);
         });
         this.textAreaField = textAreaField;
         return span;
@@ -79,22 +76,14 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       update: function ({
         rowData
       }) {
-        var _self = this;
+        // var _self = this;
         console.log('rowData:', rowData)
-
-        rowData.dropDown.items.forEach(row => {
-          if (row.value === rowData.dropDown.value) {
-            rowData.dropDown.items.isDisabled = true
-          }
-        })
         var textAreaVal = rowData.text; // or ({value: rowData.textarea.value}) ??
         console.log('📸textAreaVal', textAreaVal)
         // console.log("react obj:", _self.textAreaField._reactObject)
         if (textAreaVal && this.textAreaField._reactObject) {
-          _self.textAreaField.setValue(textAreaVal.value);
+          textAreaField.setValue(this.textAreaVal.value);
         }
-
-        console.log(this.textAreaField, "😐😐update text area object😐😐")
       }
     }
   }; // ------>end of customCellTextArea
@@ -104,12 +93,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   var setTable = (initialData) => {
     // initial data of a table
 
-    // //or new spaces exist 
-    // if (typeof spacers ==='undefined'){
-    //   return initialData
-    // }
-
-    //redefine dRD and oRD point/refernce
     var defaultRowData = JSON.parse(JSON.stringify(initialData[0]))
     // return this data to override default row data onRowAdd
     var overriddenRowData = JSON.parse(JSON.stringify(initialData[0]))
@@ -122,24 +105,22 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       defaultRowData: defaultRowData,
       onRowAdd: function (event) {
         console.log('table.onAdd🥎', event.data);
-        // ask georgina if it makes more sense to put dup func here
-
-        // if onRowAdd does not return anything, defaultRowData will be used to create new table row
-        // event.data.forEach(row => {
-        //   if ( row.dropDown.value === "--------"||row.items.isDisabled === true){
-        //     return row.items.isDisabled === false
-        //   }
-        // })
+        // if val is selected then setValue and disable from dropdown on add row
+        duplicateVal(event.data)
         return JSON.parse(JSON.stringify(overriddenRowData));
       },
+      onCellChange: function (event) {
+        // Disable or enable any dropdown values that are already selected
+        duplicateVal(event.data)
+      },
       columns: [{
-          header: 'Blank Space Element ID',
+          header: 'Element ID',
           cell: function () {
             return kintoneUIComponent.createTableCell('dropdown', 'dropDown')
           }
         },
         {
-          header: 'Text to appear in Modal',
+          header: 'Text to appear in Tooltip',
           cell: function () {
             return customCellTextArea()
           }
@@ -159,17 +140,31 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     return false
   }
 
-  let duplicateVal = (data) => {
+  let duplicateVal = (config) => {
     //   if the dropdown item has been chosen
     //   disable the same val from dropdown
-    for (let i = 0; i < data.length - 1; i++) {
-      console.log(data[i].dropDown.value, "🅰️", data[i + 1].dropDown.value, "🅱️")
-      var dataIndexdDval = data[i].dropDown.value
-      var dataIndexIteratedDval = data[i + 1].dropDown.value
-      if (dataIndexdDval === dataIndexIteratedDval) {
-        return true
-      }
-    }
+    //   if true isDisabled: true
+
+    // Deep clone the config, so we can pass it to our update function
+    var newConfig = JSON.parse(JSON.stringify(config)); 
+
+    // Collect a list of all the currently selected dropdown values
+    console.log(config,"⛑")
+    var selectedValues = config.map(row => row.dropDown.value);
+
+    newConfig.forEach(row => {
+      row.dropDown.items.forEach(dropDownItem => {
+        if (selectedValues.includes(dropDownItem.value)) {
+          dropDownItem.isDisabled = true
+        }
+      })
+    })
+    debugger
+    //var updatedConfig = updateConfig(newConfig, config)
+    var table = setTable(newConfig);    
+    var result = table.render();
+    console.log(result)
+    debugger
   }
 
   var handleSaveClick = (table) => {
@@ -182,8 +177,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       table: dataJSON
     }
 
-    console.log(duplicateVal(data), "keeeeeelly👨‍👨‍👦‍👦")
-
     if (checkMissingVal(data)) {
       Swal.fire({
         title: '<strong>Invalid Input</strong>',
@@ -191,26 +184,23 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         type: 'error',
         confirmButtonText: 'Cool'
       })
-    } else if (duplicateVal(data) === true) {
-      Swal.fire({
-        title: '<strong>Duplicate Value</strong>',
-        html: 'You can only have one modal per blank space field. Please delete field',
-        type: 'error',
-        confirmButtonText: 'Ok'
-      })
+    // } else if (duplicateVal(data) === true) {
+    //   Swal.fire({
+    //     title: '<strong>Duplicate Value</strong>',
+    //     html: 'You can only have one modal per blank space field. Please delete field',
+    //     type: 'error',
+    //     confirmButtonText: 'Ok'
+    //   })
     } else {
       kintone.plugin.app.setConfig(config, function () {
         Swal.fire({
           timer: 5000,
           title: 'Saved',
-          html: 'Don\'t forget to <b>Update App</b> in your app settings. <br> We\'ll take you there now',
+          html: 'Don\'t forget to <b>Update App</b> in your app settings. <br> We\'ll take you back there now!',
           type: 'success',
-          showConfirmButton: false
-          //   onClose: () => {
-          //     clearInterval(timerInterval)
-          //   }).then(function(){
-          //     window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
-          // })
+          showConfirmButton: false,
+        // }).then(function () {
+        //   window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
         });
       })
     }
@@ -223,8 +213,8 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       html: 'Your changes were not saved',
       type: 'warning',
       confirmButtonText: 'Back to App Settings'
-    }).then(function () {
-      window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
+    // }).then(function () {
+    //   window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
     })
   }
 
@@ -239,8 +229,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       console.log(newRow, "🌂")
       var oldSpacerVal = row.dropDown.value
       var oldTextVal = row.text.value
-      console.log(items,oldSpacerVal, "✂️")
-      if(items.includes(oldSpacerVal)) {
+      if (items.includes(oldSpacerVal)) {
         newRow.dropDown.value = oldSpacerVal
         console.log(true)
       }
@@ -279,7 +268,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       if (config && config.table) {
         var parsedConfig = JSON.parse(config.table);
         console.log(parsedConfig, "👀👀👀")
-        //parse updatedConfig
         var newConfig = updateConfig(parsedConfig, initialData)
         table.setValue(newConfig);
       }

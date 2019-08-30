@@ -28,7 +28,7 @@
     "en": "Tooltip Label Plugin"
   },
   "description": {
-    "en": "This plugin aims to decrease clutter from unnecessary labels or text fields on client’s Kintone apps."
+    "en": "This plug-in will place an icon on top of a blank space field that upon hover, will display a tooltip."
   },
   "mobile": {
     "js": [

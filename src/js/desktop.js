@@ -1,31 +1,36 @@
 import $ from 'jquery';
 import tippy from 'tippy.js';
 import image from '../image/question.png';
+import image2 from '../image/information-circular-button-interface-symbol.png';
+import image3 from '../image/information-web-circular-button-symbol.png';
+import image4 from '../image/information-button.png';
+
+
+
 
 (function (PLUGIN_ID) {
   'use strict';
 
   const getIcon = () => {
+
     var config = kintone.plugin.app.getConfig(PLUGIN_ID)
-    console.log(config,"config 🔴")
+
     var parsedConfig = JSON.parse(config.table);
     parsedConfig.forEach(index => {
       var elementId = index.dropDown.value
       var text = index.text.value
 
       var icon = document.createElement('img')
-      icon.setAttribute('src', image)
+      icon.setAttribute('src', image4)
 
       var spacer = kintone.app.record.getSpaceElement(elementId)
-
-      console.log(spacer, "🙃")
 
       $(icon).attr('class', 'info-icon')
       spacer.appendChild(icon)
 
       var tippyAttr = {
         placement: 'top',
-        animation: 'fade',
+        // animation: 'fade',
         theme: 'light-border',
         inertia: 'true',
         animation: 'scale',
@@ -36,8 +41,6 @@ import image from '../image/question.png';
   }
 
   kintone.events.on('app.record.detail.show', function (event) {
-    console.log(event, "event:")
-    // iterate through config then i'll parse it for each object i will call getIcon(spacers, text)
     getIcon()
 
   });
