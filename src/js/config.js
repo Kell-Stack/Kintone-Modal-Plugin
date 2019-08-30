@@ -51,6 +51,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         rowData,
         updateRowData
       }) {
+        console.log("row Dataaa",rowData)
         var span = document.createElement('span');
         var textAreaField = new kintoneUIComponent.TextArea({
           value: rowData.text.value
@@ -101,15 +102,10 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       data: initialData,
       // default row data on row add
       defaultRowData: defaultRowData,
-      onRowAdd: function (event) {
-        console.log('table.onAdd🥎', event.data);
-        // if val is selected then setValue and disable from dropdown on add row
-        duplicateVal(event.data)
+      onRowAdd: function (e) {
+        // if onRowAdd does not return anything, defaultRowData will be used to create new table row
+        // if below row data is returned, it will override defaultRowData to be used to create new table row
         return JSON.parse(JSON.stringify(overriddenRowData));
-      },
-      onCellChange: function (event) {
-        // Disable or enable any dropdown values that are already selected
-        duplicateVal(event.data)
       },
       columns: [{
           header: 'Element ID',
@@ -141,39 +137,53 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   let duplicateVal = (config) => {
     //   if the dropdown item has been chosen
     //   disable the same val from dropdown
-    //   if true isDisabled: true
+    //   if (true){ isDisabled: true}
 
-    //onCellChange event, if the state changes  then the updateconfig function must be invoked
+    //onCellChange event, if the state changes then the updateconfig function must be invoked
 
     // Deep clone the config, so we can pass it to our update function
-    var newConfig = JSON.parse(JSON.stringify(config)); 
-
+    var newConfig = JSON.parse(JSON.stringify(config));
     // Collect a list of all the currently selected dropdown values
     // console.log(config,"⛑")
-    console.log(newConfig,"🐽")
+    console.log(newConfig, "🐽")
     var selectedValues = config.map(row => row.dropDown.value);
-    // console.log(selectedValues, "🦁")
+    console.log(selectedValues, "🦁")
+
 
     newConfig.forEach(row => {
       // console.log("row: ",row)
       var newconfigIndex = row.dropDown
       newconfigIndex.items.forEach(dropDownItem => {
         // console.log(dropDownItem, "🏓")
-      //   console.log(dropDownItem.isDisabled, "🎱")
-      // console.log(dropDownItem.value,"dditem.val")
-          
+        //   console.log(dropDownItem.isDisabled, "🎱")
         if (selectedValues.includes(dropDownItem.value)) {
-            return dropDownItem.isDisabled = true
-          }
+          dropDownItem.isDisabled = true
+        }
       })
     })
-    console.log(newConfig,"💍💍💍💍💍")
 
-//designing state and designing objects, depeneding what i put inside i'm trying to manipulate that same data
-
-    var updatedConfig = updatedropDownItems(newConfig, config)
-    console.log(updatedConfig, "🎩")
-    setTable(newConfig);
+    //designing state and designing objects, depeneding what i put inside i'm trying to manipulate that same data
+  }
+  var updatedropDownItems = (config, initialData) => {
+    console.log(config, "5️⃣")
+    var items = []
+    var updatedConfigArr = []
+    initialData[0].dropDown.items.forEach(item => {
+      items.push(item.value)
+    })
+    config.forEach(row => {
+      var newRow = JSON.parse(JSON.stringify(initialData[0]))
+      // console.log(newRow, "🌂")
+      var oldSpacerVal = row.dropDown.value
+      var oldTextVal = row.text.value
+      if (items.includes(oldSpacerVal)) {
+        newRow.dropDown.value = oldSpacerVal
+        console.log(true)
+      }
+      newRow.text.value = oldTextVal
+      updatedConfigArr.push(newRow)
+    })
+    return updatedConfigArr
   }
 
   var handleSaveClick = (table) => {
@@ -193,13 +203,13 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         type: 'error',
         confirmButtonText: 'Cool'
       })
-    // } else if (duplicateVal(data) === true) {
-    //   Swal.fire({
-    //     title: '<strong>Duplicate Value</strong>',
-    //     html: 'You can only have one modal per blank space field. Please delete field',
-    //     type: 'error',
-    //     confirmButtonText: 'Ok'
-    //   })
+      // } else if (duplicateVal(data) === true) {
+      //   Swal.fire({
+      //     title: '<strong>Duplicate Value</strong>',
+      //     html: 'You can only have one modal per blank space field. Please delete field',
+      //     type: 'error',
+      //     confirmButtonText: 'Ok'
+      //   })
     } else {
       kintone.plugin.app.setConfig(config, function () {
         Swal.fire({
@@ -208,8 +218,8 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
           html: 'Don\'t forget to <b>Update App</b> in your app settings. <br> We\'ll take you back there now!',
           type: 'success',
           showConfirmButton: false,
-        // }).then(function () {
-        //   window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
+          // }).then(function () {
+          //   window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
         });
       })
     }
@@ -222,30 +232,9 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       html: 'Your changes were not saved',
       type: 'warning',
       confirmButtonText: 'Back to App Settings'
-    // }).then(function () {
-    //   window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
+      // }).then(function () {
+      //   window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
     })
-  }
-
-  var updatedropDownItems = (config, initialData) => {
-    var items = []
-    var updatedConfigArr = []
-    initialData[0].dropDown.items.forEach(item => {
-      items.push(item.value)
-    })
-    config.forEach(row => {
-      var newRow = JSON.parse(JSON.stringify(initialData[0]))
-      // console.log(newRow, "🌂")
-      var oldSpacerVal = row.dropDown.value
-      var oldTextVal = row.text.value
-      if (items.includes(oldSpacerVal)) {
-        newRow.dropDown.value = oldSpacerVal
-        console.log(true)
-      }
-      newRow.text.value = oldTextVal
-      updatedConfigArr.push(newRow)
-    })
-    return updatedConfigArr
   }
 
   function getSpacer() {
@@ -279,6 +268,14 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         console.log(parsedConfig, "parsed config👀👀👀")
         var newConfig = updatedropDownItems(parsedConfig, initialData)
         table.setValue(newConfig);
+
+        table.on('rowAdd', function (event) {
+          console.log(event, "EVENT")
+
+          event.data[0].dropDown.items[1].isDisabled = true
+          console.log(event, "🔴event:")
+          table.updateRowData(0, event.data[0]) 
+        })
       }
 
       var savebutton = new kintoneUIComponent.Button({
