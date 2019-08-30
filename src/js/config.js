@@ -4,7 +4,7 @@ import Swal from 'sweetalert2'
 var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
 require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
 
-// everytime you select a space the option is no longer available for the next row
+// everytime you select a spacer the option is no longer available for the next row
 // getspace element api call send alert if the values don't exist one for detail page and the other is for the list page
 (function (PLUGIN_ID) {
   'use strict';
@@ -79,7 +79,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         // var _self = this;
         console.log('rowData:', rowData)
         var textAreaVal = rowData.text; // or ({value: rowData.textarea.value}) ??
-        console.log('📸textAreaVal', textAreaVal)
+        // console.log('📸textAreaVal', textAreaVal)
         // console.log("react obj:", _self.textAreaField._reactObject)
         if (textAreaVal && this.textAreaField._reactObject) {
           textAreaField.setValue(this.textAreaVal.value);
@@ -96,8 +96,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     var defaultRowData = JSON.parse(JSON.stringify(initialData[0]))
     // return this data to override default row data onRowAdd
     var overriddenRowData = JSON.parse(JSON.stringify(initialData[0]))
-    console.log(defaultRowData, "💜")
-    console.log(overriddenRowData, "💜💜💜")
 
     var table = new kintoneUIComponent.Table({
       data: initialData,
@@ -145,26 +143,37 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     //   disable the same val from dropdown
     //   if true isDisabled: true
 
+    //onCellChange event, if the state changes  then the updateconfig function must be invoked
+
     // Deep clone the config, so we can pass it to our update function
     var newConfig = JSON.parse(JSON.stringify(config)); 
 
     // Collect a list of all the currently selected dropdown values
-    console.log(config,"⛑")
+    // console.log(config,"⛑")
+    console.log(newConfig,"🐽")
     var selectedValues = config.map(row => row.dropDown.value);
+    // console.log(selectedValues, "🦁")
 
     newConfig.forEach(row => {
-      row.dropDown.items.forEach(dropDownItem => {
+      // console.log("row: ",row)
+      var newconfigIndex = row.dropDown
+      newconfigIndex.items.forEach(dropDownItem => {
+        // console.log(dropDownItem, "🏓")
+      //   console.log(dropDownItem.isDisabled, "🎱")
+      // console.log(dropDownItem.value,"dditem.val")
+          
         if (selectedValues.includes(dropDownItem.value)) {
-          dropDownItem.isDisabled = true
-        }
+            return dropDownItem.isDisabled = true
+          }
       })
     })
-    debugger
-    //var updatedConfig = updateConfig(newConfig, config)
-    var table = setTable(newConfig);    
-    var result = table.render();
-    console.log(result)
-    debugger
+    console.log(newConfig,"💍💍💍💍💍")
+
+//designing state and designing objects, depeneding what i put inside i'm trying to manipulate that same data
+
+    var updatedConfig = updatedropDownItems(newConfig, config)
+    console.log(updatedConfig, "🎩")
+    setTable(newConfig);
   }
 
   var handleSaveClick = (table) => {
@@ -218,7 +227,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     })
   }
 
-  var updateConfig = (config, initialData) => {
+  var updatedropDownItems = (config, initialData) => {
     var items = []
     var updatedConfigArr = []
     initialData[0].dropDown.items.forEach(item => {
@@ -226,7 +235,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     })
     config.forEach(row => {
       var newRow = JSON.parse(JSON.stringify(initialData[0]))
-      console.log(newRow, "🌂")
+      // console.log(newRow, "🌂")
       var oldSpacerVal = row.dropDown.value
       var oldTextVal = row.text.value
       if (items.includes(oldSpacerVal)) {
@@ -267,8 +276,8 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
       if (config && config.table) {
         var parsedConfig = JSON.parse(config.table);
-        console.log(parsedConfig, "👀👀👀")
-        var newConfig = updateConfig(parsedConfig, initialData)
+        console.log(parsedConfig, "parsed config👀👀👀")
+        var newConfig = updatedropDownItems(parsedConfig, initialData)
         table.setValue(newConfig);
       }
 

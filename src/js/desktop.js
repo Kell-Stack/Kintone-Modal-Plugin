@@ -5,9 +5,6 @@ import image2 from '../image/information-circular-button-interface-symbol.png';
 import image3 from '../image/information-web-circular-button-symbol.png';
 import image4 from '../image/information-button.png';
 
-
-
-
 (function (PLUGIN_ID) {
   'use strict';
 
@@ -34,6 +31,7 @@ import image4 from '../image/information-button.png';
         theme: 'light-border',
         inertia: 'true',
         animation: 'scale',
+        animateFill: false,
         content: text,
       }
       tippy(spacer, tippyAttr)
