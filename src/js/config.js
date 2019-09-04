@@ -140,7 +140,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     //   if (true){ isDisabled: true}
 
     //onCellChange event, if the state changes then the updateconfig function must be invoked
-
     // Deep clone the config, so we can pass it to our update function
     var newConfig = JSON.parse(JSON.stringify(config));
     // Collect a list of all the currently selected dropdown values
@@ -148,20 +147,8 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     console.log(newConfig, "🐽")
     var selectedValues = config.map(row => row.dropDown.value);
     console.log(selectedValues, "🦁")
-
-
-    newConfig.forEach(row => {
-      // console.log("row: ",row)
-      var newconfigIndex = row.dropDown
-      newconfigIndex.items.forEach(dropDownItem => {
-        // console.log(dropDownItem, "🏓")
-        //   console.log(dropDownItem.isDisabled, "🎱")
-        if (selectedValues.includes(dropDownItem.value)) {
-          dropDownItem.isDisabled = true
-        }
-      })
-    })
-
+    // create var checkCache/checkDupes using an obj to track if i've used that spacer already exists. if it does exist disable the space for everyother row
+    // you don't have to work with the config anymore just use the event handler
     //designing state and designing objects, depeneding what i put inside i'm trying to manipulate that same data
   }
   var updatedropDownItems = (config, initialData) => {
@@ -187,7 +174,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   }
 
   var handleSaveClick = (table) => {
-    console.log(table, "HELLO");
     var data = table.getValue();
     console.log('🍯data:', data)
 
@@ -269,12 +255,21 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         var newConfig = updatedropDownItems(parsedConfig, initialData)
         table.setValue(newConfig);
 
-        table.on('rowAdd', function (event) {
-          console.log(event, "EVENT")
 
+
+        //try onCellChange instead of add/remove
+        //oncellchange will this get reflected
+        table.on('cellChange', function (event) {
+          console.log(event, "EVENT")
+          //function 
           event.data[0].dropDown.items[1].isDisabled = true
           console.log(event, "🔴event:")
-          table.updateRowData(0, event.data[0]) 
+          // table.updateRowData(0, event.data[0]) 
+          //call duplicate val functio
+
+
+
+          table.setValue(event.data)
         })
       }
 
