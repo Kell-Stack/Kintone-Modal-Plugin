@@ -134,7 +134,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       return false
     }
 
-    let duplicateVal = (config) => {
+    let duplicateVal = (data) => {
       for (let i = 0; i < data.length - 1; i++) {
         console.log(data[i].dropDown.value, "🅰️", data[i + 1].dropDown.value, "🅱️")
         var dataIndexdDval = data[i].dropDown.value
@@ -142,11 +142,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         if (dataIndexdDval === dataIndexIteratedDval) {
           return true
         }
-      }
-
-      var newConfig = JSON.parse(JSON.stringify(config));
-      if (dataIndexdDval === dataIndexIteratedDval) {
-        return true // Collect a list of all the currently selected dropdown values
       }
     }
 
@@ -218,8 +213,8 @@ var handleCancelButton = () => {
     html: 'Your changes were not saved',
     type: 'warning',
     confirmButtonText: 'Back to App Settings'
-    // }).then(function () {
-    //   window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
+    }).then(function () {
+      window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
   })
 }
 

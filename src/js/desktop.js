@@ -10,27 +10,31 @@ import image4 from '../image/information-button.png';
 (function (PLUGIN_ID) {
   'use strict';
 
-  //if tooltip config has no data throw error message
-
-  // if () {
-  //   console.log('if tooltip config has no data throw error message')
-  // }
-
   const throwPluginNotConfiguredAlert = () => {
+   
+    var sendToPluginSettings = () => {
+      var headerLink = document.createElement('a')
+      console.log('headerLink', "🤩")
+      headerLink.setAttribute('href', "kbfkbkbdkhfb")
+      window.location.href = '/k/admin/app/' + kintone.app.getId() + '/plugin/#/';
+    }
+    
     var alert = new kintoneUIComponent.Alert({
       text: 'Tooltip Label plug-in is not configured yet.'
     });
     var header = kintone.app.getHeaderSpaceElement()
     header.appendChild(alert.render())
     alert.setType("error")
-
     alert.on('click', function (event) {
-      window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '/plugin/#/';
-      var headerLink = document.createElement('a')
-      headerLink.setAttribute('href', window.location.href)
+      sendToPluginSettings()
     })
-
   }
+
+    //if tooltip config has no data throw error message
+
+  // if () {
+  //   console.log('if tooltip config has no data throw error message')
+  // }
 
   throwPluginNotConfiguredAlert()
 
