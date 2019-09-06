@@ -12,6 +12,10 @@ import image4 from '../image/information-button.png';
 
     var config = kintone.plugin.app.getConfig(PLUGIN_ID)
 
+    var error = kintone.app.getHeaderSpaceElement("Tooltip Label plug-in is not configured yet.");
+    
+    error
+
     var parsedConfig = JSON.parse(config.table);
     parsedConfig.forEach(index => {
       var elementId = index.dropDown.value

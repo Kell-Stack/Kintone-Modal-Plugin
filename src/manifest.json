@@ -4,7 +4,6 @@
   "type": "APP",
   "desktop": {
     "js": [
-      "https://js.cybozu.com/jquery/3.3.1/jquery.min.js",
       "bundle/desktop_bundle.js"
     ],
     "css": [
@@ -16,7 +15,6 @@
   "config": {
     "html": "html/config.html",
     "js": [
-      "https://js.cybozu.com/jquery/3.3.1/jquery.min.js",
       "bundle/config_bundle.js"
     ],
     "css": [
@@ -32,7 +30,6 @@
   },
   "mobile": {
     "js": [
-      "https://js.cybozu.com/jquery/3.3.1/jquery.min.js",
       "bundle/mobile_bundle.js"
     ],
     "css": [

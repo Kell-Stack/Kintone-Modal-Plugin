@@ -51,7 +51,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         rowData,
         updateRowData
       }) {
-        console.log("row Dataaa",rowData)
+        console.log("row Dataaa", rowData)
         var span = document.createElement('span');
         var textAreaField = new kintoneUIComponent.TextArea({
           value: rowData.text.value
@@ -108,11 +108,11 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         return JSON.parse(JSON.stringify(overriddenRowData));
       },
       columns: [{
-          header: 'Element ID',
-          cell: function () {
-            return kintoneUIComponent.createTableCell('dropdown', 'dropDown')
-          }
-        },
+        header: 'Element ID',
+        cell: function () {
+          return kintoneUIComponent.createTableCell('dropdown', 'dropDown')
+        }
+      },
         {
           header: 'Text to appear in Tooltip',
           cell: function () {
@@ -135,10 +135,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
   }
 
   let duplicateVal = (config) => {
-    //   if the dropdown item has been chosen
-    //   disable the same val from dropdown
-    //   if (true){ isDisabled: true}
-
     //onCellChange event, if the state changes then the updateconfig function must be invoked
     // Deep clone the config, so we can pass it to our update function
     var newConfig = JSON.parse(JSON.stringify(config));
@@ -151,8 +147,10 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     // you don't have to work with the config anymore just use the event handler
     //designing state and designing objects, depeneding what i put inside i'm trying to manipulate that same data
   }
+
+
   var updatedropDownItems = (config, initialData) => {
-    console.log(config, "5️⃣")
+    // console.log(config, "5️⃣")
     var items = []
     var updatedConfigArr = []
     initialData[0].dropDown.items.forEach(item => {
@@ -189,13 +187,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         type: 'error',
         confirmButtonText: 'Cool'
       })
-      // } else if (duplicateVal(data) === true) {
-      //   Swal.fire({
-      //     title: '<strong>Duplicate Value</strong>',
-      //     html: 'You can only have one modal per blank space field. Please delete field',
-      //     type: 'error',
-      //     confirmButtonText: 'Ok'
-      //   })
     } else {
       kintone.plugin.app.setConfig(config, function () {
         Swal.fire({
@@ -256,20 +247,51 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         table.setValue(newConfig);
 
 
-
-        //try onCellChange instead of add/remove
-        //oncellchange will this get reflected
         table.on('cellChange', function (event) {
           console.log(event, "EVENT")
-          //function 
-          event.data[0].dropDown.items[1].isDisabled = true
-          console.log(event, "🔴event:")
-          // table.updateRowData(0, event.data[0]) 
+
+          // var eventData = event.data[0].dropDown
+          // eventData.items.forEach(item => {
+          //   if (eventData.value === item.value) {
+          //     for (i = 0; i < item.length; i++) {
+          //       item[i].isDisabled = true
+          //     }
+          //     console.log(event, "👾event👾event👾")
+          //   }
+          // })
+          // table.updateRowData(0, event.data[0])
+          var eventDropDownData = event.data[0].dropDown
+          console.log(eventDropDownData, "Ⓜ️")
+
+          eventDropDownData.items.forEach(index => {
+              // var val = dataRow.dropDown.value
+              console.log(index, "😈")
+              // for (let i =0; i < event)
+              // if (index.value === ) {
+
+              // }
+
+
+              // var val = dataRow.dropDown.value
+              // console.log(val, "👹")
+              // console.log(index.value, "🤡")
+              // if (index.value === val) {
+              //   index.isDisabled = true
+              // }
+            })
+
           //call duplicate val functio
 
+          //, {
+            // onChange: function ({
+            //   data,
+            //   rowIndex
+            // }) {
+            //   table.updateRowData(rowIndex, data[rowIndex])
+            // }
 
 
-          table.setValue(event.data)
+          // table.setValue(event.data)
         })
       }
 
@@ -300,7 +322,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
   getSpacer()
 
-
+  
 })(kintone.$PLUGIN_ID);
 
 
