@@ -1,5 +1,7 @@
 import $ from 'jquery';
 import tippy from 'tippy.js';
+var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
+require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
 import image from '../image/question.png';
 import image2 from '../image/information-circular-button-interface-symbol.png';
 import image3 from '../image/information-web-circular-button-symbol.png';
@@ -8,13 +10,33 @@ import image4 from '../image/information-button.png';
 (function (PLUGIN_ID) {
   'use strict';
 
+  //if tooltip config has no data throw error message
+
+  // if () {
+  //   console.log('if tooltip config has no data throw error message')
+  // }
+
+  const throwPluginNotConfiguredAlert = () => {
+    var alert = new kintoneUIComponent.Alert({
+      text: 'Tooltip Label plug-in is not configured yet.'
+    });
+    var header = kintone.app.getHeaderSpaceElement()
+    header.appendChild(alert.render())
+    alert.setType("error")
+
+    alert.on('click', function (event) {
+      window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '/plugin/#/';
+      var headerLink = document.createElement('a')
+      headerLink.setAttribute('href', window.location.href)
+    })
+
+  }
+
+  throwPluginNotConfiguredAlert()
+
   const getIcon = () => {
 
     var config = kintone.plugin.app.getConfig(PLUGIN_ID)
-
-    var error = kintone.app.getHeaderSpaceElement("Tooltip Label plug-in is not configured yet.");
-    
-    error
 
     var parsedConfig = JSON.parse(config.table);
     parsedConfig.forEach(index => {
@@ -44,7 +66,6 @@ import image4 from '../image/information-button.png';
 
   kintone.events.on('app.record.detail.show', function (event) {
     getIcon()
-
   });
 
 })(kintone.$PLUGIN_ID);
