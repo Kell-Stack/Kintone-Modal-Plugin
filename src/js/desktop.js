@@ -6,37 +6,37 @@ import image from '../image/question.png';
 import image2 from '../image/information-circular-button-interface-symbol.png';
 import image3 from '../image/information-web-circular-button-symbol.png';
 import image4 from '../image/information-button.png';
+import {selectedSpacersAndText} from './config';
 
 (function (PLUGIN_ID) {
   'use strict';
 
+
   const throwPluginNotConfiguredAlert = () => {
-   
-    var sendToPluginSettings = () => {
-      var headerLink = document.createElement('a')
-      console.log('headerLink', "🤩")
-      headerLink.setAttribute('href', "kbfkbkbdkhfb")
-      window.location.href = '/k/admin/app/' + kintone.app.getId() + '/plugin/#/';
-    }
-    
-    var alert = new kintoneUIComponent.Alert({
-      text: 'Tooltip Label plug-in is not configured yet.'
+    selectedSpacersAndText()
+    //   if() {
+
+    // }
+
+    kintone.api(kintone.api.url('/k/v1/app', true), 'GET', {
+      "id": kintone.app.getId()
+    }, function (resp) {
+      var alert = new kintoneUIComponent.Alert({
+        text: 'A \'Blank Space\' does not exist as a field in form settings anymore. Please contact the app\'s administrator ' + resp.creator.name + ' or ' + resp.modifier.name,
+      });
+      var header = kintone.app.getHeaderSpaceElement()
+      header.appendChild(alert.render())
+      alert.setType("error")
+    }, function (error) {
+      console.log(error);
     });
-    var header = kintone.app.getHeaderSpaceElement()
-    header.appendChild(alert.render())
-    alert.setType("error")
-    alert.on('click', function (event) {
-      sendToPluginSettings()
-    })
   }
 
-    //if tooltip config has no data throw error message
-
+  // throwPluginNotConfiguredAlert()
   // if () {
-  //   console.log('if tooltip config has no data throw error message')
+  // kintone.throwPluginNotConfiguredAlert()
   // }
 
-  throwPluginNotConfiguredAlert()
 
   const getIcon = () => {
 
@@ -71,5 +71,6 @@ import image4 from '../image/information-button.png';
   kintone.events.on('app.record.detail.show', function (event) {
     getIcon()
   });
+
 
 })(kintone.$PLUGIN_ID);
