@@ -129,23 +129,20 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     return false
   }
 
-  let selectedSpacersAndText = (config) => {
-    var newConfig = JSON.parse(JSON.stringify(config));
-    // Collect a list of all the currently selected dropdown values
-    // console.log(config,"⛑")
-    console.log(newConfig, "🐽")
-    var selectedValues = config.map(row => row.dropDown.value);
-    console.log(selectedValues, "🦁🦁🦁🦁🦁🦁")
-    // create var checkCache/checkDupes using an obj to track if i've used that spacer already exists. if it does exist disable the space for everyother row
-  }
+//use set as well instead of counter 
+//iterate through data and have a var for the set that tracks it
+//if this val is included in my set let me add if it exists already, throw the error
 
   let duplicateVal = (data) => {
-    for (let i = 0; i < data.length - 1; i++) {
-      console.log(data[i].dropDown.value, "🅰️", data[i + 1].dropDown.value, "🅱️")
-      var dataIndexdDval = data[i].dropDown.value
-      var dataIndexIteratedDval = data[i + 1].dropDown.value
-      if (dataIndexdDval === dataIndexIteratedDval) {
-        return true
+    selectedValues.sort()
+    var current = null
+    var count = 0
+    for (var i =0; i <selectedValues.length; i++) {
+      if (selectedValues[i] != current) {
+        current = selectedValues[i]
+        count = 1
+      } else {
+        count++
       }
     }
   }
@@ -159,7 +156,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     })
     config.forEach(row => {
       var newRow = JSON.parse(JSON.stringify(initialData[0]))
-      // console.log(newRow, "🌂")
       var oldSpacerVal = row.dropDown.value
       var oldTextVal = row.text.value
       if (items.includes(oldSpacerVal)) {
@@ -181,7 +177,10 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       table: dataJSON
     }
 
-    selectedSpacersAndText()
+    var newData = JSON.parse(JSON.stringify(data));
+    var selectedValues = newData.map(row => row.dropDown.value);
+    console.log(selectedValues, "🦁🦁🦁")
+
 
     if (duplicateVal(data) === true) {
       Swal.fire({

@@ -1,28 +1,90 @@
 import $ from 'jquery';
 import tippy from 'tippy.js';
+import * as kintoneJSSDK from '@kintone/kintone-js-sdk';
 var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
 require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
 import image from '../image/question.png';
-import image2 from '../image/information-circular-button-interface-symbol.png';
-import image3 from '../image/information-web-circular-button-symbol.png';
 import image4 from '../image/information-button.png';
-import {selectedSpacersAndText} from './config';
 
 (function (PLUGIN_ID) {
   'use strict';
 
+  var spacersList = (objLayout) => {
+    var items = [{
+      label: '--------',
+      value: '--------',
+      isDisabled: true
+    }]
+    const layout = objLayout.layout
+
+    function rowLayout(row) {
+      var fieldsArray = row.fields
+      fieldsArray.forEach(field => {
+        // var fields = row.fields;
+        if (field.type === 'SPACER') {
+          var itemObj = {}
+          itemObj.label = field.elementId
+          itemObj.value = field.elementId
+          itemObj.isDisabled = false
+          items.push(itemObj)
+        }
+      })
+    }
+    layout.forEach(index => {
+      if (index.type === "GROUP") {
+        index.layout.forEach(row => {
+          rowLayout(row)
+        })
+      } else if (index.type === "ROW") {
+        rowLayout(index)
+      }
+    })
+    return items
+  }
+
+
+  var getLayout = () => {
+    var connection = new kintoneJSSDK.Connection()
+    var kintoneApp = new kintoneJSSDK.App(connection)
+
+    kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
+      var config = kintone.plugin.app.getConfig(PLUGIN_ID)
+      console.log("rsp🙃",rsp)
+      
+      var spacers = spacersList(rsp)
+      console.log("space🙃🙃face", spacers)
+
+
+    }).catch((err) => {
+      console.log(err, "YOU YOU");
+    });
+
+
+    var layoutSpaces = new Set()
+  }
+  getLayout()
+
+  // //iterate through the layout obj
+  //     // anytime you run into a space, add to your layoutSpace set;
+  // // Return layoutSpaces
+  // }
+
+  // Var layoutSpaces = getLayout();
+  // //iterate through the config obj
+  //     //as you loop through each table row, check if the selected space value exists in layoutSpaces;
+
 
   const throwPluginNotConfiguredAlert = () => {
-    selectedSpacersAndText()
-    //   if() {
+    // console.log(selectedValues, "🔴🔴🔴")
+    // if (selectedSpacers === undefined || selectedSpacers.length == 0) {
 
-    // }
-
+    // can you find the selected spaces in the form layout 
+    // if this is the same as the config file if not error
     kintone.api(kintone.api.url('/k/v1/app', true), 'GET', {
       "id": kintone.app.getId()
     }, function (resp) {
       var alert = new kintoneUIComponent.Alert({
-        text: 'A \'Blank Space\' does not exist as a field in form settings anymore. Please contact the app\'s administrator ' + resp.creator.name + ' or ' + resp.modifier.name,
+        text: 'A \'Blank Space\' does not exist as a field in form settings anymore. Please contact the app\'s creator ' + resp.creator.name + ' or administrator ' + resp.modifier.name + ' to update the app!'
       });
       var header = kintone.app.getHeaderSpaceElement()
       header.appendChild(alert.render())
@@ -32,11 +94,7 @@ import {selectedSpacersAndText} from './config';
     });
   }
 
-  // throwPluginNotConfiguredAlert()
-  // if () {
-  // kintone.throwPluginNotConfiguredAlert()
-  // }
-
+  throwPluginNotConfiguredAlert()
 
   const getIcon = () => {
 
@@ -57,7 +115,7 @@ import {selectedSpacersAndText} from './config';
 
       var tippyAttr = {
         placement: 'top',
-        // animation: 'fade',
+        animation: 'fade',
         theme: 'light-border',
         inertia: 'true',
         animation: 'scale',
