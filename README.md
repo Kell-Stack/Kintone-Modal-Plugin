@@ -155,6 +155,6 @@ _add gif demo of plugin_
     - Click on 'New'
     - Tick off Tooltip Label Plugin and click 'Add'
     - Click the gear wheel that corresponds with Tooltip Label under 'Change Settings'
-    - Choose the elementId's name that you want to add a modal to and type in the message you want displayed when user hovers over icon
+    - Choose the elementId's name that you want to add a tooltip to and type in the message you want displayed when user hovers over icon
     - Click 'Save'
-    - Update app
+    - Have admin update app
