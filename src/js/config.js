@@ -134,17 +134,8 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 //if this val is included in my set let me add if it exists already, throw the error
 
   let duplicateVal = (data) => {
-    selectedValues.sort()
-    var current = null
-    var count = 0
-    for (var i =0; i <selectedValues.length; i++) {
-      if (selectedValues[i] != current) {
-        current = selectedValues[i]
-        count = 1
-      } else {
-        count++
-      }
-    }
+  var dupes = new Set
+  console.log("UNDER CONSTRUCTION")
   }
 
   var updatedropDownItems = (config, initialData) => {

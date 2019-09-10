@@ -9,65 +9,52 @@ import image4 from '../image/information-button.png';
 (function (PLUGIN_ID) {
   'use strict';
 
-  var spacersList = (objLayout) => {
-    var items = [{
-      label: '--------',
-      value: '--------',
-      isDisabled: true
-    }]
-    const layout = objLayout.layout
-
-    function rowLayout(row) {
-      var fieldsArray = row.fields
-      fieldsArray.forEach(field => {
-        // var fields = row.fields;
-        if (field.type === 'SPACER') {
-          var itemObj = {}
-          itemObj.label = field.elementId
-          itemObj.value = field.elementId
-          itemObj.isDisabled = false
-          items.push(itemObj)
-        }
-      })
-    }
-    layout.forEach(index => {
-      if (index.type === "GROUP") {
-        index.layout.forEach(row => {
-          rowLayout(row)
-        })
-      } else if (index.type === "ROW") {
-        rowLayout(index)
-      }
-    })
-    return items
-  }
-
-
   var getLayout = () => {
     var connection = new kintoneJSSDK.Connection()
     var kintoneApp = new kintoneJSSDK.App(connection)
 
     kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
       var config = kintone.plugin.app.getConfig(PLUGIN_ID)
-      console.log("rsp🙃",rsp)
-      
-      var spacers = spacersList(rsp)
-      console.log("space🙃🙃face", spacers)
+      console.log("rsp🙃", rsp)
 
+      var layoutSpaces = new Set()
+      console.log(layoutSpaces, "layoutspaces")
+
+      var layout = rsp.layout
+      console.log("😍 ", layout)
+    
+        function rowLayout(row) {
+          var fieldsArray = row.fields
+          fieldsArray.forEach(field => {
+            if (field.type === 'SPACER') {
+              layoutSpaces.add(field)
+            }
+          })
+          return layoutSpaces
+        }
+        layout.forEach(index => {
+          if (index.type === "GROUP") {
+            index.layout.forEach(row => {
+              rowLayout(row)
+            })
+          } else if (index.type === "ROW") {
+            rowLayout(index)
+          }
+        })
 
     }).catch((err) => {
       console.log(err, "YOU YOU");
     });
-
-
-    var layoutSpaces = new Set()
   }
-  getLayout()
+  
+  var spaceAndLayoutCheck = getLayout
 
-  // //iterate through the layout obj
-  //     // anytime you run into a space, add to your layoutSpace set;
-  // // Return layoutSpaces
-  // }
+
+      // Var layoutSpaces = getLayout();
+      // //iterate through the config obj
+      //as you loop through each table row, check if the selected space value exists in layoutSpaces;
+
+  
 
   // Var layoutSpaces = getLayout();
   // //iterate through the config obj
