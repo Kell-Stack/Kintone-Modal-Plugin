@@ -27,7 +27,7 @@ import image4 from '../image/information-button.png';
           var fieldsArray = row.fields
           fieldsArray.forEach(field => {
             if (field.type === 'SPACER') {
-              layoutSpaces.add(field)
+              layoutSpaces.add(field.elementId)
             }
           })
           return layoutSpaces
@@ -46,8 +46,11 @@ import image4 from '../image/information-button.png';
 
         parseConfig.forEach(index =>{
           var spacers = index.dropDown.value
-          if (layoutSpaces.has(spacers) === false) {
+
+          if (layoutSpaces.has(spacers) !== true) {
             throwPluginNotConfiguredAlert()
+          }else {
+            console.log("no error")
           }
         })
     }).catch((err) => {
@@ -91,10 +94,9 @@ import image4 from '../image/information-button.png';
       spacer.appendChild(icon)
 
       var tippyAttr = {
-        placement: 'top',
-        animation: 'fade',
         theme: 'light-border',
         inertia: 'true',
+        placement: 'top',
         animation: 'scale',
         animateFill: false,
         content: text,

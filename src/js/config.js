@@ -135,7 +135,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
   let duplicateVal = (data) => {
   var dupes = new Set
-  console.log("UNDER CONSTRUCTION")
+
   }
 
   var updatedropDownItems = (config, initialData) => {
@@ -161,7 +161,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
   var handleSaveClick = (table) => {
     var data = table.getValue();
-    console.log('🍯data:', data)
+    console.log('data:', data)
 
     var dataJSON = JSON.stringify(data)
     var config = {
@@ -170,7 +170,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
     var newData = JSON.parse(JSON.stringify(data));
     var selectedValues = newData.map(row => row.dropDown.value);
-    console.log(selectedValues, "🦁🦁🦁")
+    console.log("array of selected values: ", selectedValues)
 
 
     if (duplicateVal(data) === true) {
@@ -196,9 +196,9 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
           type: 'success',
           showConfirmButton: false,
         })
-        // .then(function () {
-        //   window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
-        // });
+        .then(function () {
+          window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
+        });
       })
     }
   }
