@@ -41,29 +41,21 @@ import image4 from '../image/information-button.png';
             rowLayout(index)
           }
         })
+        var parseConfig = JSON.parse(config.table)
+        console.log("😎", parseConfig)
 
+        parseConfig.forEach(index =>{
+          var spacers = index.dropDown.value
+          if (layoutSpaces.has(spacers) === false) {
+            throwPluginNotConfiguredAlert()
+          }
+        })
     }).catch((err) => {
       console.log(err, "YOU YOU");
     });
   }
-  
-  var spaceAndLayoutCheck = getLayout
-
-
-      // Var layoutSpaces = getLayout();
-      // //iterate through the config obj
-      //as you loop through each table row, check if the selected space value exists in layoutSpaces;
-
-  
-
-  // Var layoutSpaces = getLayout();
-  // //iterate through the config obj
-  //     //as you loop through each table row, check if the selected space value exists in layoutSpaces;
-
 
   const throwPluginNotConfiguredAlert = () => {
-    // console.log(selectedValues, "🔴🔴🔴")
-    // if (selectedSpacers === undefined || selectedSpacers.length == 0) {
 
     // can you find the selected spaces in the form layout 
     // if this is the same as the config file if not error
@@ -80,8 +72,6 @@ import image4 from '../image/information-button.png';
       console.log(error);
     });
   }
-
-  throwPluginNotConfiguredAlert()
 
   const getIcon = () => {
 
@@ -115,6 +105,10 @@ import image4 from '../image/information-button.png';
 
   kintone.events.on('app.record.detail.show', function (event) {
     getIcon()
+  });
+
+  kintone.events.on('app.record.index.show', function (event) {
+    getLayout()
   });
 
 
