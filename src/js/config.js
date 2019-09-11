@@ -125,8 +125,20 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       if (data[i].dropDown.value === '--------' || data[i].text.value === '') {
         return true
       }
+      console.log("checkmissingval😌")
     }
     return false
+  }
+
+
+  var duplicateVal = (data) => {
+
+    var dupes = new Set()
+    data.forEach(row => {
+      var rowElementId = row.dropDown.value
+      var uniqueVals = dupes.add(rowElementId)
+      dupes.has(uniqueVals)
+    })
   }
 
 
@@ -183,24 +195,14 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     var selectedValues = newData.map(row => row.dropDown.value);
     console.log("array of selected values: ", selectedValues)
 
-
-    var dupes = new Set()
-
-    data.forEach(row => {
-      var rowElementId = row.dropDown.value
-      dupes.add(rowElementId)
-
-      if (dupes.has(rowElementId) === true) {
-        Swal.fire({
-          title: '<strong>Duplicate Value</strong>',
-          html: 'You can only have one modal per blank space field. Please delete field',
-          type: 'error',
-          confirmButtonText: 'Ok'
-        })
-      }
-    })
-
-    if (checkMissingVal(data)) {
+    if (duplicateVal(data) === true) {
+      Swal.fire({
+        title: '<strong>Duplicate Value</strong>',
+        html: 'You can only have one modal per blank space field. Please delete field',
+        type: 'error',
+        confirmButtonText: 'Ok'
+      })
+    } else if (checkMissingVal(data)) {
       Swal.fire({
         title: '<strong>Invalid Input</strong>',
         html: 'You must choose a spacer field from the dropdown <b>and</b> enter text into the text area',
