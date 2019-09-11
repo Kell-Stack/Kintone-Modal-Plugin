@@ -129,14 +129,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     return false
   }
 
-//use set as well instead of counter 
-//iterate through data and have a var for the set that tracks it
-//if this val is included in my set let me add if it exists already, throw the error
-
-  let duplicateVal = (data) => {
-  var dupes = new Set
-
-  }
 
   var updatedropDownItems = (config, initialData) => {
     var items = []
@@ -159,6 +151,25 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     return updatedConfigArr
   }
 
+  //use set as well instead of counter 
+  //iterate through data and have a var for the set that tracks it
+  //if this val is included in my set let me add if it exists already, throw the error
+
+  // let duplicateVal = (data) => {
+  //   console.log(data, "dupeData🤬")
+  //   var dupes = new Set()
+
+  //   data.forEach(row => {
+  //     var rowElementId = row.dropDown.value
+  //     console.log(rowElementId, "😈")
+  //     dupes.add(rowElementId)
+  //     console.log("dupes😇", dupes)
+  //     if (dupes.has(rowElementId) === true) {
+  //       return
+  //     }
+  //   })
+  // }
+
   var handleSaveClick = (table) => {
     var data = table.getValue();
     console.log('data:', data)
@@ -173,14 +184,23 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     console.log("array of selected values: ", selectedValues)
 
 
-    if (duplicateVal(data) === true) {
-      Swal.fire({
-        title: '<strong>Duplicate Value</strong>',
-        html: 'You can only have one modal per blank space field. Please delete field',
-        type: 'error',
-        confirmButtonText: 'Ok'
-      })
-    } else if (checkMissingVal(data)) {
+    var dupes = new Set()
+
+    data.forEach(row => {
+      var rowElementId = row.dropDown.value
+      dupes.add(rowElementId)
+
+      if (dupes.has(rowElementId) === true) {
+        Swal.fire({
+          title: '<strong>Duplicate Value</strong>',
+          html: 'You can only have one modal per blank space field. Please delete field',
+          type: 'error',
+          confirmButtonText: 'Ok'
+        })
+      }
+    })
+
+    if (checkMissingVal(data)) {
       Swal.fire({
         title: '<strong>Invalid Input</strong>',
         html: 'You must choose a spacer field from the dropdown <b>and</b> enter text into the text area',
@@ -196,10 +216,12 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
           type: 'success',
           showConfirmButton: false,
         })
-        .then(function () {
-          window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
-        });
+        // .then(function () {
+        //   window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
+        // });
+
       })
+
     }
   }
 
@@ -227,7 +249,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         text: {
           value: ''
         },
-        // initial data of dropdown
         dropDown: {
           items: spacers,
           value: '--------'

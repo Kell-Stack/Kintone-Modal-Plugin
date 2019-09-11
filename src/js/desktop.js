@@ -15,13 +15,10 @@ import image4 from '../image/information-button.png';
 
     kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
       var config = kintone.plugin.app.getConfig(PLUGIN_ID)
-      console.log("rsp🙃", rsp)
 
       var layoutSpaces = new Set()
-      console.log(layoutSpaces, "layoutspaces")
 
       var layout = rsp.layout
-      console.log("😍 ", layout)
     
         function rowLayout(row) {
           var fieldsArray = row.fields
@@ -42,7 +39,7 @@ import image4 from '../image/information-button.png';
           }
         })
         var parseConfig = JSON.parse(config.table)
-        console.log("😎", parseConfig)
+
 
         parseConfig.forEach(index =>{
           var spacers = index.dropDown.value
@@ -54,7 +51,7 @@ import image4 from '../image/information-button.png';
           }
         })
     }).catch((err) => {
-      console.log(err, "YOU YOU");
+      console.log(err);
     });
   }
 
