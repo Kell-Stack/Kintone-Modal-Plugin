@@ -132,13 +132,17 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
 
 
   var duplicateVal = (data) => {
-
     var dupes = new Set()
+    var dupeCheck = false
     data.forEach(row => {
       var rowElementId = row.dropDown.value
-      var uniqueVals = dupes.add(rowElementId)
-      dupes.has(uniqueVals)
+      console.log("🤪", rowElementId)
+      if (dupes.has(rowElementId) === true ){
+        dupeCheck = true
+      } 
+       dupes.add(rowElementId)
     })
+    return dupeCheck
   }
 
 
@@ -155,32 +159,13 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       var oldTextVal = row.text.value
       if (items.includes(oldSpacerVal)) {
         newRow.dropDown.value = oldSpacerVal
-        console.log(true)
+        // console.log(true)
       }
       newRow.text.value = oldTextVal
       updatedConfigArr.push(newRow)
     })
     return updatedConfigArr
   }
-
-  //use set as well instead of counter 
-  //iterate through data and have a var for the set that tracks it
-  //if this val is included in my set let me add if it exists already, throw the error
-
-  // let duplicateVal = (data) => {
-  //   console.log(data, "dupeData🤬")
-  //   var dupes = new Set()
-
-  //   data.forEach(row => {
-  //     var rowElementId = row.dropDown.value
-  //     console.log(rowElementId, "😈")
-  //     dupes.add(rowElementId)
-  //     console.log("dupes😇", dupes)
-  //     if (dupes.has(rowElementId) === true) {
-  //       return
-  //     }
-  //   })
-  // }
 
   var handleSaveClick = (table) => {
     var data = table.getValue();
@@ -195,20 +180,22 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     var selectedValues = newData.map(row => row.dropDown.value);
     console.log("array of selected values: ", selectedValues)
 
+    
+
     if (duplicateVal(data) === true) {
       Swal.fire({
         title: '<strong>Duplicate Value</strong>',
-        html: 'You can only have one modal per blank space field. Please delete field',
+        html: 'You can only have one tooltip per blank space field. Please delete field',
         type: 'error',
         confirmButtonText: 'Ok'
       })
-    } else if (checkMissingVal(data)) {
+  } else if (checkMissingVal(data)) {
       Swal.fire({
         title: '<strong>Invalid Input</strong>',
         html: 'You must choose a spacer field from the dropdown <b>and</b> enter text into the text area',
         type: 'error',
         confirmButtonText: 'Cool'
-      })
+      }) 
     } else {
       kintone.plugin.app.setConfig(config, function () {
         Swal.fire({
@@ -218,12 +205,10 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
           type: 'success',
           showConfirmButton: false,
         })
-        // .then(function () {
-        //   window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
-        // });
-
+        .then(function () {
+          window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
+        });
       })
-
     }
   }
 

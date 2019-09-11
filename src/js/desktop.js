@@ -19,37 +19,37 @@ import image4 from '../image/information-button.png';
       var layoutSpaces = new Set()
 
       var layout = rsp.layout
-    
-        function rowLayout(row) {
-          var fieldsArray = row.fields
-          fieldsArray.forEach(field => {
-            if (field.type === 'SPACER') {
-              layoutSpaces.add(field.elementId)
-            }
+
+      function rowLayout(row) {
+        var fieldsArray = row.fields
+        fieldsArray.forEach(field => {
+          if (field.type === 'SPACER') {
+            layoutSpaces.add(field.elementId)
+          }
+        })
+        return layoutSpaces
+      }
+      layout.forEach(index => {
+        if (index.type === "GROUP") {
+          index.layout.forEach(row => {
+            rowLayout(row)
           })
-          return layoutSpaces
+        } else if (index.type === "ROW") {
+          rowLayout(index)
         }
-        layout.forEach(index => {
-          if (index.type === "GROUP") {
-            index.layout.forEach(row => {
-              rowLayout(row)
-            })
-          } else if (index.type === "ROW") {
-            rowLayout(index)
-          }
-        })
-        var parseConfig = JSON.parse(config.table)
+      })
+      var parseConfig = JSON.parse(config.table)
 
 
-        parseConfig.forEach(index =>{
-          var spacers = index.dropDown.value
+      parseConfig.forEach(index => {
+        var spacers = index.dropDown.value
 
-          if (layoutSpaces.has(spacers) !== true) {
-            throwPluginNotConfiguredAlert()
-          }else {
-            console.log("no error")
-          }
-        })
+        if (layoutSpaces.has(spacers) !== true) {
+          throwPluginNotConfiguredAlert()
+        } else {
+          console.log("no error")
+        }
+      })
     }).catch((err) => {
       console.log(err);
     });
@@ -63,7 +63,7 @@ import image4 from '../image/information-button.png';
       "id": kintone.app.getId()
     }, function (resp) {
       var alert = new kintoneUIComponent.Alert({
-        text: 'A \'Blank Space\' does not exist as a field in form settings anymore. Please contact the app\'s creator ' + resp.creator.name + ' or administrator ' + resp.modifier.name + ' to update the app!'
+        text: 'A \'Blank Space\' does not exist as a field in form settings anymore. Please contact the app\'s administrator ' + resp.modifier.name + ' to update the app!'
       });
       var header = kintone.app.getHeaderSpaceElement()
       header.appendChild(alert.render())
