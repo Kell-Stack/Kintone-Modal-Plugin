@@ -4,52 +4,16 @@ import Swal from 'sweetalert2';
 var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
 require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
 
-
 (function (PLUGIN_ID) {
   'use strict';
 
-  var spacersList = (objLayout) => {
-    var items = [{
-      label: '--------',
-      value: '--------',
-      isDisabled: true
-    }]
-    const layout = objLayout.layout
-
-    function rowLayout(row) {
-      var fieldsArray = row.fields
-      fieldsArray.forEach(field => {
-        // var fields = row.fields;
-        if (field.type === 'SPACER') {
-          var itemObj = {}
-          itemObj.label = field.elementId
-          itemObj.value = field.elementId
-          itemObj.isDisabled = false
-          items.push(itemObj)
-        }
-      })
-    }
-    layout.forEach(index => {
-      if (index.type === "GROUP") {
-        index.layout.forEach(row => {
-          rowLayout(row)
-        })
-      } else if (index.type === "ROW") {
-        rowLayout(index)
-      }
-    })
-    return items
-  }
-
-
-
-  var customCellTextArea = function () {
+  //😡invoked in settable
+  var customCellTextArea = () => {
     return {
       init: function ({
         rowData,
         updateRowData
       }) {
-        console.log("row Dataaa", rowData)
         var span = document.createElement('span');
         var textAreaField = new kintoneUIComponent.TextArea({
           value: rowData.text.value
@@ -74,8 +38,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       update: function ({
         rowData
       }) {
-        // var _self = this;
-        console.log('rowData:', rowData)
         var textAreaVal = rowData.text;
         if (textAreaVal && this.textAreaField._reactObject) {
           textAreaField.setValue(this.textAreaVal.value);
@@ -84,18 +46,17 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     }
   };
 
-
-
+//😡
+  //🥶invoked in getspacers
   var setTable = (initialData) => {
-    // initial data of a table
 
     var defaultRowData = JSON.parse(JSON.stringify(initialData[0]))
-    // return this data to override default row data onRowAdd
+
     var overriddenRowData = JSON.parse(JSON.stringify(initialData[0]))
 
     var table = new kintoneUIComponent.Table({
       data: initialData,
-      // default row data on row add
+
       defaultRowData: defaultRowData,
       onRowAdd: function (e) {
         // if onRowAdd does not return anything, defaultRowData will be used to create new table row
@@ -103,7 +64,7 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         return JSON.parse(JSON.stringify(overriddenRowData));
       },
       columns: [{
-          header: 'Blank Space ID',
+          header: 'Blank Space Element ID',
           cell: function () {
             return kintoneUIComponent.createTableCell('dropdown', 'dropDown')
           }
@@ -115,38 +76,14 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
           }
         }
       ]
-    });
-    return table
-  } // -------> end of setTable
-
-
-  let checkMissingVal = (data) => {
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].dropDown.value === '--------' || data[i].text.value === '') {
-        return true
-      }
-      console.log("checkmissingval😌")
-    }
-    return false
-  }
-
-
-  var duplicateVal = (data) => {
-    var dupes = new Set()
-    var dupeCheck = false
-    data.forEach(row => {
-      var rowElementId = row.dropDown.value
-      console.log("🤪", rowElementId)
-      if (dupes.has(rowElementId) === true ){
-        dupeCheck = true
-      } 
-       dupes.add(rowElementId)
     })
-    return dupeCheck
-  }
+    return table
+  };
 
 
-  var updatedropDownItems = (config, initialData) => {
+  //🥶invoked in getspacers
+  //udated config
+  var updateddropDownItems = (config, initialData) => {
     var items = []
     var updatedConfigArr = []
     initialData[0].dropDown.
@@ -159,61 +96,82 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
       var oldTextVal = row.text.value
       if (items.includes(oldSpacerVal)) {
         newRow.dropDown.value = oldSpacerVal
-        // console.log(true)
       }
       newRow.text.value = oldTextVal
       updatedConfigArr.push(newRow)
     })
     return updatedConfigArr
-  }
+  };
 
+
+  //🥰invoked in handlesave
+  let missingValCheck = (data) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].dropDown.value === '--------' || data[i].text.value === '') {
+        return true
+      }
+    }
+    return false
+  };
+
+
+  //🥰invoked in handlesave
+  var duplicateValCheck = (data) => {
+    var dupes = new Set()
+    var dupeCheck = false
+    data.forEach(row => {
+      var rowElementId = row.dropDown.value
+      if (dupes.has(rowElementId) === true) {
+        dupeCheck = true
+      }
+      dupes.add(rowElementId)
+    })
+    return dupeCheck
+  };
+
+  //🥰
+  //🥶invoked in getspacers
   var handleSaveClick = (table) => {
     var data = table.getValue();
-    console.log('data:', data)
 
     var dataJSON = JSON.stringify(data)
     var config = {
       table: dataJSON
     }
 
-    var newData = JSON.parse(JSON.stringify(data));
-    var selectedValues = newData.map(row => row.dropDown.value);
-    console.log("array of selected values: ", selectedValues)
-
-    
-
-    if (duplicateVal(data) === true) {
+    if (duplicateValCheck(data) === true) {
       Swal.fire({
         title: '<strong>Duplicate Value</strong>',
         html: 'You can only have one tooltip per blank space field. Please delete field',
         type: 'error',
         confirmButtonText: 'Ok'
       })
-  } else if (checkMissingVal(data)) {
+    } else if (missingValCheck(data)) {
       Swal.fire({
         title: '<strong>Invalid Input</strong>',
         html: 'You must choose a spacer field from the dropdown <b>and</b> enter text into the text area',
         type: 'error',
         confirmButtonText: 'Cool'
-      }) 
+      })
     } else {
       kintone.plugin.app.setConfig(config, function () {
         Swal.fire({
-          timer: 5000,
-          title: 'Saved',
-          html: 'Don\'t forget to <b>Update App</b> in your app settings. <br> We\'ll take you back there now!',
-          type: 'success',
-          showConfirmButton: false,
-        })
-        .then(function () {
-          window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
-        });
+            timer: 5000,
+            title: 'Saved',
+            html: 'Don\'t forget to <b>Update App</b> in your app settings. <br> We\'ll take you back there now!',
+            type: 'success',
+            showConfirmButton: false,
+          })
+          .then(function () {
+            window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
+          });
       })
     }
-  }
+  };
 
+
+  //🥶invoked in getspacers
   var handleCancelButton = () => {
-    console.log("GOODBYE")
     Swal.fire({
       title: '<strong>Cancel</strong>',
       html: 'Your changes were not saved',
@@ -222,16 +180,49 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
     }).then(function () {
       window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
     })
-  }
+  };
 
-  function getSpacer() {
+//🥶invoked in getspacers
+  var spacersList = (objLayout) => {
+    var items = [{
+      label: '--------',
+      value: '--------',
+      isDisabled: true
+    }]
+    const layout = objLayout.layout
+
+    function rowLayout(row) {
+      var fieldsArray = row.fields
+      fieldsArray.forEach(field => {
+        if (field.type === 'SPACER') {
+          var itemObj = {}
+          itemObj.label = field.elementId
+          itemObj.value = field.elementId
+          itemObj.isDisabled = false
+          items.push(itemObj)
+        }
+      })
+    }
+    layout.forEach(index => {
+      if (index.type === "GROUP") {
+        index.layout.forEach(row => {
+          rowLayout(row)
+        })
+      } else if (index.type === "ROW") {
+        rowLayout(index)
+      }
+    })
+    return items
+  };
+
+  //🥶
+  var getSpacer = () => {
     var connection = new kintoneJSSDK.Connection()
     var kintoneApp = new kintoneJSSDK.App(connection)
 
     kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
       var config = kintone.plugin.app.getConfig(PLUGIN_ID)
       var spacers = spacersList(rsp)
-      console.log("spacers: ", spacers)
       var initialData = [{
         text: {
           value: ''
@@ -242,43 +233,36 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         }
       }];
       var table = setTable(initialData)
-      console.log(initialData, "🦷")
 
       $('.kintone-si-conditions').append(table.render());
 
       if (config && config.table) {
         var parsedConfig = JSON.parse(config.table);
-        var newConfig = updatedropDownItems(parsedConfig, initialData)
+        var newConfig = updateddropDownItems(parsedConfig, initialData)
         table.setValue(newConfig);
-
-
-        table.on('cellChange', function (event) {
-          console.log(event, "EVENT")
-          var eventDropDownData = event.data[0].dropDown
-          console.log(eventDropDownData, "Ⓜ️")
-          eventDropDownData.items.forEach(index => {})
-        })
+        // table.on('cellChange', function (event) {
+        //   var eventDropDownData = event.data[0].dropDown
+        //   eventDropDownData.items.forEach(index => {})
+        // })
       }
 
-      var savebutton = new kintoneUIComponent.Button({
+      var saveButton = new kintoneUIComponent.Button({
         text: 'Save',
         type: 'submit'
       });
-      savebutton.on('click', function () {
+      saveButton.on('click', function () {
         handleSaveClick(table)
       });
 
-      var cancelbutton = new kintoneUIComponent.Button({
+      var cancelButton = new kintoneUIComponent.Button({
         text: 'Cancel'
       });
-      cancelbutton.on('click', function (event) {
-        console.log('on cancel click');
+      cancelButton.on('click', function (event) {
         handleCancelButton(table)
       });
 
-      $(".SaveButton").append(savebutton.render())
-      $(".CancelButton").append(cancelbutton.render())
-
+      $(".SaveButton").append(saveButton.render())
+      $(".CancelButton").append(cancelButton.render())
 
     }).catch((err) => {
       console.log(err);

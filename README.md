@@ -1,7 +1,7 @@
 # Tooltip Label plugin
 > Authored by Kelly Sousa, Kinternship 2019
 
-This plugin aims to decrease clutter from unnecessary labels or text fields on client’s Kintone apps. 
+This plugin aims to decrease clutter from unnecessary labels or text fields on client’s Kintone apps
 
 ## Table of Contents
 
