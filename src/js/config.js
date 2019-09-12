@@ -10,9 +10,9 @@ import {
   handleCancelButton
 } from './handleSaveAndCancel'
 
+
 (function (PLUGIN_ID) {
   'use strict';
-
 
   var spacersList = (objLayout) => {
     var items = [{

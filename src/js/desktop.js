@@ -3,8 +3,7 @@ import tippy from 'tippy.js';
 import * as kintoneJSSDK from '@kintone/kintone-js-sdk';
 var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
 require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
-import image from '../image/question.png';
-import image4 from '../image/information-button.png';
+import image from '../image/information-button.png';
 
 (function (PLUGIN_ID) {
   'use strict';
@@ -46,8 +45,6 @@ import image4 from '../image/information-button.png';
 
         if (layoutSpaces.has(spacers) !== true) {
           throwPluginNotConfiguredAlert()
-        } else {
-          console.log("no error")
         }
       })
     }).catch((err) => {
@@ -57,8 +54,6 @@ import image4 from '../image/information-button.png';
 
   const throwPluginNotConfiguredAlert = () => {
 
-    // can you find the selected spaces in the form layout 
-    // if this is the same as the config file if not error
     kintone.api(kintone.api.url('/k/v1/app', true), 'GET', {
       "id": kintone.app.getId()
     }, function (resp) {
@@ -83,7 +78,7 @@ import image4 from '../image/information-button.png';
       var text = index.text.value
 
       var icon = document.createElement('img')
-      icon.setAttribute('src', image4)
+      icon.setAttribute('src', image)
 
       var spacer = kintone.app.record.getSpaceElement(elementId)
 

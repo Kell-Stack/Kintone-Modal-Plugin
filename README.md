@@ -23,9 +23,8 @@ As the apps you create on Kintone become more complex, admins are adding labels 
 ![Image 2 of problem](https://user-images.githubusercontent.com/45135493/61839432-5a71e900-ae42-11e9-95b3-5371f566f25d.png)
 
 ### **Goals**
-1. Create modal plugin using icons and event listeners
-2. Decrease static clutter by 10-20%
-3. Provide clarification per field
+1. Decrease static clutter by 10-20%
+2. Provide clarification per field
 
 ### **Requirements**
 - The scope of the plugin will be limited to replacing a "blank space" field elements with an icon. 
@@ -36,12 +35,12 @@ As the apps you create on Kintone become more complex, admins are adding labels 
     - User Perspective (config settings)
       - When a user goes into the settings page of the Tooltip plugin, they will see a table with two columns. 
       - The first column is called “Spaces”. It is a drop-down that lists out all of the space element ID’s from the app form.  
-      - The second column is called “Message”. It is a text area where users can type a message.
-      - For each row in the table, the user can select the space that they would like to  replace with a tooltip icon. On each row, they can also specify the message that they would like to display when a user hovers over the tooltip icon in the record details page. 
+      - The second column is called “Tooltip Text”. It is a text area where users can type a message.
+      - For each row in the table, the user can select the space that they would like to  replace with an icon. On each row, they can also specify the message that they would like to display in a tooltip when a user hovers over the icon in the record details page. 
       - Access that blank space field from a dropdown on the configuration table settings for the plugin
-      - Type the text you want displayed on the modal in the text area
+      - Type the text you want displayed on the tooltip in the text area
       - Save settings and update app
-      - When user hovers over icon, modal appears
+      - When user hovers over icon, tooltip appears
 
     - Technical Perspective
       - User will access ‘Blank Space’ fields by element Id previously set in form settings

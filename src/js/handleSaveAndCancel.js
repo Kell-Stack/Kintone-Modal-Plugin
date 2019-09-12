@@ -1,16 +1,6 @@
 import Swal from 'sweetalert2';
 
 
-let missingValCheck = (data) => {
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].dropDown.value === '--------' || data[i].text.value === '') {
-      return true
-    }
-  }
-  return false
-};
-
-
 var duplicateValCheck = (data) => {
   var dupes = new Set()
   var dupeCheck = false
@@ -24,6 +14,15 @@ var duplicateValCheck = (data) => {
   return dupeCheck
 };
 
+let missingValCheck = (data) => {
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].dropDown.value === '--------' || data[i].text.value === '') {
+      return true
+    }
+  }
+  return false
+};
+
 
 var handleSaveButton = (table) => {
   var data = table.getValue();
@@ -32,7 +31,6 @@ var handleSaveButton = (table) => {
   var config = {
     table: dataJSON
   }
-
   if (duplicateValCheck(data) === true) {
     Swal.fire({
       title: '<strong>Duplicate Value</strong>',
@@ -49,20 +47,30 @@ var handleSaveButton = (table) => {
     })
   } else {
     kintone.plugin.app.setConfig(config, function () {
+      let timerInterval
       Swal.fire({
-          timer: 5000,
-          title: 'Saved',
-          html: 'Don\'t forget to <b>Update App</b> in your app settings. <br> We\'ll take you back there now!',
-          type: 'success',
-          showConfirmButton: false,
-        })
-        .then(function () {
-          window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
-        });
+        title: 'Saved',
+        html: 'Don\'t forget to click <b>Update App</b> in your app settings. <br> We\'ll take you there in <strong></strong> seconds!',
+        type: 'success',
+        showConfirmButton: false,
+        timer: 6000,
+        onBeforeOpen: () => {
+
+          timerInterval = setInterval(() => {
+            Swal.getContent().querySelector('strong')
+              .textContent = (Swal.getTimerLeft() / 1000)
+              .toFixed(0)
+          }, 100)
+        },
+        onClose: () => {
+          clearInterval(timerInterval)
+        }
+      }).then(function () {
+        window.location.href = '/k/admin/app/flow?app=' + kintone.app.getId() + '#section=settings';
+      });
     })
   }
 };
-
 
 var handleCancelButton = () => {
   Swal.fire({
