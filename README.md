@@ -3,6 +3,8 @@
 
 This plugin aims to decrease clutter from unnecessary labels or text fields on client’s Kintone apps
 
+DEMO: https://youtu.be/4iePqaxWRnE
+
 ## Table of Contents
 
 - [Specification](#specification)
@@ -136,13 +138,14 @@ This is a rough estimate of the timeline it will take to deploy the first iterat
   - August 16th: Functionality for getConfig and setConfig as well as Save/Cancel buttons
 
 ***Phase 3 Due Dates***
-  - August xx: Create spec for desktop.js file
-  - August xx: Add Tippy.js for modal config
-  - August xx: Lorem ipsum dolor
+  - August 22nd: Create spec for desktop.js file
+  - August 25th: Add Tippy.js for modal config
+  - August 30th: Wrap up project
+
+***Refactor & Testing***
+  - September 10th: Clean up spaghetti code and split into modules
 
 ## Installation
-> ***Under Construction*** 
-_add gif demo of plugin_
 
 1. In your App's 'Form' settings, drag a 'Blank space' field onto your app
     - click the settings gear on the blank field to add name to elementId
