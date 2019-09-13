@@ -52,7 +52,8 @@ var handleSaveButton = (table) => {
         title: 'Saved',
         html: 'Don\'t forget to click <b>Update App</b> in your app settings. <br> We\'ll take you there in <strong></strong> seconds!',
         type: 'success',
-        showConfirmButton: false,
+        showConfirmButton: true,
+        confirmButtonText: 'Take me there now',
         timer: 6000,
         onBeforeOpen: () => {
 
