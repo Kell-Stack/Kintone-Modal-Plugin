@@ -22,6 +22,12 @@ import {
     }]
     const layout = objLayout.layout
 
+    //TO DO: what if spacer doesn't have element id
+    //TO DO: make icon a little smaller?
+
+    // if 'SPACER' && element id = '' 
+        // do not push into items obj
+
     function rowLayout(row) {
       var fieldsArray = row.fields
       fieldsArray.forEach(field => {
@@ -31,6 +37,9 @@ import {
           itemObj.value = field.elementId
           itemObj.isDisabled = false
           items.push(itemObj)
+        }
+        if ( field.elementId == ''){
+            return
         }
       })
     }
@@ -45,7 +54,6 @@ import {
     })
     return items
   };
-
 
   //udated config
   var updateddropDownItems = (config, initialData) => {
