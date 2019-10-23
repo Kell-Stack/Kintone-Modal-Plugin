@@ -31,15 +31,16 @@ import {
     function rowLayout(row) {
       var fieldsArray = row.fields
       fieldsArray.forEach(field => {
+        console.log(field.elementId,"bye bye  bye")
+        if (field.type === 'SPACER' && field.elementId === ''){
+          return
+      }
         if (field.type === 'SPACER') {
           var itemObj = {}
           itemObj.label = field.elementId
           itemObj.value = field.elementId
           itemObj.isDisabled = false
           items.push(itemObj)
-        }
-        if ( field.elementId == ''){
-            return
         }
       })
     }
